@@ -1,0 +1,47 @@
+.logo {
+  width: 120px;
+  height: 50px;
+  background: rgba(255, 255, 255, 0.2);
+  /* margin: 16px 24px 16px 0px; */
+  margin-top: 5px;
+  margin-right: 2px;
+  float: left;
+}
+
+.site-layout .site-layout-background {
+  background: #fff;
+}
+
+.local-header-text {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.local-text {
+  font-size: 16px;
+}
+
+.ant-collapse > .ant-collapse-item > .ant-collapse-header {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.ant-collapse > .ant-collapse-item > .ant-collapse-text {
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.ant-collapse-content {
+  color: rgba(0, 0, 0, 0.85);
+  background-color: #fff;
+  border-top: 1px solid #d9d9d9;
+  font-size: 16px;
+}
+.ant-collapse-content > .ant-collapse-content-box {
+  padding: 16px;
+}
+
+/* * {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 18px;
+} */

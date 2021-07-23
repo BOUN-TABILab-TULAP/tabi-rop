@@ -1,0 +1,90 @@
+{
+    "footer":"Tabilab Tools Demo Platformu",
+    "header":{
+        "home": "Ana Sayfa",
+        "about": "Hakkında",
+        "repository": "Arşiv",
+        "tabilab_home": "Tabilab Ana Sayfa"
+    },
+    "side_menu":{
+        "sentiment": "Duygu Analizi",
+        "mparser": "Morfolojik Analiz",
+        "dparser": "Bağlılık Ayrıştırma",
+        "ner": "Adlandırılmış Varlık İsmi Tanıma",
+        "mwe": "Fiil Tabanlı Çoklu İfade Tanıma"
+    },
+    "about":"Bu proje Boğaziçi Üniversitesi'nde, TABILAB araştırma grubu tarafından geliştirilmiştir. Bu platform da DİP projesinin bir parçasıdır. DİP Projesinin amacı, doğal dil işleme ile ilgili araştırmalar için ortak ve açık bir kaynak sunmaktır. Bu platformda da TABILAB üyeleri tarafından geliştirilmiş bazı prgoramların demosu yer alır.",
+    "home":{
+        "header": "TABILAB Doğal Dil İşleme Araçları Demoları",
+        "content": "TABILAB (Text and Bioinformatics Labaratory) is a research group at Bogazici University, focusing on Bioinformatics and Natural Language Processing. This website serves some of the tools implemented by the lab members as interactive demos."
+    },
+    "mparser":{
+        "header":"Morphological Analysis",
+        "content": "Write each sentence in a newline. End-of-sentence markers should be seperated from the previous token with white spaces. \n\nExample:\n \"Şekerleri yedim .\"\n\"Eve gittim .\"",
+        "description": "Morphological Analysis is the process of finding the correct morphemes of a word."
+
+    },
+    "sentiment":{
+        "header":"Sentiment analysis",
+        "content": "",
+        "description": "Sentiment analysis is the task to determine the polarity of a given query. In this demo, binary sentiment analysis is running."
+    },
+    "dparser":{
+        "header": "Dependency Parser",
+        "content": "",
+        "description": "Dependency parsing is the process of finding the right dependencies in a sentence(s). "
+    },
+    "ner":{
+        "header": "Named Entity Recognition",
+        "content": "",
+        "description": "Named Entity Recognition (NER) is the task of finding entities of words/clauses in a given text."
+    },
+    "mwe":{
+        "header": "Multiword Expression Identification",
+        "content": "",
+        "description": "Multiword Expression Identification is the task of finding multiword expressions in a given text. \nFor example for the Turkish sentence \"Hafta sonları, huzur evlerini ziyaret etmeye çalışırım\" has three different MWEs, namely \"hafta sonu\", \"huzur evi\", and \"ziyaret etmek\""
+    },
+    "single_query":{
+        "ex_sentences": "Example Sentences",
+        "sentence": "Sentence",
+        "run": "Run"
+    },
+    "mparser1_info":{
+        "paper_name":"Morphological Parser, Morphological Disambiguator and Web Corpus",
+        "paper_link":"https://doi.org/10.1007/978-3-540-85287-2_40",
+        "paper_authors":"Haşim Sak, Tunga Güngör, Murat Saraçlar",
+        "program_authors":"Haşim Sak",
+        "program_link":"https://github.com/tabilab-dip/morphological_parser_sak"
+    },
+    "sentiment1_info":{
+        "paper_name":"Generating Word and Document Embeddings for Sentiment Analysis",
+        "paper_link":"https://arxiv.org/abs/2001.01269",
+        "paper_authors":"Cem Rıfkı Aydın, Tunga Güngör, Ali Erkan",
+        "program_authors":"Cem Rıfkı Aydın",
+        "program_link":"https://github.com/tabilab-dip/sentiment-embeddings"
+    },
+    "ner1_info":{
+        "paper_name":"Improving Named Entity Recognition by Jointly Learning to Disambiguate Morphological Tags",
+        "paper_link":"https://arxiv.org/abs/1807.06683",
+        "paper_authors":"Onur Güngör, Suzan Üsküdarlı, Tunga Güngör",
+        "program_authors":"Onur Güngör",
+        "program_link":"https://github.com/tabilab-dip/joint-ner-and-md-tagger"
+    },
+    "dparser1_info":{
+        "paper_name":"A Hybrid Approach to Dependency Parsing: Combining Rules and Morphology with Deep Learning",
+        "paper_link":"https://arxiv.org/abs/2002.10116",
+        "paper_authors":"Şaziye Betül Özateş, Arzucan Özgür, Tunga Güngör, Balkız Öztürk",
+        "program_authors":"Şaziye Betül Özateş",
+        "program_link":"https://github.com/tabilab-dip/BOUN-PARS"
+    },
+    "mwe1_info":{
+        "paper_name":"Deep-BGT at PARSEME Shared Task 2018: Bidirectional LSTM-CRF Model for Verbal Multiword Expression Identification",
+        "paper_link":"https://www.aclweb.org/anthology/W18-4927/",
+        "paper_authors":"Gözde Berk, Berna Erden, Tunga Güngör",
+        "program_authors":"Zeynep Yirmibeşoğlu",
+        "program_link":"https://github.com/tabilab-dip/ERMI"
+    }
+    
+
+
+}

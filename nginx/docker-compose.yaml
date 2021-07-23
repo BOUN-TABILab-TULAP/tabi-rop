@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  reverse:
+    container_name: nginx_reverse
+    hostname: nginx_reverse
+    build: .
+    image: nginx-reverse
+    ports:
+      - 80:80
+

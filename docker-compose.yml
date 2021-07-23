@@ -1,0 +1,53 @@
+version: '3'
+services:
+  nginx:
+    build:
+      context: ./nginx
+    container_name: nginx
+    hostname: nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - frontend
+    networks:
+      - DIP-network
+
+  mongo:
+    container_name: mongo
+    image: mongo:5.0.0
+    volumes:
+      - ./mongo/data:/data/db
+    ports:
+      - "27017:27017"
+    networks:
+      - DIP-network
+  
+  backend:
+    build:
+      context: ./backend
+    container_name: backend
+    hostname: backend
+    ports:
+      - "5000:5001"
+    depends_on:
+      - mongo
+    networks:
+      - DIP-network
+  
+  frontend:
+    build:
+      context: ./frontend
+    container_name: frontend
+    hostname: frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    networks:
+      - DIP-network
+networks:
+  DIP-network:
+      external: true
+    
+              
+

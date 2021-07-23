@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Images / Flags / EN@2x</title>
+    <defs>
+        <rect id="path-1" x="0" y="0" width="28" height="20" rx="2"></rect>
+    </defs>
+    <g id="Images-/-Flags-/-EN" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="GB" transform="translate(2.000000, 6.000000)">
+            <mask id="mask-2" fill="white">
+                <use xlink:href="#path-1"></use>
+            </mask>
+            <use id="background" fill="#22438B" xlink:href="#path-1"></use>
+            <polygon id="band" fill="#FFFFFF" mask="url(#mask-2)" points="3.77292349 1 1 1.03650845 1.03608146 3.76923082 24.2742806 19.0388862 27.0617778 18.9876328 27.011124 16.2696563"></polygon>
+            <polygon id="band" fill="#C7152A" mask="url(#mask-2)" points="2.36842113 1 1 2.38461528 25.6315782 18.9999994 27.0000009 17.6153852"></polygon>
+            <path d="M24.4481683,1.00000003 L27.1850105,1 L27.1850106,3.76923074 C27.1850106,3.76923074 11.1069697,14.0101401 3.94681009,19.038887 C3.85975863,19.1000253 1.21279165,19.0432873 1.21279165,19.0432873 L1,16.4076247 L24.4481683,1.00000003 L24.4481683,1.00000003 Z" id="band" fill="#FFFFFF" mask="url(#mask-2)"></path>
+            <polygon id="band" fill="#C7152A" mask="url(#mask-2)" points="25.6902217 1 27 2.42314911 2.36842063 19.038534 1 17.6539183"></polygon>
+            <polygon id="cross" fill="#FFFFFF" mask="url(#mask-2)" points="10.5789474 1 17.4210526 1 17.4210526 6.53846154 27 6.53846154 27 13.4615385 17.4210526 13.4615385 17.4210526 19 10.5789474 19 10.5789474 13.4615385 1 13.4615385 1 6.53846154 10.5789474 6.53846154"></polygon>
+            <polygon id="cross" fill="#C7152A" mask="url(#mask-2)" points="11.9473684 1 16.0526316 1 16.0526316 7.92307692 27 7.92307692 27 12.0769231 16.0526316 12.0769231 16.0526316 19 11.9473684 19 11.9473684 12.0769231 1 12.0769231 1 7.92307692 11.9473684 7.92307692"></polygon>
+        </g>
+    </g>
+</svg>
