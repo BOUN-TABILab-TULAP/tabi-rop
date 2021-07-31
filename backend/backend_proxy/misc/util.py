@@ -9,7 +9,7 @@ import subprocess
 KEYWORDS = ["panel", "about", "home", "test", ""]
 
 
-def get_specs_from_git(git_url):
+def get_specs_from_git(git_url) -> tuple[list,str]: 
     dname = base64.b64encode(bytes(git_url, 'utf-8')).decode("ascii")
     dname = "backups/{}".format(dname)
     # check if folder exists, if so, delete it
@@ -35,4 +35,5 @@ def get_specs_from_git(git_url):
         with open("{}/dip_specs/{}".format(dname, fname), "r") as f:
             json_dict = json.load(f)
         jsons.append(json_dict)
-    return jsons
+    pathOfDockerfile = f"{dname}"
+    return jsons,pathOfDockerfile

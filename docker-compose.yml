@@ -27,12 +27,15 @@ services:
       context: ./backend
     container_name: backend
     hostname: backend
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
     ports:
       - "5000:5001"
     depends_on:
       - mongo
     networks:
       - DIP-network
+      - Tool-network
   
   frontend:
     build:
@@ -47,6 +50,8 @@ services:
       - DIP-network
 networks:
   DIP-network:
+      external: true
+  Tool-network:
       external: true
     
               
