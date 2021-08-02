@@ -35,7 +35,6 @@ services:
       - mongo
     networks:
       - DIP-network
-      - Tool-network
   
   frontend:
     build:
@@ -50,8 +49,6 @@ services:
       - DIP-network
 networks:
   DIP-network:
-      external: true
-  Tool-network:
       external: true
     
               
