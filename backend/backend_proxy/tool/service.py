@@ -20,7 +20,7 @@ class ToolService:
         if self.enum_exists(enum):
             raise REST_Exception("The enum: {} already exists, "
                                  "enter a unique one".format(enum))
-        (author_json, form_data_json, root_json), pathOfDockerfile = util.get_specs_from_git(
+        (author_json, form_data_json, root_json), toolPath = util.get_specs_from_git(
             req_dict["git"])
         if "author_json" not in req_dict or not req_dict["author_json"]:
             req_dict["author_json"] = author_json
@@ -31,7 +31,7 @@ class ToolService:
         req_dict["update_time"] = dt.datetime.now()
         # copy contact info to separate variable
         dockerService = DockerService()
-        req_dict['port'] = dockerService.create_new_container(pathOfDockerfile,req_dict['enum'],"1.0.0")
+        req_dict['port'] = dockerService.create_new_container(toolPath,req_dict['enum'],"1.0.0")
         req_dict['ip'] = "172.17.0.1"
         if "contact_info" in req_dict["author_json"]:
             req_dict["contact_info"] = req_dict["author_json"]["contact_info"]
@@ -48,7 +48,7 @@ class ToolService:
                                  "enter a unique one".format(enum))
         # Reloads the git URL again since
         #   this might be the main motivation of the update
-        author_json, form_data_json, root_json = util.get_specs_from_git(
+        (author_json, form_data_json, root_json), toolPath = util.get_specs_from_git(
             req_dict["git"])
         if "author_json" not in req_dict or not req_dict["author_json"]:
             req_dict["author_json"] = author_json

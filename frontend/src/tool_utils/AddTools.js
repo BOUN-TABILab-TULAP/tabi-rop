@@ -76,14 +76,6 @@ const AddTools = ({isAuth, setIsAuth}) => {
          <Form.Item label="Name" name="name" >
           <Input placeholder="Dependency Parser: BOUN-PARS" />
         </Form.Item>
-        <b>
-        Below you can enter the author_specs.json, if you enter it will overwrite the one in the above repository
-        <br/>
-        See an example at <a href="https://github.com/tabilab-dip/morphological_parser_sak/blob/main/dip_specs/author_specs.json" target="_blank"> this link</a>
-        </b>
-        <Form.Item label="author_specs.json" name="author_json" >
-          <TextArea rows={6} />
-        </Form.Item>
          <Form.Item {...buttonItemLayout}>
           <Button type="primary" htmlType="submit">Submit</Button>
         </Form.Item>

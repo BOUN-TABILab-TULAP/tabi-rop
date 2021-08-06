@@ -21,7 +21,7 @@ def get_specs_from_git(git_url) -> tuple[list,str]:
     if p.returncode != 0:
         raise Exception("Git clone is not successfull. Check the git URL")
     # check if dip_specs folder exists
-    if not os.path.isdir("{}/dip_specs".format(dname)):
+    if not os.path.isdir(f"{dname}/dip_specs"):
         subprocess.run(["rm", "-rf", dname])
         raise Exception("The project does not contain the folder dip_specs. "
                         "Fix the project's root according to the tutorial")
@@ -29,11 +29,15 @@ def get_specs_from_git(git_url) -> tuple[list,str]:
     fnames = ["author_specs.json", "form_data.json", "root.json"]
     jsons = []
     for fname in fnames:
-        if not os.path.isfile("{}/dip_specs/{}".format(dname, fname)):
+        if not os.path.isfile(f"{dname}/dip_specs/{fname}"):
             subprocess.run(["rm", "-rf", dname])
             raise Exception("{} file is missing in the project".format(fname))
         with open("{}/dip_specs/{}".format(dname, fname), "r") as f:
             json_dict = json.load(f)
         jsons.append(json_dict)
-    pathOfDockerfile = f"{dname}"
-    return jsons,pathOfDockerfile
+    if not os.path.isfile(f"{dname}/dip_specs/Dockerfile"):
+        subprocess.run(["rm", "-rf", dname])
+        raise Exception("Dockerfile is missing in the project's dip_specs folder.")
+
+    toolPath = f"{dname}"
+    return jsons,toolPath
