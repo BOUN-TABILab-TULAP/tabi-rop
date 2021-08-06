@@ -38,7 +38,7 @@ class DockerService:
             image=imageTag,
             name=containerTag,
             # network="Tool-network", ## We do not need to have a network among tools. 
-            restart_policy={"Name": "always", "MaximumRetryCount": 3}, ## Start the container on system startup
+            restart_policy={"Name": "always"}, ## Start the container on system startup
             detach=True, ## Do not listen to containers's logs, just run and leave it
             ports=assignedPorts 
         )
