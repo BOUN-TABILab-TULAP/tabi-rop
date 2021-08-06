@@ -1,3 +1,4 @@
+from backend_proxy.api.exception import REST_Exception
 from os import name, path
 import docker
 from docker.api import container, image
@@ -12,7 +13,6 @@ class DockerService:
     # path_dockerfile: Path of the Dockerfile
     # name_enum: Enum of the tool, for naming the image and container
     # version: version of the tool
-
     def create_new_container(self, dockerfilePath: str, nameEnum: str, version: str) -> int:
         naming = f"{nameEnum}_{version}"
         imageTag = naming + "-image"
@@ -25,9 +25,11 @@ class DockerService:
         )
         # images.build returns two objects. First one is image that was build, second is generator of the build logs as JSON-decoded objects.
         # We do not need the latter so just take the [0]
-        #
+        #3
         imageConfig = createdImage[0].attrs
-
+        if 'ExposedPorts' not  in imageConfig['ContainerConfig']:
+            # Image does not have any exposed ports.
+            raise REST_Exception(f"You need to expose the port you use in the Dockerfile")
         exposedPorts = list(imageConfig['ContainerConfig']['ExposedPorts'].keys()) ## Get the exposed ports from the image
         # We can assign ports manually but leaving it as None means docker will assign a random available port 
         assignedPorts = {k: None for k in exposedPorts}
@@ -36,7 +38,7 @@ class DockerService:
             image=imageTag,
             name=containerTag,
             # network="Tool-network", ## We do not need to have a network among tools. 
-            restart_policy={"Name": "always"}, ## Start the container on system startup
+            restart_policy={"Name": "always", "MaximumRetryCount": 3}, ## Start the container on system startup
             detach=True, ## Do not listen to containers's logs, just run and leave it
             ports=assignedPorts 
         )
@@ -47,7 +49,7 @@ class DockerService:
         ports = createdContainer.ports
         if ports.__len__() == 0:
             ## Container does not have a port. I am returning none for now but we need to discuss this furrther.
-            # https://gitlab.com/nlpgroup1/nlp-tools-platform/-/issues/1
+            #TODO https://gitlab.com/nlpgroup1/nlp-tools-platform/-/issues/1
             return None
         print(
             f"Created a container with port {ports[exposedPorts[0]][0]['HostPort']} ")
