@@ -1,22 +1,22 @@
 import React from "react";
 import { Collapse } from "antd";
-import { useTranslation } from "react-i18next";
+import { useTranslation, withTranslation } from "react-i18next";
 
 const { Panel } = Collapse;
 
 const TaskDefinition = ({ authorSpecs }) => {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   return (
     <div>
       {
-        (i18n.language.slice(0, 2) === "en" || i18n.language.slice(0, 2) === "tr")
-        &&
+        (i18n.language.slice(0, 2) === "en" || i18n.language.slice(0, 2) === "tr") 
+          &&  
         <Collapse defaultActiveKey={["1"]}>
           <Panel header={authorSpecs[i18n.language.slice(0, 2)]["project_name"]} key="1">
             <div>
               <b>Description: </b>
-              <div>
+              <div>  
                 {authorSpecs[i18n.language.slice(0, 2)]["task_description"]
                   .split("\n")
                   .map((line) => (
@@ -35,9 +35,9 @@ const TaskDefinition = ({ authorSpecs }) => {
             </div>
           </Panel>
         </Collapse>
-      }
-    </div>
-
+        }
+      </div>
+      
   );
 };
 

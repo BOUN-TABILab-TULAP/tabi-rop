@@ -54,7 +54,7 @@ class Brat extends React.Component {
 
     if (typeof this.dispatcher === "undefined") {
       this.dispatcher = window.Util.embed(
-        "embedding-brat_" + this.props.iid,
+        "embedding-brat",
         collData,
         docData,
         window.webFontURLs
@@ -71,7 +71,7 @@ class Brat extends React.Component {
   }
 
   render() {
-    return <div id={"embedding-brat_" + this.props.iid}></div>;
+    return <div id="embedding-brat"></div>;
   }
 }
 

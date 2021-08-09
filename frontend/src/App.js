@@ -8,21 +8,21 @@ import SideMenu from "./SideMenu";
 import { useTranslation } from "react-i18next";
 import { Layout } from "antd";
 import UseTool from "./UseTool";
-import { getQuery } from "./utils";
+import { getQuery} from "./utils";
 import About from "./About";
 const url_tools = "/api/tools/name";
 
 
-const { Content, Footer } = Layout;
+const { Content, Footer, Header } = Layout;
 const App = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [tools, setTools] = useState([]);
   const getTools = async () => {
-    let { data, status } = await getQuery(url_tools);
-    if (status !== 200) {
+    let {data: data, status: status} = await getQuery(url_tools);
+    if (status !== 200){
       return;
     }
-    data = data.map((tool, index) => {
+    data = data.map((tool, index)=>{
       let o = Object.assign({}, tool);
       o.key = index;
       return o;
@@ -31,8 +31,8 @@ const App = () => {
     setTools(data);
   };
   useEffect(() => {
-    getTools();
-  }, []);
+        getTools();
+    }, []);
 
   return (
     <Router>
@@ -40,7 +40,7 @@ const App = () => {
         <GlobalHeader />
         <Content>
           <Layout className="site-layout-background">
-            <SideMenu tools={tools} />
+            <SideMenu tools={tools}/>
             <Content
               className="site-layout"
               style={{
@@ -57,10 +57,10 @@ const App = () => {
                 <Route exact path="/panel" component={ToolPanel} />
                 {tools.map((tool, index) => {
                   return (
-                    <Route path={"/" + tool.enum}
-                      component={() => <UseTool tool={tool} />}
-                    />
-                  );
+                    <Route path={"/"+tool.enum} 
+                    component={() => <UseTool tool={tool}/>}
+                     />
+                    );
                 })}
                 <Route path="*" component={Home} />
               </Switch>
