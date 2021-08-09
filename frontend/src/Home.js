@@ -1,9 +1,8 @@
-import { SecurityScanOutlined } from "@ant-design/icons";
-import React, { Suspense } from "react";
+import React from "react";
 import { useTranslation } from "react-i18next";
 
 const Home = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   return (
     <div>
       <h1>{t("home.header")}</h1>

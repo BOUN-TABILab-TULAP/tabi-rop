@@ -1,18 +1,18 @@
-import React,  { useState, useEffect } from "react";
-import {Button, Modal, Table, Input, InputNumber, Popconfirm, Form, Typography } from 'antd';
-import { getQuery, putQuery, deleteQuery } from "../utils";
+import React, { useState, useEffect } from "react";
+import { Button, Modal, Table, Input, InputNumber, Popconfirm, Form, Typography } from 'antd';
+import { getQuery, deleteQuery } from "../utils";
 import UpdateTool from "./UpdateTool";
 
 const url_tools = "/api/tools"
 const url_update = "/api/tool/"
 
 
-const ManageTools = ({isAuth, setIsAuth}) => {
+const ManageTools = ({ isAuth, setIsAuth }) => {
   const [tools, setTools] = useState([]);
   const getTools = async () => {
-    let {data: tools, status: status} = await getQuery(url_tools);
+    let { tools, status } = await getQuery(url_tools);
     // set keys:
-    tools = tools.map((tool, index)=>{
+    tools = tools.map((tool, index) => {
       let o = Object.assign({}, tool);
       o.key = index;
       return o;
@@ -25,12 +25,12 @@ const ManageTools = ({isAuth, setIsAuth}) => {
   }, []);
 
   return (
-  <>
-  <Button  onClick={getTools}>
-    Refresh
-  </Button>
-  {tools.length!=0 && <EditableTable rowData={tools} callbackFetch={getTools}></EditableTable>}
-  </>
+    <>
+      <Button onClick={getTools}>
+        Refresh
+      </Button>
+      {tools.length !== 0 && <EditableTable rowData={tools} callbackFetch={getTools}></EditableTable>}
+    </>
   );
 };
 export default ManageTools;
@@ -75,7 +75,7 @@ const EditableCell = ({
   );
 };
 
-const EditableTable = ({rowData, callbackFetch}) => {
+const EditableTable = ({ rowData, callbackFetch }) => {
   const [form] = Form.useForm();
   const [data, setData] = useState(rowData);
   const [editingKey, setEditingKey] = useState('');
@@ -93,7 +93,7 @@ const EditableTable = ({rowData, callbackFetch}) => {
     const item = data[index];
     setCurToolFields(item);
     setShowModal(true);
-  };  
+  };
 
   const cancel = () => {
     setEditingKey('');
@@ -101,13 +101,12 @@ const EditableTable = ({rowData, callbackFetch}) => {
 
   const delTool = async (key) => {
     try {
-      const row = await form.validateFields();
       const newData = [...data];
       const index = newData.findIndex((item) => key === item.key);
       if (index > -1) {
         newData.splice(index, 1);
-        let {data: response, status: status} = await deleteQuery(url_update+data[index].enum);
-        if (status === 200){
+        let { data, status } = await deleteQuery(url_update + data[index].enum);
+        if (status === 200) {
           setData(newData);
         }
         setEditingKey('');
@@ -164,19 +163,18 @@ const EditableTable = ({rowData, callbackFetch}) => {
       title: 'Operation',
       dataIndex: 'operation',
       render: (_, record) => {
-        const editable = isEditing(record);
         return (
           <span>
-          <Typography.Link disabled={editingKey !== ''} onClick={() => edit(record)} style={{
-                marginRight: 8,
-              }}>
-            Edit
-          </Typography.Link>
-          <Popconfirm title="Are you sure to delete it?" onConfirm={() => delTool(record.key)}>
+            <Typography.Link disabled={editingKey !== ''} onClick={() => edit(record)} style={{
+              marginRight: 8,
+            }}>
+              Edit
+            </Typography.Link>
+            <Popconfirm title="Are you sure to delete it?" onConfirm={() => delTool(record.key)}>
               <a>Delete</a>
             </Popconfirm>
           </span>
-          
+
         );
       },
     },
@@ -204,32 +202,32 @@ const EditableTable = ({rowData, callbackFetch}) => {
 
   return (
     <>
-    <Form form={form} component={false}>
-      <Table
-        components={{
-          body: {
-            cell: EditableCell,
-          },
-        }}
-        bordered
-        dataSource={data}
-        columns={mergedColumns}
-        rowClassName="editable-row"
-        pagination={{
-          onChange: cancel,
-        }}
-      />
-    </Form>
-    <Modal 
-      title="Update Tool" visible={showModal} 
-      footer={[
-            <Button key="back" onClick={handleModalCancel}>
-              Return
-            </Button>,]
-          }
-          width={1000}>
+      <Form form={form} component={false}>
+        <Table
+          components={{
+            body: {
+              cell: EditableCell,
+            },
+          }}
+          bordered
+          dataSource={data}
+          columns={mergedColumns}
+          rowClassName="editable-row"
+          pagination={{
+            onChange: cancel,
+          }}
+        />
+      </Form>
+      <Modal
+        title="Update Tool" visible={showModal}
+        footer={[
+          <Button key="back" onClick={handleModalCancel}>
+            Return
+          </Button>,]
+        }
+        width={1000}>
         <UpdateTool fields={curToolFields} callbackFetch={callbackFetch}></UpdateTool>
-    </Modal>
+      </Modal>
     </>
   );
 };

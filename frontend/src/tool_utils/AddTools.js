@@ -1,16 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Result, Form, Input, Button} from 'antd';
 import { postQuery } from "../utils";
 
 const url = "/api/tool";
-const url_auth = "/api/user/isauth";
 
-const { TextArea } = Input;
 
 
 const AddTools = ({isAuth, setIsAuth}) => {
   const [form] = Form.useForm();
-  const [formLayout, setFormLayout] = useState('horizontal');
   const [wait, setWait] = useState(false);
   const [serverResponse, setServerResponse] = useState({});
   
@@ -82,7 +79,7 @@ const AddTools = ({isAuth, setIsAuth}) => {
         
       </Form>
       {wait && <Result {...{title: "Wait please"}}></Result>}
-      { Object.keys(serverResponse).length!=0 && <pre><Result {...serverResponse.data}></Result></pre>}
+      { Object.keys(serverResponse).length!==0 && <pre><Result {...serverResponse.data}></Result></pre>}
     </>
   );
 };

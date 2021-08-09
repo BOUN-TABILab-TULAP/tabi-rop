@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useState} from "react";
 import { Form, Input, Button, Result } from 'antd';
 import { postQuery } from "../utils";
 
@@ -73,7 +73,7 @@ const LoginPanel = ({isAuth, setIsAuth}) => {
         </Button>
       </Form.Item>
     </Form>
-    { Object.keys(serverResponse).length!=0 && <pre><Result {...serverResponse.data}></Result></pre>}
+    { Object.keys(serverResponse).length!==0 && <pre><Result {...serverResponse.data}></Result></pre>}
     </>
   );
 };

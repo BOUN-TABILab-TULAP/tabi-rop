@@ -1,11 +1,9 @@
 import React from "react";
 import { Collapse } from "antd";
-import { useTranslation } from "react-i18next";
-
 const { Panel } = Collapse;
 
 const TaskInformation = ({ authorSpecs }) => {
-  
+
   return (
     <Collapse>
       <Panel header="Project Details" key="1">
@@ -15,13 +13,14 @@ const TaskInformation = ({ authorSpecs }) => {
             {
               authorSpecs["paper_names"].map((paper_name, index) => {
                 return (<>
-                        <a href={authorSpecs["paper_handles"][index]}>
-                        {paper_name}
-                        </a>
-                        {authorSpecs["paper_names"].length-1 > index && " ,"}
-                        </>
-                        );})
-              }
+                  <a href={authorSpecs["paper_handles"][index]}>
+                    {paper_name}
+                  </a>
+                  {authorSpecs["paper_names"].length - 1 > index && " ,"}
+                </>
+                );
+              })
+            }
           </p>
         </div>
         <div>
@@ -30,11 +29,12 @@ const TaskInformation = ({ authorSpecs }) => {
             {
               authorSpecs["paper_authors"].map((paper_author, index) => {
                 return (<>
-                        {paper_author}
-                        {authorSpecs["paper_authors"].length-1 > index && " ,"}
-                        </>
-                        );})
-              }
+                  {paper_author}
+                  {authorSpecs["paper_authors"].length - 1 > index && " ,"}
+                </>
+                );
+              })
+            }
           </p>
         </div>
         <div>
@@ -43,11 +43,12 @@ const TaskInformation = ({ authorSpecs }) => {
             {
               authorSpecs["program_authors"].map((program_author, index) => {
                 return (<>
-                        {program_author}
-                        {authorSpecs["program_authors"].length-1 > index && " ,"}
-                        </>
-                        );})
-              }
+                  {program_author}
+                  {authorSpecs["program_authors"].length - 1 > index && " ,"}
+                </>
+                );
+              })
+            }
           </p>
         </div>
         <div>
@@ -56,11 +57,12 @@ const TaskInformation = ({ authorSpecs }) => {
             {
               authorSpecs["program_links"].map((program_link, index) => {
                 return (<>
-                        <a href={program_link}>Program-{index+1}</a>
-                        {authorSpecs["program_authors"].length-1 > index && " ,"}
-                        </>
-                        );})
-              }
+                  <a href={program_link}>Program-{index + 1}</a>
+                  {authorSpecs["program_authors"].length - 1 > index && " ,"}
+                </>
+                );
+              })
+            }
           </p>
         </div>
       </Panel>
