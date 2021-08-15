@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Result, Form, Input, Button} from 'antd';
 import { postQuery } from "../utils";
 
-const url = "/api/tool";
-const url_auth = "/api/user/isauth";
+const url = process.env.REACT_APP_BACKEND+"/api/tool";
+const url_auth = process.env.REACT_APP_BACKEND+"/api/user/isauth";
 
 const { TextArea } = Input;
 

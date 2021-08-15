@@ -8,8 +8,8 @@ import { getQuery } from "./utils";
 
 const { TabPane } = Tabs;
 
-const url = "/api/user/isauth";
-const url_get_logout = "/api/user/logout";
+const url = process.env.REACT_APP_BACKEND+"/api/user/isauth";
+const url_get_logout = process.env.REACT_APP_BACKEND+"/api/user/logout";
 
 
 /*

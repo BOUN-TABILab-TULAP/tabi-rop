@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Result, Form, Input, Button, Checkbox} from 'antd';
 import { putQuery, getQuery, postQuery } from "../utils";
 
-const url_register = "/api/user/register"
-const url_tools = "/api/tools"
-const url_update_user = "/api/user/update/";
+const url_register = process.env.REACT_APP_BACKEND+"/api/user/register"
+const url_tools = process.env.REACT_APP_BACKEND+"/api/tools"
+const url_update_user = process.env.REACT_APP_BACKEND+"/api/user/update/";
 
 const { TextArea } = Input;
 

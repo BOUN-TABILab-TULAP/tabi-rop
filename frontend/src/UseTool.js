@@ -10,8 +10,8 @@ import { docs, colls } from "./data_test_brat";
 
 import "antd/dist/antd.css";
 
-const url_get_ui = "/api/tool/ui/";
-const url_post_run = "/api/tool/run/";
+const url_get_ui = process.env.REACT_APP_BACKEND+"/api/tool/ui/";
+const url_post_run = process.env.REACT_APP_BACKEND+"/api/tool/run/";
 
 const Form = withTheme(AntDTheme);
 

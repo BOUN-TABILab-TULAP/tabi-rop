@@ -3,11 +3,11 @@ import {getQuery, putQuery, deleteQuery} from "../utils";
 import { Descriptions, Space, Popconfirm, Modal, Tag, List, Form, Table, Result, Input, Collapse, Button } from "antd";
 import UserForm from "./UserForm";
 const { Panel } = Collapse;
-const url_get_user = "/api/user";
-const url_get_users = "/api/users";
-const url_update_user_info = "/api/user/update_info";
-const url_update_user_pass = "/api/user/update_pass";
-const url_delete_user = "/api/user/";
+const url_get_user = process.env.REACT_APP_BACKEND+"/api/user";
+const url_get_users = process.env.REACT_APP_BACKEND+"/api/users";
+const url_update_user_info = process.env.REACT_APP_BACKEND+"/api/user/update_info";
+const url_update_user_pass = process.env.REACT_APP_BACKEND+"/api/user/update_pass";
+const url_delete_user = process.env.REACT_APP_BACKEND+"/api/user/";
 
 
 
@@ -19,6 +19,7 @@ const AccountManagement = ({isAuth, setIsAuth}) => {
     const getUsers = async () => {
         let {data: data, status: status} = await getQuery(url_get_users);
         if (status !== 200){
+          console.log(data)
           return;
         }
         data = data.map((user, index)=>{

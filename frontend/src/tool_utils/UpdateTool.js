@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Result, Form, Input, Button} from 'antd';
 import { putQuery } from "../utils";
 
-const url = "/api/tool";
-const url_update = "/api/tool/"
+const url = process.env.REACT_APP_BACKEND+"/api/tool";
+const url_update = process.env.REACT_APP_BACKEND+"/api/tool/"
 const { TextArea } = Input;
 
 const UpdateTool = ({fields, callbackFetch}) => {
