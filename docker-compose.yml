@@ -11,7 +11,6 @@ services:
       - frontend
     networks:
       - DIP-network
-    restart: always
 
   mongo:
     container_name: mongo
@@ -22,24 +21,19 @@ services:
       - "27017:27017"
     networks:
       - DIP-network
-    restart: always
-    
   
   backend:
     build:
       context: ./backend
     container_name: backend
     hostname: backend
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
     ports:
       - "5000:5001"
     depends_on:
       - mongo
     networks:
       - DIP-network
-    restart: always
-      
+  
   frontend:
     build:
       context: ./frontend
@@ -51,8 +45,6 @@ services:
       - backend
     networks:
       - DIP-network
-    restart: always
-    
 networks:
   DIP-network:
       external: true

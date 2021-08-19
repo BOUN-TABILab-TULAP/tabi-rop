@@ -1,4 +1,3 @@
-from backend_proxy.api.endpoints import *
 import sys
 import os
 
@@ -21,16 +20,10 @@ def register_admin():
     if existing_user is None:
         db.create(user)
     else:
-        # db.update({"username": user["username"]}, user)
-        pass
+        db.update({"username": user["username"]}, user)
 
 
-def debugPrint(*args, **kwargs):
-    print(*args, file=sys.stderr, **kwargs)
-
-
-if __name__ == '__main__':
-    register_admin()
-    from backend_proxy.containerization.service import DockerService
-    DockerService.getInstance()
-    app.run(host='0.0.0.0')
+#if __name__ == '__main__':
+from backend_proxy.api.endpoints import *
+register_admin()
+app.run(host='0.0.0.0')
