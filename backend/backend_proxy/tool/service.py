@@ -30,8 +30,8 @@ class ToolService:
         req_dict["form_data_json"] = form_data_json
         req_dict["update_time"] = dt.datetime.now()
         # copy contact info to separate variable
-        dockerService = DockerService()
-        req_dict['port'] = dockerService.create_new_container(toolPath,req_dict['enum'],"1.0.0")
+        req_dict['version'] = "1.0.0"
+        req_dict['port'] = DockerService.getInstance().create_new_container(toolPath,req_dict['enum'],req_dict['version'])
         req_dict['ip'] = "172.17.0.1"
         if "contact_info" in req_dict["author_json"]:
             req_dict["contact_info"] = req_dict["author_json"]["contact_info"]
