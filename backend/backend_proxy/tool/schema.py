@@ -17,3 +17,4 @@ class ToolSchema(Schema):
     form_data_json = fields.Dict(required=True)
     update_time = fields.DateTime(format=dtime_format)
     contact_info = fields.Str()
+    version = fields.Str(required=True)
