@@ -1,3 +1,5 @@
+from backend_proxy.tool.formats.supportedFormats import SupportedFormats
+from backend_proxy.tool.toolClass import Tool
 from backend_proxy.containerization.service import DockerService
 from backend_proxy.db.mongoDB import MongoDB
 from backend_proxy.db.mongoDB import MongoConn
@@ -8,13 +10,44 @@ import backend_proxy.misc.conllXtostandoff as conllXtostandoff
 import datetime as dt
 import requests
 import json
+import sys
+
+
+def debugPrint(*args, **kwargs):
+    print(*args, file=sys.stderr, **kwargs)
 
 
 class ToolService:
+    __instance = None
+
+    @staticmethod
+    def getInstance():
+        """ Static access method. """
+        if ToolService.__instance == None:
+            ToolService.__instance = ToolService()
+        return ToolService.__instance
+
     def __init__(self):
         cn = MongoConn()
         self.db = MongoDB(cn, "tools")
-        
+
+        # get tools from db
+        tools = self.db.find_all()
+        self.toolObjects = {}
+
+        for tool in tools:
+            self.toolObjects[tool['enum']] = Tool(
+                enum=tool['enum'],
+                ip=tool['ip'],
+                port=tool['port'],
+                version=tool['version'],
+                inputFormats=[SupportedFormats[name]
+                              for name in ['TokenizedSentence']],
+                outputFormats=[SupportedFormats[name]
+                               for name in ['ListOfListOfMorphFeatList']],
+            )
+        debugPrint(self.toolObjects)
+
     def add_tool(self, req_dict):
         enum = req_dict["enum"]
         if self.enum_exists(enum):
@@ -31,7 +64,8 @@ class ToolService:
         req_dict["update_time"] = dt.datetime.now()
         # copy contact info to separate variable
         req_dict['version'] = "1.0.0"
-        req_dict['port'] = DockerService.getInstance().create_new_container(toolPath,req_dict['enum'],req_dict['version'])
+        req_dict['port'] = ToolService.getInstance().create_new_container(
+            toolPath, req_dict['enum'], req_dict['version'])
         req_dict['ip'] = "172.17.0.1"
         if "contact_info" in req_dict["author_json"]:
             req_dict["contact_info"] = req_dict["author_json"]["contact_info"]
@@ -81,19 +115,24 @@ class ToolService:
             "author_json", "root_json", "form_data_json")).dump(tool_dict)
         return tool_dict
 
-    def run_tool(self, enum, input_dict):
-        tool_dict = self.db.find({"enum": enum})
-        if tool_dict is None:
-            raise REST_Exception(
-                "Tool with enum: {} does not exist".format(enum))
-        tool_dict = self.dump(tool_dict)
-        ip, port = tool_dict["ip"], tool_dict["port"]
-        response = self.run_request(ip, port, input_dict).json()
-        if "brat_conll" in response:
-            standoff = conllXtostandoff.process(response["brat_conll"])
-            response["brat_standoff"] = standoff
-            del response["brat_conll"]
-        return response
+    def run_tool(self, enum, input_dict: dict):
+        # tool_dict = self.db.find({"enum": enum})
+        # if tool_dict is None:
+        #     raise REST_Exception(
+        #         "Tool with enum: {} does not exist".format(enum))
+        # tool_dict = self.dump(tool_dict)
+        # ip, port = tool_dict["ip"], tool_dict["port"]
+        # response = self.run_request(ip, port, input_dict).json()
+        # if "brat_conll" in response:
+        #     standoff = conllXtostandoff.process(response["brat_conll"])
+        #     response["brat_standoff"] = standoff
+        #     del response["brat_conll"]
+        input_dict.update({
+            "inputFormat": "TokenizedSentence",
+            "outputFormat": "ListOfListOfMorphFeatList",
+
+        })
+        return self.toolObjects[enum].run(input_dict)
 
     def list_all_tools(self, access_tools):
         tools = self.db.find_all()
