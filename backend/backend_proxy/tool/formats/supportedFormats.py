@@ -1,13 +1,30 @@
+from backend_proxy.tool.formats.tokenizedSentence import TokenizedSentence
+from backend_proxy.tool.formats.listOfListOfMorphFeatList import ListOfListOfMorphFeatList
 from enum import Enum, auto
 
 
 class SupportedFormats(Enum):
-    TokenizedSentence = 1
-    ListOfListOfMorphFeatList = 2
-    Format_3 = 3
-    Format_4 = 4
+    TokenizedSentence = auto()
+    ListOfListOfMorphFeatList = auto()
+    Format_3 = auto()
+    Format_4 = auto()
 
-    
+
     @staticmethod
-    def checkIfIncludes(selectedFormat: str,supportedFormatsOfTools)-> bool:
+    def strToEnum(string):
+        return enumMap[string]
+
+    @staticmethod
+    def checkIfIncludes(selectedFormat: str, supportedFormatsOfTools) -> bool:
         return selectedFormat in [item.name for item in supportedFormatsOfTools]
+
+
+SupportedFormats.formatsMap = {
+    SupportedFormats.TokenizedSentence : TokenizedSentence(SupportedFormats.TokenizedSentence),
+    SupportedFormats.ListOfListOfMorphFeatList : ListOfListOfMorphFeatList(SupportedFormats.ListOfListOfMorphFeatList),
+} 
+
+enumMap = {
+    "TokenizedSentence": SupportedFormats.TokenizedSentence,
+    "ListOfListOfMorphFeatList": SupportedFormats.ListOfListOfMorphFeatList,
+}

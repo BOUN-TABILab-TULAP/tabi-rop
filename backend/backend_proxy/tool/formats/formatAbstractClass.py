@@ -1,15 +1,16 @@
 from abc import ABC, abstractmethod, abstractproperty
-from backend_proxy.tool.formats.supportedFormats import SupportedFormats  # for abstract class
 
 
 class Format(ABC):
-    @property
-    @abstractmethod
-    def formatEnum():
-        raise NotImplementedError
+    def __init__(self) -> None:
+        super().__init__()
 
     @abstractmethod
-    def toString(self) -> str:
+    def toString(self,text) -> str:
+        return
+
+    @abstractmethod
+    def fromString(self,text) -> str:
         return
 
 

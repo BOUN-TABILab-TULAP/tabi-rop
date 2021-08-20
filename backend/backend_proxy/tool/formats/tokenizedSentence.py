@@ -1,11 +1,13 @@
 from backend_proxy.tool.formats.formatAbstractClass import Format
-from backend_proxy.tool.formats.supportedFormats import SupportedFormats
 
 
 class TokenizedSentence(Format):
-    def __init__(self) -> None:
+    def __init__(self,enum) -> None:
         super().__init__()
-        formatEnum = SupportedFormats.TokenizedSentence
+        self.enum = enum
 
     def toString(self, text) -> str:
+        return text
+    
+    def fromString(self, text) -> str:
         return text
