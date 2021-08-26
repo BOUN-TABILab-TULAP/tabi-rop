@@ -7,6 +7,7 @@ import { withTheme } from '@rjsf/core';
 import { Theme as AntDTheme } from '@rjsf/antd';
 import 'antd/dist/antd.css';
 import styles from "./AddTool.module.css"
+import { setState } from 'react-jsonschema-form/lib/utils';
 
 const Form = withTheme(AntDTheme);
 // import Form  from 'react-jsonschema-form';
@@ -48,13 +49,14 @@ console.log(schema)
 const AddTools = ({ isAuth, setIsAuth }) => {
   const [form] = OldForm.useForm();
   const [nestedform] = OldForm.useForm();
-  var inputTemp = {
-    "input_type": null,
-    "data_type": null
-  }
+
   var outputTemp = {}
 
 
+  const [inputTemp, setInputTemp] = useState({
+    "input_type": null,
+    "data_type": null
+  });
   const [inputs, setInputs] = useState([]);
 
   const [formLayout, setFormLayout] = useState('horizontal');
@@ -68,10 +70,10 @@ const AddTools = ({ isAuth, setIsAuth }) => {
     console.log(inputTemp);
     setInputs(inputs => [...inputs, inputTemp]);
     nestedform.resetFields();
-    inputTemp = {
+    setInputTemp({
       "input_type": null,
       "data_type": null
-    }
+    });
   }
   const merveFinish = (e) => { }
 
@@ -249,7 +251,7 @@ const AddTools = ({ isAuth, setIsAuth }) => {
             <OldForm form={nestedform}>
               <OldForm.Item>
 
-                <Select value={inputTemp['data_type']} onChange={(v) => { inputTemp['data_type'] = v; }} placeholder="Select Data Type" >
+                <Select value={inputTemp['data_type']} onChange={(v) => { inputTemp['data_type'] = v; setInputTemp({...inputTemp}); }} placeholder="Select Data Type" >
                   {DataTypes.map((item) => (
                     <Option value={item}>{item}</Option>
                   ))}
@@ -257,7 +259,10 @@ const AddTools = ({ isAuth, setIsAuth }) => {
               </OldForm.Item>
               <OldForm.Item>
 
-                <Select value={inputTemp['input_type']} onChange={(v) => { inputTemp['input_type'] = v; }} placeholder="Select Input Type">
+                <Select  value={inputTemp['input_type']} onChange={(v) => {
+                  inputTemp['input_type'] = v;
+                  setInputTemp({...inputTemp});
+                }} placeholder="Select Input Type">
                   {inputTypes.map((item) => (
                     <Option value={item}>{item}</Option>
                   ))}
