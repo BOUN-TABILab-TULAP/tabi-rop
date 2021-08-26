@@ -1,128 +1,208 @@
 import React, { useState, useEffect } from 'react';
-import { Result, Form, Input, Button, Select, DatePicker } from 'antd';
+import { Result, Form as OldForm, Input, Button, Select, DatePicker } from 'antd';
 import { postQuery } from "../utils";
-import {MinusCircleOutlined} from "@ant-design/icons";
+import { MinusCircleOutlined } from "@ant-design/icons";
+// import Form from "@rjsf/core";
+import { withTheme } from '@rjsf/core';
+import { Theme as AntDTheme } from '@rjsf/antd';
+import 'antd/dist/antd.css';
+import styles from "./AddTool.module.css"
+
+const Form = withTheme(AntDTheme);
+// import Form  from 'react-jsonschema-form';
+const url = process.env.REACT_APP_BACKEND + "/api/tool";
+const url_auth = process.env.REACT_APP_BACKEND + "/api/user/isauth";
 
 
-const url = process.env.REACT_APP_BACKEND+"/api/tool";
-const url_auth = process.env.REACT_APP_BACKEND+"/api/user/isauth";
+var outputs = []
+var schema = {
+  title: "Todo",
+  type: "object",
+  required: ["title"],
+  properties: {
+    title: { type: "string", title: "Title", default: "A new task" },
+    done: { type: "boolean", title: "Done?", default: false }
+  }
+};
+const DataTypes = ["Boolean", "Char", "Number", "Token"]
+const inputTypes = ["List of MorphFeatList", "MorphFeatList", "Tokenized Text", "Token", "List of Token", "Raw Sentence", "Tokenized Sentence"]
+
+
+const log = (type) => console.log.bind(console, type);
+
+
 
 const { TextArea } = Input;
 const { Option } = Select;
 const { RangePicker } = DatePicker;
 
+const addSchema = () => (
+  schema.properties["data"] = { type: "string", title: "Title" }
+  //   {key:"data type"
+  //   value:"{type:"boolean"}"
+  // }
+  // ) 
+)
 
-const AddTools = ({isAuth, setIsAuth}) => {
-  const [form] = Form.useForm();
+console.log(schema)
+const AddTools = ({ isAuth, setIsAuth }) => {
+  const [form] = OldForm.useForm();
+  const [nestedform] = OldForm.useForm();
+
   const [formLayout, setFormLayout] = useState('horizontal');
+  const [inputs, setInputs] = useState({})
+  var inputslist = []
+  var [outputslist, setOutputList] = useState([])
+
+  const [outputs, setOutputs] = useState({})
   const [wait, setWait] = useState(false);
   const [serverResponse, setServerResponse] = useState({});
-  
 
-  const onFinish =  async (values) => {
+  const canFinish = (e, type) => {
+    inputs[type] = e
+    setInputs(inputs)
+    inputslist.push(inputs)
+    console.log(inputs);
+  }
+  const merveFinish=(e)=>{
+    console.log(e)
+    outputs["type"] = e.output_type
+    outputs["format"]=e.output_format
+    setOutputs(outputs)
+    outputslist.push(outputs)
+    setOutputList(outputslist)
+    console.log(outputslist);
+  }
+  const addOutput = (e, type) => {
+    outputs[type] = e
+    setOutputs(outputs)
+    outputslist.push(outputs)
+    console.log(outputs);
+  }
+  function addInput(e) {
+    console.log(inputs)
+
+    schema.properties["input"] = { type: inputs.input_type, title: inputs.input_format }
+    console.log(schema)
+
+  }
+  function addOutputs(e) {
+    outputslist.push(outputs)
+    setOutputList(outputslist)
+
+  }
+  function removeOutput(e, index) {
+    outputslist.splice(index, 1);
+    setOutputList(outputslist)
+
+  }
+
+
+  const onFinish = async (values) => {
     let response = {};
     setServerResponse({});
-    if (typeof  values.git === 'undefined' 
-        || values.enum === 'undefined'
-        || values.name === "undefined"){
-      response = {data: {title: "You need to specify all values"}};
-      
+    if (typeof values.git === 'undefined'
+      || values.enum === 'undefined'
+      || values.name === "undefined") {
+      response = { data: { title: "You need to specify all values" } };
+
     }
-    else{
+    else {
       console.log(values);
       setWait(true);
       response = await postQuery(url, values);
       setWait(false);
-      let {data, status} = response;
-      if (status===200){
+      let { data, status } = response;
+      if (status === 200) {
         form.resetFields();
       }
     }
     setServerResponse(response);
   };
-  
 
-const formItemLayoutWithOutLabel = {
-  wrapperCol: {
-    xs: { span: 24, offset: 0 },
-    sm: { span: 20, offset: 4 },
-  },
-};
+
+
+  const formItemLayoutWithOutLabel = {
+    wrapperCol: {
+      xs: { span: 24, offset: 0 },
+      sm: { span: 20, offset: 4 },
+    },
+  };
   const formItemLayout = {
-          labelCol: {
-            span: 4,
-          },
-          wrapperCol: {
-            span: 14,
-          },
-        };
-  
+    labelCol: {
+      span: 4,
+    },
+    wrapperCol: {
+      span: 14,
+    },
+  };
+
   const buttonItemLayout = {
-          wrapperCol: {
-            span: 14,
-            offset: 4,
-          },
-        };
-    
+    wrapperCol: {
+      span: 14,
+      offset: 4,
+    },
+  };
+
 
   return (
-  <>
-      <Form
+    <>
+      <OldForm
         {...formItemLayout}
         form={form}
         onFinish={onFinish}
       >
 
         <b>
-        Select the domain of the corpus
+          Select the domain of the corpus
         </b>
-        <Form.Item label="Domains" name="domain" >
+        <OldForm.Item label="Domains" name="domain" >
           <Select name="domain" label="Domains" mode="tags" tokenSeparators={[',']}></Select>
-        </Form.Item>
+        </OldForm.Item>
 
         {/* Repository address */}
         <b>
-        Also you should enter the git address which is used by proxy to save the input/output specifications of the given program.
+          Also you should enter the git address which is used by proxy to save the input/output specifications of the given program.
         </b>
-        <Form.Item label="Git Address" name="git" >
+        <OldForm.Item label="Git Address" name="git" >
           <Input placeholder="e.g. https://github.com/tabilab-dip/BOUN-PARS.git" />
-        </Form.Item>
+        </OldForm.Item>
 
         {/* Unique Name */}
         <b>
-        Finally, you also specify a "unique" name for the program and a human readable name
+          Finally, you also specify a "unique" name for the program and a human readable name
         </b>
-        <Form.Item label="Name (enum)" name="enum" >
+        <OldForm.Item label="Name (enum)" name="enum" >
           <Input placeholder="boun-pars (no spaces, use only alphanumeric characters and '-')" />
-        </Form.Item>
+        </OldForm.Item>
         {/* Corpus Name */}
-        <Form.Item label="Name" name="name">
+        <OldForm.Item label="Name" name="name">
           <Input placeholder="Dependency Parser: BOUN-PARS" />
-        </Form.Item>
+        </OldForm.Item>
         {/* Corpus Name */}
-        <Form.Item label="Version" name="version">
+        <OldForm.Item label="Version" name="version">
           <Input placeholder="2.0" />
-        </Form.Item>
-        <Form.Item name="last-updated" label="Last Updated">
+        </OldForm.Item>
+        <OldForm.Item name="last-updated" label="Last Updated">
           <DatePicker />
-        </Form.Item>
+        </OldForm.Item>
 
         {/* Sample Sentence */}
-        <Form.Item label="Example" name="sample" >
+        <OldForm.Item label="Example" name="sample" >
           <Input placeholder="şekerleri yedim." />
-        </Form.Item>
+        </OldForm.Item>
 
         {/* Description */}
         <b>
-        Select the language(s) that resource supports
-        </b>  
-        <Form.Item name="description" label="Description">
-          <Input.TextArea />
-        </Form.Item>
-        <b>
-        Select the language(s) that resource supports
+          Select the language(s) that resource supports
         </b>
-        <Form.Item name="languages" label="Language(s)">
+        <OldForm.Item name="description" label="Description">
+          <Input.TextArea />
+        </OldForm.Item>
+        <b>
+          Select the language(s) that resource supports
+        </b>
+        <OldForm.Item name="languages" label="Language(s)">
           <Select mode="multiple" mode="tags" tokenSeparators={[',']} placeholder="Turkish, English, ...">
             <Option value="tr">Turkish</Option>
             <Option value="en">English</Option>
@@ -131,84 +211,173 @@ const formItemLayoutWithOutLabel = {
             <Option value="ind">Language Independent</Option>
             <Option value="code-switch">Code-switching Corpus</Option>
           </Select>
-        </Form.Item>
+        </OldForm.Item>
 
         <b>
-        If there is a paper, specify the paper information about the tool in BibTeX Citation
+          If there is a paper, specify the paper information about the tool in BibTeX Citation
         </b>
-        <Form.Item name="bibtex" label="Bibtex Entry">
+        <OldForm.Item name="bibtex" label="Bibtex Entry">
           <Input.TextArea />
-        </Form.Item>
-        <Form.Item name="doi" label="DOI">
+        </OldForm.Item>
+        <OldForm.Item name="doi" label="DOI">
           <Input placeholder="DOI/10.8971" />
-        </Form.Item>
-        
-        <b>
-        You can specify additional links in here
-        </b>
-        <Form.List name="names">
-        {(fields, { add, remove }) => (
-          <>
-            {fields.map((field, index) => (
-              <Form.Item
-                {...(index === 0 ? formItemLayout : buttonItemLayout)}
-                label={index === 0 ? 'Link' : ''}
-                required={false}
-                key={field.key}
-              >
-              <Form.Item validateTrigger={['onChange', 'onBlur']} {...field}>
-             
-              <Input placeholder="https://github.com" style={{ width: '60%' }}/>
-                </Form.Item>
-                {fields.length > 1 ? (
-                  <MinusCircleOutlined
-                    className="dynamic-delete-button"
-                    onClick={() => remove(field.name)}
-                  />
-                ) : null}
-              </Form.Item>
-            ))}
-            <Form.Item>
-              <Button type="primary" onClick={() => add()}>Add Link</Button>
-            </Form.Item>
-          </>
-        )}
-        </Form.List>
-
+        </OldForm.Item>
 
         <b>
-        You must specify input output type
+          You can specify additional links in here
         </b>
-        <Form.Item name="input" label="Input Type">
-          <Select placeholder="Select Input Type">
-            <Option value="tokenized-sentence">Tokenized Sentence</Option>
-            <Option value="morphfeatlist">MorphFeatList</Option>
-          </Select>
-        </Form.Item>
 
-        <Form.Item name="output" label="Output Type">
-          <Select placeholder="Select Output Type">
-            <Option value="TokenizedSentence">Tokenized Sentence</Option>
-            <Option value="ListOfListOfMorphFeatList">List Of List Of MorphFeatList</Option>
-          </Select>
-        </Form.Item>
+        <OldForm.List name="names">
+          {(fields, { add, remove }) => (
+            <>
+              {fields.map((field, index) => (
+                <OldForm.Item
+                  {...(index === 0 ? formItemLayout : buttonItemLayout)}
+                  label={index === 0 ? 'Link' : ''}
+                  required={false}
+                  key={field.key}
+                >
+                  <OldForm.Item validateTrigger={['onChange', 'onBlur']} {...field}>
+
+                    <Input placeholder="https://github.com" style={{ width: '60%' }} />
+                  </OldForm.Item>
+                  {fields.length > 1 ? (
+                    <MinusCircleOutlined
+                      className="dynamic-delete-button"
+                      onClick={() => remove(field.name)}
+                    />
+                  ) : null}
+                </OldForm.Item>
+              ))}
+              <OldForm.Item>
+                <Button type="primary" onClick={() => add()}>Add Link</Button>
+              </OldForm.Item>
+            </>
+          )}
+        </OldForm.List>
 
 
         <b>
-        You must give a contact information
+          You must specify input output type
         </b>
-        <Form.Item name="contact" label="Contact Address" required="true">
+
+        <div className={styles.input}>
+          <div>
+            <b>
+              Input Specifications:
+            </b>
+
+            <OldForm.List name="inputs">
+              {(fields, { add, remove }) => (
+                <>
+
+                  {fields.map((field, i) => (
+                    <OldForm.Item
+                      required={false}
+                      key={field.key}
+                    >
+                      <OldForm.Item name="input_type" label="Data Type">
+                        <Select placeholder="Select Data Type" onChange={(e) => canFinish(e, "input_type")}>
+                          {DataTypes.map((item) => (
+                            <Option value={item}>{item}</Option>
+                          ))}
+                        </Select>
+                      </OldForm.Item>
+
+                      <OldForm.Item name="input_format" label="Input Format">
+                        <Select placeholder="Select Input Type" onChange={(e) => canFinish(e, "input_format")}>
+                          {inputTypes.map((item) => (
+                            <Option value={item}>{item}</Option>
+                          ))}
+
+                        </Select>
+                      </OldForm.Item>
+                      {fields.length > 1 ? (
+
+                        <MinusCircleOutlined
+                          className={styles.dynamic}
+                          onClick={() => remove(field.name)}
+                        />
+
+                      ) : null}
+                    </OldForm.Item>
+                  ))}
+                  <OldForm.Item>
+                    <Button type="primary" onClick={function (event) { addInput(); add() }} >Add input</Button>
+                  </OldForm.Item>
+
+                </>
+              )}
+            </OldForm.List>
+
+          </div>
+
+          <div>
+            <b>
+              Output Specifications:
+            </b>
+            {/* <OldForm.List>
+              {outputslist.map((output, i) => (
+                <OldForm.Item >
+                 {output.output_type}
+                </OldForm.Item>
+
+              ))}
+            </OldForm.List> */}
+            <OldForm
+            form={nestedform}
+            onFinish={merveFinish}>
+            <OldForm.Item name="output_type" label="Data Type">
+              <Select  placeholder="Select Data Type">
+                {/* onChange={(e) => addOutput(e, "output_type")} */}
+                {DataTypes.map((item) => (
+                  <Option value={item}>{item}</Option>
+                ))}
+
+              </Select>
+            </OldForm.Item>
+
+            <OldForm.Item name="output_format" label="Output Format">
+              <Select name="output_format" placeholder="Select Output Type">
+                {/* onClick={(e) => addOutput(e, "output_format")} */}
+                {inputTypes.map((item) => (
+                  <Option value={item}>{item}</Option>
+                ))}
+
+              </Select>
+            </OldForm.Item>
+            <div>
+              <OldForm.Item>
+                <Button type="primary" {...buttonItemLayout} onClick={merveFinish} >Add output</Button>
+              </OldForm.Item>
+            </div>
+            </OldForm>
+          </div>
+
+        </div>
+
+
+
+        <b>
+          You must give a contact information
+        </b>
+        <OldForm.Item name="contact" label="Contact Address" required="true">
           <Input placeholder="utku.turk@boun.edu.tr" />
-        </Form.Item>
+        </OldForm.Item>
 
         {/* Submit */}
-         <Form.Item {...buttonItemLayout}>
+        <OldForm.Item {...buttonItemLayout}>
           <Button type="primary" htmlType="submit">Submit</Button>
-        </Form.Item>
-        
-      </Form>
-      {wait && <Result {...{title: "Wait please"}}></Result>}
-      { Object.keys(serverResponse).length!=0 && <pre><Result {...serverResponse.data}></Result></pre>}
+        </OldForm.Item>
+
+      </OldForm>
+      <Form schema={schema}
+        onChange={log("changed")}
+        onSubmit={log("submitted")}
+        onError={log("errors")}
+      />
+      {wait && <Result {...{ title: "Wait please" }}></Result>}
+      {Object.keys(serverResponse).length != 0 && <pre><Result {...serverResponse.data}></Result></pre>}
     </>
   );
 };

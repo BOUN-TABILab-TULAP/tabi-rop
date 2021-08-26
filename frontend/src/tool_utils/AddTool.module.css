@@ -1,0 +1,16 @@
+/* .input{
+     display:flex;
+    overflow: visible
+    
+} */
+
+
+.dynamic {
+    position: relative;
+    top: 4px;
+    margin: 0 8px;
+    color: #999;
+    font-size: 300px;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
