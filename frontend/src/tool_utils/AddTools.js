@@ -48,55 +48,32 @@ console.log(schema)
 const AddTools = ({ isAuth, setIsAuth }) => {
   const [form] = OldForm.useForm();
   const [nestedform] = OldForm.useForm();
+  var inputTemp = {
+    "input_type": null,
+    "data_type": null
+  }
+  var outputTemp = {}
+
+
+  const [inputs, setInputs] = useState([]);
 
   const [formLayout, setFormLayout] = useState('horizontal');
-  const [inputs, setInputs] = useState({})
-  var inputslist = []
-  var [outputslist, setOutputList] = useState([])
-
-  const [outputs, setOutputs] = useState({})
   const [wait, setWait] = useState(false);
   const [serverResponse, setServerResponse] = useState({});
 
-  const canFinish = (e, type) => {
-    inputs[type] = e
-    setInputs(inputs)
-    inputslist.push(inputs)
-    console.log(inputs);
-  }
-  const merveFinish=(e)=>{
-    console.log(e)
-    outputs["type"] = e.output_type
-    outputs["format"]=e.output_format
-    setOutputs(outputs)
-    outputslist.push(outputs)
-    setOutputList(outputslist)
-    console.log(outputslist);
-  }
-  const addOutput = (e, type) => {
-    outputs[type] = e
-    setOutputs(outputs)
-    outputslist.push(outputs)
-    console.log(outputs);
-  }
-  function addInput(e) {
-    console.log(inputs)
 
-    schema.properties["input"] = { type: inputs.input_type, title: inputs.input_format }
-    console.log(schema)
 
+  const canFinish = (e) => {
+    if (inputTemp['input_type'] == null || inputTemp['data_type'] == null) return;
+    console.log(inputTemp);
+    setInputs(inputs => [...inputs, inputTemp]);
+    nestedform.resetFields();
+    inputTemp = {
+      "input_type": null,
+      "data_type": null
+    }
   }
-  function addOutputs(e) {
-    outputslist.push(outputs)
-    setOutputList(outputslist)
-
-  }
-  function removeOutput(e, index) {
-    outputslist.splice(index, 1);
-    setOutputList(outputslist)
-
-  }
-
+  const merveFinish = (e) => { }
 
   const onFinish = async (values) => {
     let response = {};
@@ -267,39 +244,52 @@ const AddTools = ({ isAuth, setIsAuth }) => {
               Input Specifications:
             </b>
 
-            <OldForm.List name="inputs">
+            {inputs.map((t) => <h1>{t['data_type'] + "         " + t['input_type']}</h1>)}
+
+            <OldForm form={nestedform}>
+              <OldForm.Item>
+
+                <Select value={inputTemp['data_type']} onChange={(v) => { inputTemp['data_type'] = v; }} placeholder="Select Data Type" >
+                  {DataTypes.map((item) => (
+                    <Option value={item}>{item}</Option>
+                  ))}
+                </Select>
+              </OldForm.Item>
+              <OldForm.Item>
+
+                <Select value={inputTemp['input_type']} onChange={(v) => { inputTemp['input_type'] = v; }} placeholder="Select Input Type">
+                  {inputTypes.map((item) => (
+                    <Option value={item}>{item}</Option>
+                  ))}
+                </Select>
+              </OldForm.Item>
+              <OldForm.Item>
+                <Button type="primary" onClick={canFinish}>Add</Button>
+              </OldForm.Item>
+            </OldForm>
+            {/* <OldForm.List name="inputs">
               {(fields, { add, remove }) => (
                 <>
 
+                  <OldForm.Item name="input_type" label="Data Type">
+                    <Select placeholder="Select Data Type" >
+                      {DataTypes.map((item) => (
+                        <Option value={item}>{item}</Option>
+                      ))}
+                    </Select>
+                  </OldForm.Item>
+
+                  <OldForm.Item name="input_format" label="Input Format">
+                    <Select placeholder="Select Input Type">
+                      {inputTypes.map((item) => (
+                        <Option value={item}>{item}</Option>
+                      ))}
+                    </Select>
+                  </OldForm.Item>
                   {fields.map((field, i) => (
                     <OldForm.Item
                       required={false}
-                      key={field.key}
                     >
-                      <OldForm.Item name="input_type" label="Data Type">
-                        <Select placeholder="Select Data Type" onChange={(e) => canFinish(e, "input_type")}>
-                          {DataTypes.map((item) => (
-                            <Option value={item}>{item}</Option>
-                          ))}
-                        </Select>
-                      </OldForm.Item>
-
-                      <OldForm.Item name="input_format" label="Input Format">
-                        <Select placeholder="Select Input Type" onChange={(e) => canFinish(e, "input_format")}>
-                          {inputTypes.map((item) => (
-                            <Option value={item}>{item}</Option>
-                          ))}
-
-                        </Select>
-                      </OldForm.Item>
-                      {fields.length > 1 ? (
-
-                        <MinusCircleOutlined
-                          className={styles.dynamic}
-                          onClick={() => remove(field.name)}
-                        />
-
-                      ) : null}
                     </OldForm.Item>
                   ))}
                   <OldForm.Item>
@@ -308,7 +298,7 @@ const AddTools = ({ isAuth, setIsAuth }) => {
 
                 </>
               )}
-            </OldForm.List>
+            </OldForm.List> */}
 
           </div>
 
@@ -325,32 +315,33 @@ const AddTools = ({ isAuth, setIsAuth }) => {
               ))}
             </OldForm.List> */}
             <OldForm
-            form={nestedform}
-            onFinish={merveFinish}>
-            <OldForm.Item name="output_type" label="Data Type">
-              <Select  placeholder="Select Data Type">
-                {/* onChange={(e) => addOutput(e, "output_type")} */}
-                {DataTypes.map((item) => (
-                  <Option value={item}>{item}</Option>
-                ))}
+              // form={nestedform}
+              onClick={merveFinish}
+              onFinish={merveFinish}>
+              <OldForm.Item name="output_type" label="Data Type">
+                <Select placeholder="Select Data Type">
+                  {/* onChange={(e) => addOutput(e, "output_type")} */}
+                  {DataTypes.map((item) => (
+                    <Option value={item}>{item}</Option>
+                  ))}
 
-              </Select>
-            </OldForm.Item>
-
-            <OldForm.Item name="output_format" label="Output Format">
-              <Select name="output_format" placeholder="Select Output Type">
-                {/* onClick={(e) => addOutput(e, "output_format")} */}
-                {inputTypes.map((item) => (
-                  <Option value={item}>{item}</Option>
-                ))}
-
-              </Select>
-            </OldForm.Item>
-            <div>
-              <OldForm.Item>
-                <Button type="primary" {...buttonItemLayout} onClick={merveFinish} >Add output</Button>
+                </Select>
               </OldForm.Item>
-            </div>
+
+              <OldForm.Item name="output_format" label="Output Format">
+                <Select name="output_format" placeholder="Select Output Type">
+                  {/* onClick={(e) => addOutput(e, "output_format")} */}
+                  {inputTypes.map((item) => (
+                    <Option value={item}>{item}</Option>
+                  ))}
+
+                </Select>
+              </OldForm.Item>
+              <div>
+                <OldForm.Item>
+                  <Button type="submit" {...buttonItemLayout} onClick={merveFinish} >Add output</Button>
+                </OldForm.Item>
+              </div>
             </OldForm>
           </div>
 
