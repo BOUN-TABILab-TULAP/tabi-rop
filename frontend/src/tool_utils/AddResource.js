@@ -18,12 +18,12 @@ const url_auth = process.env.REACT_APP_BACKEND + "/api/user/isauth";
 
 
 var schema = {
-  title: "input",
+  title: "Todo",
   type: "object",
-  required: [],
+  required: ["title"],
   properties: {
     title: { type: "string", title: "Title", default: "A new task" },
-
+    done: { type: "boolean", title: "Done?", default: false }
   }
 };
 const DataTypes = ["Boolean", "Char", "Number", "Token"]
@@ -38,16 +38,21 @@ const { TextArea } = Input;
 const { Option } = Select;
 const { RangePicker } = DatePicker;
 
+const addSchema = () => (
+  schema.properties["data"] = { type: "string", title: "Title" }
+  //   {key:"data type"
+  //   value:"{type:"boolean"}"
+  // }
+  // ) 
+)
 
-
-const AddTools = ({ isAuth, setIsAuth }) => {
+const AddResource = ({ isAuth, setIsAuth }) => {
   const [form, outputForm] = OldForm.useForm();
   const [nestedform] = OldForm.useForm();
 
   const [inputTemp, setInputTemp] = useState({
     "input_type": null,
-    "data_type": null,
-    "example":null
+    "data_type": null
   });
   const [outputTemp, setOutputTemp] = useState({
     "output_type": null,
@@ -56,7 +61,6 @@ const AddTools = ({ isAuth, setIsAuth }) => {
   const [inputs, setInputs] = useState([]);
   const [outputs, setOutputs] = useState([]);
 
-  const [formLayout, setFormLayout] = useState('horizontal');
   const [wait, setWait] = useState(false);
   const [serverResponse, setServerResponse] = useState({});
 
@@ -72,7 +76,7 @@ const AddTools = ({ isAuth, setIsAuth }) => {
     setInputs(temp)
 
   }
-
+  
   const deleteOutput = (index) => {
     let temp = outputs
     if (temp.length === 1)
@@ -96,7 +100,7 @@ const AddTools = ({ isAuth, setIsAuth }) => {
 
 
   const addOutput = (e) => {
-    if (outputTemp['output_type'] == null || outputTemp['data_type'] == null) { return }
+    if (outputTemp['output_type'] == null || outputTemp['data_type'] == null) return;
     console.log(outputTemp);
     setOutputs(outputs => [...outputs, outputTemp]);
 
@@ -105,7 +109,6 @@ const AddTools = ({ isAuth, setIsAuth }) => {
       "data_type": null
     });
   }
-
 
 
 
@@ -133,12 +136,7 @@ const AddTools = ({ isAuth, setIsAuth }) => {
 
 
 
-  const formItemLayoutWithOutLabel = {
-    wrapperCol: {
-      xs: { span: 24, offset: 0 },
-      sm: { span: 20, offset: 4 },
-    },
-  };
+
   const formItemLayout = {
     labelCol: {
       span: 4,
@@ -162,12 +160,6 @@ const AddTools = ({ isAuth, setIsAuth }) => {
       offset: 4,
     },
   };
-  const nestedbuttonItemLayout = {
-    wrapperCol: {
-      span: 3,
-      offset: 4,
-    },
-  };
 
 
   return (
@@ -178,19 +170,73 @@ const AddTools = ({ isAuth, setIsAuth }) => {
         onFinish={onFinish}
       >
 
-        <b>
-          Select the domain of the corpus
-        </b>
-        <OldForm.Item label="Domains" name="domain" >
-          <Select name="domain" label="Domains" mode="tags" tokenSeparators={[',']}></Select>
-        </OldForm.Item>
-
         {/* Repository address */}
         <b>
-          Also you should enter the git address which is used by proxy to save the input/output specifications of the given program.
+        You should enter the git address which is resource of the given corpus.
         </b>
         <OldForm.Item label="Git Address" name="git" >
           <Input placeholder="e.g. https://github.com/tabilab-dip/BOUN-PARS.git" />
+        </OldForm.Item>
+
+        {/* Unique Name */}
+        <b>
+            Select the type of the source
+        </b>
+        <OldForm.Item name="Type" label="Resource Type">
+          <Select  placeholder="Select... ">
+            <Option value="Corpus">Corpus</Option>
+            <Option value="TreeBank">Treebank</Option>
+            <Option value="Dataset">Dataset</Option>
+          </Select>
+        </OldForm.Item>
+        
+
+        {/* Description */}
+        <b>
+          Select the format of the resource
+        </b>
+        <OldForm.Item  required name="description" label="Format Type:">
+        <Select  placeholder="Select... ">
+            <Option value=".prop">.prop</Option>
+            <Option value=".conll">.conll</Option>
+            <Option value=".cupt">.cupt</Option>
+          </Select>
+          
+        </OldForm.Item>
+        <b>
+        Give a description for the resource 
+        </b>
+        <OldForm.Item label="Description:">
+        <Input.TextArea placeholder="Description"/>
+        </OldForm.Item>
+
+      
+
+        <b>
+          You can specify domain of the resource
+        </b>
+
+        <OldForm.Item name="Domain" label="Domain">
+          <Select mode="multiple" mode="tags" tokenSeparators={[',']} placeholder="news, sport">
+            <Option value="news">news</Option>
+            <Option value="story">story</Option>
+
+          </Select>
+        </OldForm.Item>
+
+
+        <b>
+          Select the language(s) that resource supports
+        </b>
+        <OldForm.Item name="languages" label="Language(s)">
+          <Select mode="multiple" mode="tags" tokenSeparators={[',']} placeholder="Turkish, English, ...">
+            <Option value="tr">Turkish</Option>
+            <Option value="en">English</Option>
+            <Option value="de">Deutsch</Option>
+            <Option value="mult">Multilingual</Option>
+            <Option value="ind">Language Independent</Option>
+            <Option value="code-switch">Code-switching Corpus</Option>
+          </Select>
         </OldForm.Item>
 
         {/* Unique Name */}
@@ -212,31 +258,6 @@ const AddTools = ({ isAuth, setIsAuth }) => {
           <DatePicker />
         </OldForm.Item>
 
-        {/* Sample Sentence */}
-        <OldForm.Item label="Example" name="sample" >
-          <Input placeholder="şekerleri yedim." />
-        </OldForm.Item>
-
-        {/* Description */}
-        <b>
-          Select the language(s) that resource supports
-        </b>
-        <OldForm.Item name="description" label="Description">
-          <Input.TextArea />
-        </OldForm.Item>
-        <b>
-          Select the language(s) that resource supports
-        </b>
-        <OldForm.Item name="languages" label="Language(s)">
-          <Select mode="multiple" mode="tags" tokenSeparators={[',']} placeholder="Turkish, English, ...">
-            <Option value="tr">Turkish</Option>
-            <Option value="en">English</Option>
-            <Option value="de">Deutsch</Option>
-            <Option value="mult">Multilingual</Option>
-            <Option value="ind">Language Independent</Option>
-            <Option value="code-switch">Code-switching Corpus</Option>
-          </Select>
-        </OldForm.Item>
 
         <b>
           If there is a paper, specify the paper information about the tool in BibTeX Citation
@@ -268,7 +289,7 @@ const AddTools = ({ isAuth, setIsAuth }) => {
                   </OldForm.Item>
                   {fields.length > 1 ? (
                     <MinusCircleOutlined
-                      class={styles.dynamic}
+                      className="dynamic-delete-button"
                       onClick={() => remove(field.name)}
                     />
                   ) : null}
@@ -280,102 +301,6 @@ const AddTools = ({ isAuth, setIsAuth }) => {
             </>
           )}
         </OldForm.List>
-
-
-        <b>
-          You must specify input output type
-        </b>
-
-        <div className={styles.input}>
-          <div className={styles.column}>
-            <b>
-              Input Specifications:
-            </b>
-
-
-
-            <OldForm form={nestedform}
-              {...nestedFormItemLayout}
-            >
-              <OldForm.Item label="Data Type">
-
-                <Input value={inputTemp["data_type"]} onChange={(v) => { inputTemp['data_type'] = v.target.value; setInputTemp({ ...inputTemp }); }} />
-              </OldForm.Item>
-
-              <OldForm.Item label="Input Format">
-
-                <Select value={inputTemp['input_type']} onChange={(v) => {
-                  inputTemp['input_type'] = v;
-                  setInputTemp({ ...inputTemp });
-                }} placeholder="Select Input Type" label="Data Format">
-                  {inputTypes.map((item) => (
-                    <Option value={item}>{item}</Option>
-                  ))}
-                </Select>
-              </OldForm.Item>
-                
-                <OldForm.Item label="Example:">
-                  <Input value={inputTemp["example"]} onChange={(v) => { inputTemp['example'] = v.target.value; setInputTemp({ ...inputTemp }); }} />
-                </OldForm.Item>
-              <OldForm.Item >
-                <Button type="primary" onClick={addInput}>Add Input</Button>
-              </OldForm.Item>
-            </OldForm>
-            {inputs.map((t, index) =>
-              <div class={styles.inputs}>
-                {t['data_type'] + "         " + t['input_type']}
-                <MinusCircleOutlined className={styles.dynamic}
-
-                  onClick={(index) => deleteInput(index)} />
-
-              </div>
-            )}
-          </div>
-
-          <div className={styles.column}>
-            <b>
-              Output Specifications:
-            </b>
-
-
-
-            <OldForm
-              form={outputForm}
-              onFinish={addOutput, form.resetFields()}
-              {...nestedFormItemLayout}
-            >
-
-              <OldForm.Item label="Data Type">
-
-                <Input value={outputTemp["data_type"]} onChange={(v) => { outputTemp['data_type'] = v.target.value; setOutputTemp({ ...outputTemp }); }} />
-              </OldForm.Item>
-              <OldForm.Item label="Output Format">
-
-                <Select value={outputTemp['output_type']} onChange={(v) => {
-                  outputTemp['output_type'] = v;
-                  setOutputTemp({ ...outputTemp });
-                }} placeholder="Select Output Type" label="Data Format">
-                  {inputTypes.map((item) => (
-                    <Option value={item}>{item}</Option>
-                  ))}
-                </Select>
-              </OldForm.Item>
-              <OldForm.Item >
-                <Button type="primary" onClick={addOutput}>Add output</Button>
-              </OldForm.Item>
-            </OldForm>
-            {outputs.map((t, index) =>
-              <div class={styles.inputs}>
-                <div class={styles.row}>{t['data_type'] + "         " + t['output_type']}</div>
-                <div><MinusCircleOutlined className={styles.dynamic}
-
-                  onClick={(index) => deleteOutput(index)} /></div>
-
-              </div>
-            )}
-
-          </div>
-        </div>
 
         <b>
           You must give a contact information
@@ -391,9 +316,14 @@ const AddTools = ({ isAuth, setIsAuth }) => {
 
       </OldForm>
 
+      <Form schema={schema}
+        onChange={log("changed")}
+        onSubmit={log("submitted")}
+        onError={log("errors")}
+      />
       {wait && <Result {...{ title: "Wait please" }}></Result>}
       {Object.keys(serverResponse).length != 0 && <pre><Result {...serverResponse.data}></Result></pre>}
     </>
   );
 };
-export default AddTools;
+export default AddResource;
