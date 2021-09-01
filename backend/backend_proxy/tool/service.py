@@ -1,3 +1,4 @@
+from backend_proxy.misc.uiSchema import createUiSchema
 from backend_proxy.tool.formats.supportedFormats import SupportedFormats
 from backend_proxy.tool.toolClass import Tool
 from backend_proxy.containerization.service import DockerService
@@ -41,14 +42,37 @@ class ToolService:
                 ip=tool['ip'],
                 port=tool['port'],
                 version=tool['version'],
-                inputFormats=[SupportedFormats[name]
-                              for name in ['TokenizedSentence']],
-                outputFormats=[SupportedFormats[name]
-                               for name in ['ListOfListOfMorphFeatList']],
+                inputFormats=tool['inputFormats'],
+                outputFormats=tool['outputFormats'],
+                endpoint = tool['endpoint']
             )
         debugPrint(self.toolObjects)
 
     def add_tool(self, req_dict):
+        enum = req_dict["enum"]
+        if self.enum_exists(enum):
+            raise REST_Exception("The enum: {} already exists, "
+                                 "enter a unique one".format(enum))
+        toolPath = util.get_specs_from_git(req_dict["git"])
+        req_dict['port'] = DockerService.getInstance().create_new_container(
+            toolPath, req_dict['enum'], req_dict['version'])
+        req_dict['ip'] = "172.17.0.1"
+        req_dict['schema'],req_dict['uiSchema']= createUiSchema(req_dict['inputFormats'])
+        self.db.create(req_dict)
+        self.toolObjects[req_dict['enum']] = Tool(
+                enum=req_dict['enum'],
+                ip=req_dict['ip'],
+                port=req_dict['port'],
+                version=req_dict['version'],
+                inputFormats=req_dict['inputFormats'],
+                outputFormats=req_dict['outputFormats'],
+                endpoint = req_dict['endpoint']
+
+            )
+        return self.dump(req_dict)
+
+        '''
+        # Old Version
         enum = req_dict["enum"]
         if self.enum_exists(enum):
             raise REST_Exception("The enum: {} already exists, "
@@ -64,13 +88,14 @@ class ToolService:
         req_dict["update_time"] = dt.datetime.now()
         # copy contact info to separate variable
         req_dict['version'] = "1.0.0"
-        req_dict['port'] = ToolService.getInstance().create_new_container(
+        req_dict['port'] = DockerService.getInstance().create_new_container(
             toolPath, req_dict['enum'], req_dict['version'])
         req_dict['ip'] = "172.17.0.1"
         if "contact_info" in req_dict["author_json"]:
             req_dict["contact_info"] = req_dict["author_json"]["contact_info"]
         self.db.create(req_dict)
         return self.dump(req_dict)
+        '''
 
     def update_tool(self, req_dict, original_enum, access_tools):
         if (access_tools is not None) and (original_enum not in access_tools):
@@ -127,11 +152,6 @@ class ToolService:
         #     standoff = conllXtostandoff.process(response["brat_conll"])
         #     response["brat_standoff"] = standoff
         #     del response["brat_conll"]
-        input_dict.update({
-            "inputFormat": "TokenizedSentence",
-            "outputFormat": "ListOfListOfMorphFeatList",
-
-        })
         return self.toolObjects[enum].run(input_dict)
 
     def list_all_tools(self, access_tools):
