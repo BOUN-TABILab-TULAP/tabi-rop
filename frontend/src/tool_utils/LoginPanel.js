@@ -4,7 +4,7 @@ import { postQuery } from "../utils";
 
 // refer to: https://ant.design/components/form/ 
 
-const url = "/api/user/login";
+const url = process.env.REACT_APP_BACKEND+"/api/user/login";
 
 const layout = {
   labelCol: {
@@ -27,9 +27,11 @@ const LoginPanel = ({isAuth, setIsAuth}) => {
   const onFinish = async (values) => {
     console.log(values);
     let response = await postQuery(url, values);
+    console.log(response);
     let {data, status} = response;
     if (status===200){
       setIsAuth(true);
+     
     }
     setServerResponse(response);
   };

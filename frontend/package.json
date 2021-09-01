@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@ant-design/icons": "^4.6.2",
+    "@ant-design/icons": "^4.6.3",
     "@rjsf/antd": "^2.5.0",
     "@rjsf/core": "^2.5.0",
     "@testing-library/jest-dom": "^5.11.6",
@@ -20,6 +20,7 @@
     "react-i18next": "^11.8.5",
     "react-json-pretty": "^2.2.0",
     "react-jsonschema-form": "^1.8.1",
+    "react-json-view":"^1.21",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.1",
     "web-vitals": "^0.2.4"
@@ -47,5 +48,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "css-loader": "^6.2.0",
+    "style-loader": "^3.2.1"
   }
 }

@@ -10,7 +10,7 @@ import { Layout } from "antd";
 import UseTool from "./UseTool";
 import { getQuery} from "./utils";
 import About from "./About";
-const url_tools = "/api/tools/name";
+const url_tools = process.env.REACT_APP_BACKEND+"/api/tools/name";
 
 
 const { Content, Footer, Header } = Layout;

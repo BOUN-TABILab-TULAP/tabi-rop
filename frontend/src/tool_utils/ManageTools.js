@@ -3,8 +3,8 @@ import {Button, Modal, Table, Input, InputNumber, Popconfirm, Form, Typography }
 import { getQuery, putQuery, deleteQuery } from "../utils";
 import UpdateTool from "./UpdateTool";
 
-const url_tools = "/api/tools"
-const url_update = "/api/tool/"
+const url_tools = process.env.REACT_APP_BACKEND+"/api/tools"
+const url_update = process.env.REACT_APP_BACKEND+"/api/tool/"
 
 
 const ManageTools = ({isAuth, setIsAuth}) => {

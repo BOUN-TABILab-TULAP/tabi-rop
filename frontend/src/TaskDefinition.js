@@ -1,43 +1,62 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { Collapse } from "antd";
 import { useTranslation, withTranslation } from "react-i18next";
+import Text from "antd/lib/typography/Text";
 
 const { Panel } = Collapse;
 
-const TaskDefinition = ({ authorSpecs }) => {
+const TaskDefinition = ({ tool }) => {
   const { t, i18n } = useTranslation();
 
   return (
     <div>
       {
-        (i18n.language.slice(0, 2) === "en" || i18n.language.slice(0, 2) === "tr") 
-          &&  
+
         <Collapse defaultActiveKey={["1"]}>
-          <Panel header={authorSpecs[i18n.language.slice(0, 2)]["project_name"]} key="1">
-            <div>
+          <Panel header={"Tool Information"} key="1" style={{ whiteSpace: "pre-wrap" }}>
+            <div >
               <b>Description: </b>
-              <div>  
-                {authorSpecs[i18n.language.slice(0, 2)]["task_description"]
-                  .split("\n")
-                  .map((line) => (
-                    <p>{line}</p>
-                  ))}
-              </div>
-            </div>
-            <div>
               <div>
-                {authorSpecs[i18n.language.slice(0, 2)]["usage_info"]
-                  .split("\n")
-                  .map((line) => (
-                    <p>{line}</p>
-                  ))}
+                {tool["description"] + "\n\n"}
               </div>
             </div>
+            {tool["contact"] &&
+              <div >
+                <b>Contact Information: </b>
+                <div>
+                  {tool["contact"] + "\n\n"}
+                </div>
+              </div>}
+
+            {tool['usageInformation'] != null &&
+              <div>
+                <b>Usage Information: </b>
+                <div>
+                  {tool["usageInformation"] + "\n\n"}
+                </div>
+              </div>
+            }
+            {tool['citing'] != null &&
+              <div>
+                <b>Citation: </b>
+                <div>
+                  {tool["citing"] + "\n\n"}
+                </div>
+              </div>
+            }
+            {tool['funding'] != null &&
+              <div>
+                <b>Funding: </b>
+                <div>
+                  {tool["funding"]}
+                </div>
+              </div>
+            }
           </Panel>
         </Collapse>
-        }
-      </div>
-      
+      }
+    </div>
+
   );
 };
 

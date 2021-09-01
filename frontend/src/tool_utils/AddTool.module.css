@@ -1,0 +1,54 @@
+.input{
+     display:flex;
+    overflow: visible
+
+    
+}
+.inputs{
+  display:flex;
+  align-items: center ;
+  justify-content: space-between;
+  padding:5px;
+
+}
+.inputs:hover{
+  background-color:rgba(156, 155, 155, 0.972);
+  border-radius: 10px;
+}
+
+  .dynamic {
+    position: relative;
+    
+    color:rgb(128,128,128);
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 20px;
+
+  }
+ 
+  .dynamic svg{
+    width: 30px;
+    height: 30px;
+    border: none;
+    
+  
+  }
+  
+  .column{
+    margin:10px;
+    width:40%
+
+  }
+  .column select option{
+    width: 100px;
+    
+    
+  }
+  .row{
+    
+    width:100%
+    
+  }
+ .row span{
+   left:5px;
+ }
