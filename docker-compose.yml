@@ -12,7 +12,9 @@ services:
     networks:
       - DIP-network
     volumes: 
-      - ~/static:/static
+      # - ~/static:/static
+      - ~/staticFiles:/root/staticFiles
+
     restart: always
 
   mongo:
