@@ -11,6 +11,8 @@ services:
       - frontend
     networks:
       - DIP-network
+    volumes: 
+      - ~/static:/static
     restart: always
 
   mongo:
