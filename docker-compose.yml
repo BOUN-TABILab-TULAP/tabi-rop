@@ -14,7 +14,6 @@ services:
     volumes: 
       # - ~/static:/static
       - ~/staticFiles:/root/staticFiles
-
     restart: always
 
   mongo:
