@@ -1,32 +1,32 @@
 from pymongo import MongoClient
 
-mongo_url = "mongodb://mongo:27017/"
-
-
-class MongoConn:
-    def __init__(self):
-        # TODO: use local db for now
-        # db name is "tools"
-        # self.db = MongoClient(host="192.168.1.2", port=27017).tools
-        self.db = MongoClient(mongo_url).tools
+# mongo_url = "mongodb://mongo:27017/"
 
 
 class MongoDB(object):
-    def __init__(self, conn, col):
-        self.db = conn.db
-        self.col = col
+    __instance = None
 
-    def find_all(self):
-        return self.db[self.col].find({})
+    @staticmethod
+    def getInstance(mongoUrl="mongodb://mongo:27017/"):
+        """ Static access method. """
+        if MongoDB.__instance == None:
+            MongoDB.__instance = MongoDB(mongoUrl)
+        return MongoDB.__instance
 
-    def find(self, query):
-        return self.db[self.col].find_one(query)
+    def __init__(self, mongoUrl="mongodb://mongo:27017/"):
+        self.db = MongoClient(mongoUrl).tools
 
-    def create(self, tool):
-        return self.db[self.col].insert_one(tool)
+    def find_all(self,collection):
+        return self.db[collection].find({})
 
-    def update(self, query, tool):
-        return self.db[self.col].replace_one(query, tool).modified_count
+    def find(self, collection, query):
+        return self.db[collection].find_one(query)
 
-    def delete(self, query):
-        return self.db[self.col].delete_one(query).deleted_count
+    def create(self, collection, tool):
+        return self.db[collection].insert_one(tool)
+
+    def update(self, collection, query, tool):
+        return self.db[collection].replace_one(query, tool).modified_count
+
+    def delete(self, collection, query):
+        return self.db[collection].delete_one(query).deleted_count
