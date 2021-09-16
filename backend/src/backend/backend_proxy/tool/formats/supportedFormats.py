@@ -1,6 +1,6 @@
-from backend_proxy.tool.formats.rawSentence import RawSentence
-from backend_proxy.tool.formats.tokenizedSentence import TokenizedSentence
-from backend_proxy.tool.formats.listOfListOfMorphFeatList import ListOfListOfMorphFeatList
+from backend.backend_proxy.tool.formats.rawSentence import RawSentence
+from backend.backend_proxy.tool.formats.tokenizedSentence import TokenizedSentence
+from backend.backend_proxy.tool.formats.listOfListOfMorphFeatList import ListOfListOfMorphFeatList
 from enum import Enum, auto
 
 

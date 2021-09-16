@@ -1,7 +1,7 @@
-from backend_proxy.tool.formats.formatAbstractClass import Format
+from backend.backend_proxy.tool.formats.formatAbstractClass import Format
 
 
-class TokenizedSentence(Format):
+class RawSentence(Format):
     def __init__(self,enum) -> None:
         super().__init__()
         self.enum = enum

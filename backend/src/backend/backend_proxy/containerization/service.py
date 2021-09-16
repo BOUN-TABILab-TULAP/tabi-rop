@@ -1,12 +1,14 @@
-from backend_proxy.api.exception import REST_Exception
+from backend.backend_proxy.api.exception import REST_Exception
 from os import name, path, stat
 import docker
 from docker.api import container, image
 from docker.errors import NotFound
-from backend_proxy.db.mongoDB import MongoDB
-from backend_proxy.db.mongoDB import MongoConn
-from app import debugPrint
-
+from backend.backend_proxy.db.mongoDB import MongoDB
+from backend.backend_proxy.db.mongoDB import MongoConn
+# from backend.app import debugPrint
+import sys
+def debugPrint(*args, **kwargs):
+    print(*args, file=sys.stderr, **kwargs)
 
 # This class is a singleton. Please use getInstance() instead of  __init__.
 class DockerService:

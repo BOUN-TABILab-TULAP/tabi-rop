@@ -1,12 +1,12 @@
 from flask import Flask, json, g, request, jsonify, json, session
 from flask_cors import CORS, cross_origin
-from backend_proxy.tool.schema import ToolSchema
-from backend_proxy.tool.service import ToolService
-from backend_proxy.user.service import UserService
-from backend_proxy.api.exception import REST_Exception
-from backend_proxy.db.mongoDB import MongoDB
+from backend.backend_proxy.tool.schema import ToolSchema
+from backend.backend_proxy.tool.service import ToolService
+from backend.backend_proxy.user.service import UserService
+from backend.backend_proxy.api.exception import REST_Exception
+from backend.backend_proxy.db.mongoDB import MongoDB
 from datetime import timedelta
-from backend_proxy.misc.util import *
+from backend.backend_proxy.misc.util import *
 import traceback
 
 app = Flask(__name__)

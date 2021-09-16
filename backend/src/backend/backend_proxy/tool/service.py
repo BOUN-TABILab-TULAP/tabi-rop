@@ -1,13 +1,13 @@
-from backend_proxy.misc.uiSchema import createUiSchema
-from backend_proxy.tool.formats.supportedFormats import SupportedFormats
-from backend_proxy.tool.toolClass import Tool
-from backend_proxy.containerization.service import DockerService
-from backend_proxy.db.mongoDB import MongoDB
-from backend_proxy.db.mongoDB import MongoConn
-from backend_proxy.api.exception import REST_Exception
-from backend_proxy.tool.schema import ToolSchema, dtime_format
-import backend_proxy.misc.util as util
-import backend_proxy.misc.conllXtostandoff as conllXtostandoff
+from backend.backend_proxy.misc.uiSchema import createUiSchema
+from backend.backend_proxy.tool.formats.supportedFormats import SupportedFormats
+from backend.backend_proxy.tool.toolClass import Tool
+from backend.backend_proxy.containerization.service import DockerService
+from backend.backend_proxy.db.mongoDB import MongoDB
+from backend.backend_proxy.db.mongoDB import MongoConn
+from backend.backend_proxy.api.exception import REST_Exception
+from backend.backend_proxy.tool.schema import ToolSchema, dtime_format
+import backend.backend_proxy.misc.util as util
+import backend.backend_proxy.misc.conllXtostandoff as conllXtostandoff
 import datetime as dt
 import requests
 import json

@@ -1,5 +1,5 @@
-from backend_proxy.api.exception import REST_Exception
-from backend_proxy.tool.formats.supportedFormats import SupportedFormats
+from backend.backend_proxy.api.exception import REST_Exception
+from backend.backend_proxy.tool.formats.supportedFormats import SupportedFormats
 import requests
 import sys
 

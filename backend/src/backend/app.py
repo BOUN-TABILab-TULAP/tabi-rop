@@ -1,4 +1,4 @@
-from backend_proxy.api.endpoints import *
+from backend.backend_proxy.api.endpoints import *
 import sys
 import os
 
@@ -7,7 +7,7 @@ sys.path.append(".")
 
 
 def register_admin():
-    from backend_proxy.db.mongoDB import MongoConn, MongoDB
+    from backend.backend_proxy.db.mongoDB import MongoConn, MongoDB
     import bcrypt
     password = "DIP_DEMO_ADMIN_PASS"  # TODO: os.environ["DIP_DEMO_ADMIN_PASS"]
     pass_hashed = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
@@ -31,6 +31,6 @@ def debugPrint(*args, **kwargs):
 
 if __name__ == '__main__':
     register_admin()
-    from backend_proxy.containerization.service import DockerService
+    from backend.backend_proxy.containerization.service import DockerService
     DockerService.getInstance()
     app.run(host='0.0.0.0')

@@ -1,4 +1,4 @@
-from backend_proxy.tool.formats.formatAbstractClass import Format
+from backend.backend_proxy.tool.formats.formatAbstractClass import Format
 
 
 class ListOfListOfMorphFeatList(Format):

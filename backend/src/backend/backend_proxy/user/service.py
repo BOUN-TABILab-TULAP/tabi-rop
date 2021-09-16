@@ -1,8 +1,8 @@
-from backend_proxy.db.mongoDB import MongoDB
-from backend_proxy.db.mongoDB import MongoConn
-from backend_proxy.user.schema import UserSchema
-from backend_proxy.api.exception import REST_Exception
-import backend_proxy.misc.util as util
+from backend.backend_proxy.db.mongoDB import MongoDB
+from backend.backend_proxy.db.mongoDB import MongoConn
+from backend.backend_proxy.user.schema import UserSchema
+from backend.backend_proxy.api.exception import REST_Exception
+import backend.backend_proxy.misc.util as util
 from bson.objectid import ObjectId
 import datetime as dt
 import requests
