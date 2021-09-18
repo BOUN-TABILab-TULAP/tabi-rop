@@ -1,14 +1,14 @@
 import React from "react";
 import { Collapse } from "antd";
 import { useTranslation } from "react-i18next";
-
+import styles from "./UseTool.module.css"
 const { Panel } = Collapse;
 
 const TaskInformation = ({ tool }) => {
 
   return (
     <Collapse>
-      <Panel header="Project Details" key="1">
+      <Panel header="Project Details" key="1" className={styles.svg}> 
         <div>
           <b>Version: </b>
           <p>
