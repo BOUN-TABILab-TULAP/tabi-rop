@@ -2,6 +2,7 @@ import React, { Fragment } from "react";
 import { Collapse } from "antd";
 import { useTranslation, withTranslation } from "react-i18next";
 import Text from "antd/lib/typography/Text";
+import styles from "./UseTool.module.css"
 
 const { Panel } = Collapse;
 
@@ -13,7 +14,7 @@ const TaskDefinition = ({ tool }) => {
       {
 
         <Collapse defaultActiveKey={["1"]}>
-          <Panel header={"Tool Information"} key="1" style={{ whiteSpace: "pre-wrap" }}>
+          <Panel header={"Tool Information"} key="1" style={{ whiteSpace: "pre-wrap" }} className={styles.svg}>
             <div >
               <b>Description: </b>
               <div>

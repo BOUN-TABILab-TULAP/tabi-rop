@@ -5,7 +5,7 @@ import { postQuery } from "../utils";
 // refer to: https://ant.design/components/form/ 
 
 const url = process.env.REACT_APP_BACKEND+"/api/user/login";
-
+console.log(url)
 const layout = {
   labelCol: {
     span: 8,
