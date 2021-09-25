@@ -16,17 +16,18 @@ def debugPrint(*args, **kwargs):
 class DockerService:
     __instance = None
 
-    @staticmethod
-    def getInstance():
-        """ Static access method. """
-        if DockerService.__instance == None:
-            DockerService.__instance = DockerService()
-        return DockerService.__instance
+    def __new__(cls, *args, **kwargs):
+        if cls.__instance is None:
+            cls.__instance = object.__new__(cls, *args, **kwargs)
+            cls.__instance._initialized = False
+        return cls.__instance
 
-    def __init__(self) -> None:
-        if DockerService.__instance != None:
-            raise Exception(
-                "This class is a singleton! Please use the getInstance function")
+    
+    def __init__(self):
+        if self._initialized:
+            return
+        self._initialized = True
+
         self.dockerClient = docker.from_env()
         self.runningContainers = []
         existingTools = list(MongoDB.getInstance().find_all("tools"))

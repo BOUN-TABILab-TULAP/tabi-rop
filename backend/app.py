@@ -33,5 +33,5 @@ def debugPrint(*args, **kwargs):
 if __name__ == '__main__':
     register_admin()
     from backend.backend_proxy.containerization.service import DockerService
-    DockerService.getInstance()
+    DockerService()
     app.run(host='0.0.0.0')

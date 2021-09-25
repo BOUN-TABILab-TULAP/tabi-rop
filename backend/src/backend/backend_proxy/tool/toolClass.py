@@ -21,7 +21,7 @@ class Tool:
         # TODO (Muhammet) This should be given as a parameter
         # self.endpoint = "evaluate"
 
-    def run(self, parameters: dict):
+    def run(self, parameters: dict) -> dict:
         parsedInputs = {}
         for formatIndex in range(len(self.inputFormats)):
             f = self.inputFormats[formatIndex]
@@ -87,9 +87,8 @@ class Tool:
             f = self.outputFormats[formatIndex]
             output = f["type"]
             outputFormatEnum = SupportedFormats.strToEnum(output)
-            parsedOutputs[f['field']] = SupportedFormats.formatsMap[outputFormatEnum].toString(
+            parsedOutputs[f['field']] = SupportedFormats.formatsMap[outputFormatEnum].getTypesAsJson(
                 response[f['field']])
-
         return parsedOutputs
         # text = response.json()[self.jsonOutputKeyword]
         # debugPrint(f"output text: {text}")
