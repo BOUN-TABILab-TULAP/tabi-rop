@@ -6,6 +6,10 @@ class Format(ABC):
         super().__init__()
 
     @abstractmethod
+    def getTypesAsJson(self,text) -> str:
+        return
+        
+    @abstractmethod
     def toString(self,text) -> str:
         return
 

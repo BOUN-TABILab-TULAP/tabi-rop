@@ -20,14 +20,17 @@ def debugPrint(*args, **kwargs):
 class ToolService:
     __instance = None
 
-    @staticmethod
-    def getInstance():
-        """ Static access method. """
-        if ToolService.__instance == None:
-            ToolService.__instance = ToolService()
-        return ToolService.__instance
+    def __new__(cls, *args, **kwargs):
+        if cls.__instance is None:
+            cls.__instance = object.__new__(cls, *args, **kwargs)
+            cls.__instance._initialized = False
+        return cls.__instance
 
+    
     def __init__(self):
+        if self._initialized:
+            return
+        self._initialized = True
 
         # get tools from db
         tools = MongoDB.getInstance().find_all("tools")
@@ -53,12 +56,12 @@ class ToolService:
             raise REST_Exception("The enum: {} already exists, "
                                  "enter a unique one".format(enum))
         toolPath = util.get_specs_from_git(req_dict["git"])
-        req_dict['port'] = DockerService.getInstance().create_new_container(
+        req_dict['port'] = DockerService().create_new_container(
             toolPath, req_dict['enum'], req_dict['version'])
         req_dict['ip'] = "172.17.0.1"
         req_dict['schema'], req_dict['uiSchema'] = createUiSchema(
             req_dict['inputFormats'])
-        MongoDB.getInstance().create("tools",req_dict)
+        MongoDB.getInstance().create("tools", req_dict)
         self.toolObjects[req_dict['enum']] = Tool(
             enum=req_dict['enum'],
             ip=req_dict['ip'],
@@ -88,7 +91,7 @@ class ToolService:
         req_dict["update_time"] = dt.datetime.now()
         # copy contact info to separate variable
         req_dict['version'] = "1.0.0"
-        req_dict['port'] = DockerService.getInstance().create_new_container(
+        req_dict['port'] = DockerService().create_new_container(
             toolPath, req_dict['enum'], req_dict['version'])
         req_dict['ip'] = "172.17.0.1"
         if "contact_info" in req_dict["author_json"]:
@@ -118,21 +121,22 @@ class ToolService:
         # copy contact info to separate variable
         if "contact_info" in req_dict["author_json"]:
             req_dict["contact_info"] = req_dict["author_json"]["contact_info"]
-        MongoDB.getInstance().update("tools",{"enum": original_enum}, req_dict)
+        MongoDB.getInstance().update(
+            "tools", {"enum": original_enum}, req_dict)
         return self.dump(req_dict)
 
     def delete_tool(self, enum, access_tools):
         if (access_tools is not None) and (enum not in access_tools):
             raise REST_Exception("You have no right to update this tool")
 
-        tool_dict = MongoDB.getInstance().find("tools",{"enum": enum})
+        tool_dict = MongoDB.getInstance().find("tools", {"enum": enum})
         if tool_dict is None:
             raise REST_Exception("Tool enum does not exist")
-        MongoDB.getInstance().delete("tools",tool_dict)
+        MongoDB.getInstance().delete("tools", tool_dict)
         return self.dump(tool_dict)
 
     def get_tool_ui_info(self, enum):
-        tool_dict = MongoDB.getInstance().find("tools",{"enum": enum})
+        tool_dict = MongoDB.getInstance().find("tools", {"enum": enum})
         if tool_dict is None:
             raise REST_Exception(
                 "Tool with enum: {} does not exist".format(enum))
@@ -167,7 +171,7 @@ class ToolService:
         return [ToolSchema(only=("enum", "name")).dump(tool) for tool in tools]
 
     def enum_exists(self, enum):
-        return (MongoDB.getInstance().find("tools",{"enum": enum}) is not None)
+        return (MongoDB.getInstance().find("tools", {"enum": enum}) is not None)
 
     def dump(self, obj):
         return ToolSchema(exclude=['_id']).dump(obj)

@@ -11,3 +11,6 @@ class RawSentence(Format):
     
     def fromString(self, text) -> str:
         return text
+
+    def getTypesAsJson(self, text) -> str:
+        return text
