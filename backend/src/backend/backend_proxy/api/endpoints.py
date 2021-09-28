@@ -1,5 +1,6 @@
 from flask import Flask, json, g, request, jsonify, json, session
 from flask_cors import CORS, cross_origin
+from backend.backend_proxy.tool.formats.supportedFormats import SupportedFormats
 from backend.backend_proxy.tool.schema import ToolSchema
 from backend.backend_proxy.tool.service import ToolService
 from backend.backend_proxy.user.service import UserService
@@ -64,6 +65,11 @@ def add_tool():
                      "subTitle": "Logs: {}".format(str(e))})
         status = e.status
     return get_response_json(data, status)
+
+@app.route("/api/tool/formats", methods=["GET"])
+def toolFormats():
+    data = SupportedFormats.getSupportedTypes()
+    return get_response_json(data, 200)
 
 
 @app.route("/api/tool/<enum>", methods=["PUT"])

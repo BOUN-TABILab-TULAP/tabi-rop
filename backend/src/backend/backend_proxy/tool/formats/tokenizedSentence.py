@@ -5,6 +5,9 @@ class TokenizedSentence(Format):
     def __init__(self, enum) -> None:
         super().__init__()
         self.enum = enum
+        self.supportedTypes = {
+            "raw": self.raw
+        }
 
     def getTypesAsJson(self, text) -> str:
         return text
@@ -13,4 +16,7 @@ class TokenizedSentence(Format):
         return text
 
     def fromString(self, text) -> str:
+        return text
+
+    def raw(self, text) -> str:
         return text

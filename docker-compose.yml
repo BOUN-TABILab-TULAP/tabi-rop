@@ -36,7 +36,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
-      - "5000:5001"
+      - "5000:5000"
     depends_on:
       - mongo
     networks:

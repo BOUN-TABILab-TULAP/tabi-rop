@@ -19,6 +19,15 @@ class SupportedFormats(Enum):
     @staticmethod
     def checkIfIncludes(selectedFormat: str, supportedFormatsOfTools) -> bool:
         return selectedFormat in [item.name for item in supportedFormatsOfTools]
+    
+    @staticmethod
+    def getSupportedTypes()-> dict:
+        d = {}
+        for enum in enumMap:
+            d[enum] = list(SupportedFormats.formatsMap[enumMap[enum]].supportedTypes.keys())
+        return d
+
+
 
 
 SupportedFormats.formatsMap = {
