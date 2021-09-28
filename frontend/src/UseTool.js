@@ -90,7 +90,7 @@ const UseTool = ({ tool }) => {
                 {/* {(Object.keys(answer).length!=0)  && <OutputBrat standoff={answer.brat_standoff}/>} */}
                 {wait && <div>Wait please</div>}
                 {(Object.keys(answer).length != 0)
-                 && <OutputText text={answer['text']} isJson={tool['outputFormats'][0]['type'] == "ListOfListOfMorphFeatList"} />}
+                 && <OutputText text={answer} isJson={tool['outputFormats'][0]['type'] == "ListOfListOfMorphFeatList"} />}
             </ErrorBoundary>
         </div>
     );
@@ -101,7 +101,7 @@ const OutputText = ({ text, isJson = false }) => {
     return (<div>
 
 
-        {isJson && <ReactJson src={JSON.parse(text)} iconStyle={"triangle"} collapseStringsAfterLength={false} enableClipboard={false} displayDataTypes={false} />}
+        {isJson && <ReactJson src={text} iconStyle={"triangle"} collapseStringsAfterLength={false} enableClipboard={false} displayDataTypes={false} />}
 
         {!isJson &&
             <>{text.split("\n").map((line) => {
