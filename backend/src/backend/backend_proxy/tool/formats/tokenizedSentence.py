@@ -10,7 +10,11 @@ class TokenizedSentence(Format):
         }
 
     def getTypesAsJson(self, text) -> str:
-        return text
+        d = {}
+
+        for t in self.supportedTypes:
+            d[t] = self.supportedTypes[t](text)
+        return d
 
     def toString(self, text) -> str:
         return text
