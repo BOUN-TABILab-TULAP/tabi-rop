@@ -10,7 +10,7 @@ import styles from "./AddTool.module.css"
 import FormItemLabel from 'antd/lib/form/FormItemLabel';
 
 const Form = withTheme(AntDTheme);
-// import Form  from 'react-jsonschema-form';
+
 const url = process.env.REACT_APP_BACKEND + "/api/tool";
 const url_auth = process.env.REACT_APP_BACKEND + "/api/user/isauth";
 
@@ -21,6 +21,11 @@ const inputTypes = {
   "TokenizedSentence": "Tokenized Sentence",
   "ListOfListOfMorphFeatList": "List of MorphFeatList",
   "RawSentence":"Raw Sentence"
+};
+const outputTypes = {
+  "JSON": "JSON",
+  "raw_sentence": "Raw sentence",
+  "conll":"conll"
 };
 
 
@@ -46,6 +51,7 @@ const AddTools = ({ isAuth, setIsAuth }) => {
   });
   const [outputTemp, setOutputTemp] = useState({
     "type": null,
+    "output_type":null,
     "data_type": null,
     "field": null
 
@@ -393,7 +399,7 @@ const AddTools = ({ isAuth, setIsAuth }) => {
 
                 <Input value={outputTemp["data_type"]} onChange={(v) => { outputTemp['data_type'] = v.target.value; setOutputTemp({ ...outputTemp }); }} />
               </OldForm.Item>
-              <OldForm.Item label="Output Format">
+              <OldForm.Item label="Output Description">
                 <Select value={outputTemp['type']} onChange={(v) => {
                   outputTemp['type'] = v;
                   setOutputTemp({ ...outputTemp });
@@ -405,8 +411,18 @@ const AddTools = ({ isAuth, setIsAuth }) => {
               </OldForm.Item>
 
               <OldForm.Item label="Field">
-
                 <Input value={outputTemp["field"]} onChange={(v) => { outputTemp['field'] = v.target.value; setOutputTemp({ ...outputTemp }); }} />
+              </OldForm.Item>
+              <OldForm.Item label="Output Type">
+             
+             <Select value={outputTemp['output_type']} onChange={(v) => {
+                  outputTemp['output_type'] = v;
+                  setOutputTemp({ ...outputTemp });
+                }} placeholder="Select Output Type" label="Output Type">
+                  {Object.keys(outputTypes).map((key, index) => (
+                    <Option value={key}>{outputTypes[key]}</Option>
+                  ))}
+                </Select>
               </OldForm.Item>
               <OldForm.Item >
                 <Button type="primary" onClick={addOutput}>Add output</Button>

@@ -44,10 +44,9 @@ const App = () => {
             <Content
               className="site-layout"
               style={{
-                paddingLeft: "340px",
-                paddingRight: "100px",
-                paddingTop: "100px",
-                paddingBottom: "0px",
+                paddingLeft: "31%",
+                paddingRight: "3%",
+                paddingTop: "7%",
                 minHeight: "700px",
               }}
             >

@@ -7,8 +7,8 @@ const { Panel } = Collapse;
 const TaskInformation = ({ tool }) => {
 
   return (
-    <Collapse>
-      <Panel header="Project Details" key="1" className={styles.svg}> 
+    <div>
+       
         <div>
           <b>Version: </b>
           <p>
@@ -58,8 +58,8 @@ const TaskInformation = ({ tool }) => {
             </ul>
           </div>
         }
-      </Panel>
-    </Collapse>
+     
+    </div>
   );
 };
 

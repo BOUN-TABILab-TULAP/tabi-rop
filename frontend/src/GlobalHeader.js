@@ -20,11 +20,11 @@ const GlobalHeader = () => {
     <Header
       className="header"
       style={{
-        position: "fixed",
+        position: "absolute",
         zIndex: 1,
         width: "100%",
-        paddingLeft: "5px",
-        height: "65px",
+        paddingLeft: "0",
+        height: "6%",
       }}
     >
       <Menu
