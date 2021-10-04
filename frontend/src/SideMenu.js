@@ -10,7 +10,7 @@ const SideMenu = ({tools}) => {
   return (
     <Sider
       className="site-layout-background"
-      width={300}
+      width={"30%"}
       style={{
         overflow: "auto",
         height: "90vh",

@@ -11,51 +11,49 @@ const TaskDefinition = ({ tool }) => {
 
   return (
     <div>
-      {
+      
 
-        <Collapse defaultActiveKey={["1"]}>
-          <Panel header={"Tool Information"} key="1" style={{ whiteSpace: "pre-wrap" }} className={styles.svg}>
-            <div >
-              <b>Description: </b>
-              <div>
-                {tool["description"] + "\n\n"}
-              </div>
-            </div>
+
+        <div >
+          <b>Description: </b>
+          <div>
+            {tool["description"] + "\n\n"}
+          </div>
+        </div>
             {tool["contact"] &&
-              <div >
-                <b>Contact Information: </b>
-                <div>
-                  {tool["contact"] + "\n\n"}
-                </div>
-              </div>}
+        <div >
+          <b>Contact Information: </b>
+          <div>
+            {tool["contact"] + "\n\n"}
+          </div>
+        </div>}
 
-            {tool['usageInformation'] != null &&
-              <div>
-                <b>Usage Information: </b>
-                <div>
-                  {tool["usageInformation"] + "\n\n"}
-                </div>
-              </div>
-            }
-            {tool['citing'] != null &&
-              <div>
-                <b>Citation: </b>
-                <div>
-                  {tool["citing"] + "\n\n"}
-                </div>
-              </div>
-            }
-            {tool['funding'] != null &&
-              <div>
-                <b>Funding: </b>
-                <div>
-                  {tool["funding"]}
-                </div>
-              </div>
-            }
-          </Panel>
-        </Collapse>
+      {tool['usageInformation'] != null &&
+        <div>
+          <b>Usage Information: </b>
+          <div>
+            {tool["usageInformation"] + "\n\n"}
+          </div>
+        </div>
       }
+      {tool['citing'] != null &&
+        <div>
+          <b>Citation: </b>
+          <div>
+            {tool["citing"] + "\n\n"}
+          </div>
+        </div>
+      }
+      {tool['funding'] != null &&
+        <div>
+          <b>Funding: </b>
+          <div>
+            {tool["funding"]}
+          </div>
+        </div>
+      }
+          
+
     </div>
 
   );
