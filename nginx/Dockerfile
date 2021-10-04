@@ -7,3 +7,4 @@ RUN usermod -u $nginx_uid -o nginx && groupmod -g $nginx_gid -o nginx
 
 COPY configuration/nginx.conf /etc/nginx/conf.d/default.conf
 COPY html/index.html /usr/share/nginx/html/index.html
+COPY .htpasswd /etc/nginx/conf.d/.htpasswd

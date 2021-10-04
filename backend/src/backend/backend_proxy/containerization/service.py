@@ -1,33 +1,36 @@
-from backend_proxy.api.exception import REST_Exception
+from backend.backend_proxy.api.exception import REST_Exception
 from os import name, path, stat
 import docker
 from docker.api import container, image
 from docker.errors import NotFound
-from backend_proxy.db.mongoDB import MongoDB
-from backend_proxy.db.mongoDB import MongoConn
-from app import debugPrint
+from backend.backend_proxy.db.mongoDB import MongoDB
+# from backend.app import debugPrint
+import sys
+
+
+def debugPrint(*args, **kwargs):
+    print(*args, file=sys.stderr, **kwargs)
 
 
 # This class is a singleton. Please use getInstance() instead of  __init__.
 class DockerService:
     __instance = None
 
-    @staticmethod
-    def getInstance():
-        """ Static access method. """
-        if DockerService.__instance == None:
-            DockerService.__instance = DockerService()
-        return DockerService.__instance
+    def __new__(cls, *args, **kwargs):
+        if cls.__instance is None:
+            cls.__instance = object.__new__(cls, *args, **kwargs)
+            cls.__instance._initialized = False
+        return cls.__instance
 
-    def __init__(self) -> None:
-        if DockerService.__instance != None:
-            raise Exception(
-                "This class is a singleton! Please use the getInstance function")
+    
+    def __init__(self):
+        if self._initialized:
+            return
+        self._initialized = True
+
         self.dockerClient = docker.from_env()
         self.runningContainers = []
-        cn = MongoConn()
-        self.db = MongoDB(cn, "tools")
-        existingTools = list(self.db.find_all())
+        existingTools = list(MongoDB.getInstance().find_all("tools"))
         debugPrint(f"Found {len(existingTools)} existing tools")
         for tool in existingTools:
             container_name = f"{tool['enum']}_{tool['version']}-container"
@@ -38,15 +41,16 @@ class DockerService:
                 ports = runningContainer.ports
                 port = int(ports[list(ports.keys())[0]][0]['HostPort'])
                 tool['port'] = port
-                self.db.db['tools'].update_one({u'_id': tool['_id']}, {"$set": {"port": port}})
+                MongoDB.getInstance().db['tools'].update_one({u'_id': tool['_id']}, {
+                    "$set": {"port": port}})
             except NotFound as e:  # Tool is registered to the database but does not exist in docker
                 debugPrint(e)
                 # TODO(Muhammet) What to do when container cannot be found
                 pass
             except IndexError as indexError:
+                debugPrint(indexError)
                 debugPrint(f"{container_name} does not have a port!")
                 pass
-
 
     # Takes a dockerfile, enum and the version of the tool, creates an image, runs a container and returns the port of the container.
     # path_dockerfile: Path of the Dockerfile
@@ -82,7 +86,8 @@ class DockerService:
             image=imageTag,
             name=containerTag,
             # network="Tool-network", ## We do not need to have a network among tools.
-            restart_policy={"Name": "always"}, ## Start the container on system startup
+            # Start the container on system startup
+            restart_policy={"Name": "always"},
             detach=True,  # Do not listen to containers's logs, just run and leave it
             ports=assignedPorts
         )

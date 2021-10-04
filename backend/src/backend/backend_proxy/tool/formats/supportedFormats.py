@@ -1,6 +1,6 @@
-from backend_proxy.tool.formats.rawSentence import RawSentence
-from backend_proxy.tool.formats.tokenizedSentence import TokenizedSentence
-from backend_proxy.tool.formats.listOfListOfMorphFeatList import ListOfListOfMorphFeatList
+from backend.backend_proxy.tool.formats.rawSentence import RawSentence
+from backend.backend_proxy.tool.formats.tokenizedSentence import TokenizedSentence
+from backend.backend_proxy.tool.formats.listOfListOfMorphFeatList import ListOfListOfMorphFeatList
 from enum import Enum, auto
 
 
@@ -19,6 +19,15 @@ class SupportedFormats(Enum):
     @staticmethod
     def checkIfIncludes(selectedFormat: str, supportedFormatsOfTools) -> bool:
         return selectedFormat in [item.name for item in supportedFormatsOfTools]
+    
+    @staticmethod
+    def getSupportedTypes()-> dict:
+        d = {}
+        for enum in enumMap:
+            d[enum] = list(SupportedFormats.formatsMap[enumMap[enum]].supportedTypes.keys())
+        return d
+
+
 
 
 SupportedFormats.formatsMap = {

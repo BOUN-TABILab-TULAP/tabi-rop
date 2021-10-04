@@ -1,8 +1,7 @@
-from backend_proxy.db.mongoDB import MongoDB
-from backend_proxy.db.mongoDB import MongoConn
-from backend_proxy.user.schema import UserSchema
-from backend_proxy.api.exception import REST_Exception
-import backend_proxy.misc.util as util
+from backend.backend_proxy.db.mongoDB import MongoDB
+from backend.backend_proxy.user.schema import UserSchema
+from backend.backend_proxy.api.exception import REST_Exception
+import backend.backend_proxy.misc.util as util
 from bson.objectid import ObjectId
 import datetime as dt
 import requests
@@ -11,20 +10,25 @@ import json
 
 
 class UserService:
+    __instance = None
 
-    def __init__(self):
-        cn = MongoConn()
-        self.db = MongoDB(cn, "user")
-        self.db_tools = MongoDB(cn, "tools")
+    @staticmethod
+    def getInstance():
+        """ Static access method. """
+        if UserService.__instance == None:
+            UserService.__instance = UserService()
+        return UserService.__instance
 
     def login_user(self, req_dict):
-        user = self.db.find({"username": req_dict["username"]})
+        user = MongoDB.getInstance().find(
+            "user", {"username": req_dict["username"]})
         if user is None:
             raise REST_Exception(
                 "User {} does not exist".format(req_dict["username"]))
         if bcrypt.checkpw(req_dict["password"].encode('utf-8'), user["password"]):
             user["last_seen_at"] = dt.datetime.now()
-            self.db.update({"username": user["username"]}, user)
+            MongoDB.getInstance().update(
+                "user", {"username": user["username"]}, user)
             return user
         else:
             raise REST_Exception("Password is incorrect...")
@@ -32,23 +36,25 @@ class UserService:
     def delete_tool(self, access_tools, enum):
         if (access_tools is not None) and (enum not in access_tools):
             raise REST_Exception("You have no right to update this tool")
-        users = self.db.find_all()
-        tool = self.db_tools.find({"enum": enum})
+        users = MongoDB.getInstance().find_all("user")
+        tool = MongoDB.getInstance().find("tools", {"enum": enum})
         tool_id = str(tool["_id"])
         for user in users:
             if ((user["tools"] is not None) and
                     (tool_id in user["tools"])):
                 user["tools"].remove(tool_id)
-                self.db.update({"username": user["username"]}, user)
+                MongoDB.getInstance().update("user",
+                                             {"username": user["username"]}, user)
 
     def register_user(self, req_dict, session):
         # token is needed since registration can be done only by admins
         self.assert_logged_in(session)
-        session_user = self.db.find({"username": session["username"]})
+        session_user = MongoDB.getInstance().find("user",
+                                                  {"username": session["username"]})
         self.assert_still_exists(session_user, session)
         if "admin" not in session_user["roles"]:
             raise REST_Exception("You have no right to register a user.")
-        if self.db.find({"username": req_dict["username"]}) is not None:
+        if MongoDB.getInstance().find("user", {"username": req_dict["username"]}) is not None:
             raise REST_Exception(
                 "Username: {} already exists".format(req_dict["username"]))
         password = req_dict["password1"]
@@ -64,39 +70,43 @@ class UserService:
         user["password"] = pass_hashed
         user["last_seen_at"] = dt.datetime.now()
         user["registered_at"] = user["last_seen_at"]
-        self.db.create(user)
+        MongoDB.getInstance().create("user", user)
         return self.dump(user)
 
     def delete_user(self, username, session):
         self.assert_logged_in(session)
-        session_user = self.db.find({"username": session["username"]})
+        session_user = MongoDB.getInstance().find("user",
+                                                  {"username": session["username"]})
         self.assert_still_exists(session_user, session)
         if "admin" not in session_user["roles"]:
             raise REST_Exception("You have no right to delete a user.")
-        self.db.delete({"username": username})
+        MongoDB.getInstance().delete("user", {"username": username})
 
     def update_cur_user_info(self, req_dict, session):
         self.assert_logged_in(session)
         original_username = session["username"]
-        target_user = self.db.find({"username": original_username})
+        target_user = MongoDB.getInstance().find("user",
+                                                 {"username": original_username})
         self.assert_still_exists(target_user, session)
 
         target_keys = ["email", "username"]
         if (original_username != req_dict["username"] and
-                self.db.find({"username": req_dict["username"]}) is not None):
+                MongoDB.getInstance().find("user", {"username": req_dict["username"]}) is not None):
             raise REST_Exception("Username: {} already taken"
                                  .format(req_dict["username"]))
         for key in target_keys:
             target_user[key] = req_dict[key]
         target_user["last_seen_at"] = dt.datetime.now()
-        self.db.update({"username": original_username}, target_user)
+        MongoDB.getInstance().update("user",
+                                     {"username": original_username}, target_user)
         session["username"] = req_dict["username"]
         return self.dump(target_user)
 
     def update_cur_user_pass(self, req_dict, session):
         self.assert_logged_in(session)
         original_username = session["username"]
-        target_user = self.db.find({"username": original_username})
+        target_user = MongoDB.getInstance().find("user",
+                                                 {"username": original_username})
         self.assert_still_exists(target_user, session)
 
         password = req_dict["password1"]
@@ -105,21 +115,24 @@ class UserService:
         pass_hashed = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
         target_user["password"] = pass_hashed
         target_user["last_seen_at"] = dt.datetime.now()
-        self.db.update({"username": original_username}, target_user)
+        MongoDB.getInstance().update("user",
+                                     {"username": original_username}, target_user)
         return self.dump(target_user)
 
     def update_other_user(self, original_username, req_dict, session):
         self.assert_logged_in(session)
-        session_user = self.db.find({"username": session["username"]})
+        session_user = MongoDB.getInstance().find("user",
+                                                  {"username": session["username"]})
         if "admin" not in session_user["roles"]:
             raise REST_Exception("You can't update others")
         target_keys = ["email", "username"]
         if (original_username != req_dict["username"] and
-                self.db.find({"username": req_dict["username"]}) is not None):
+                MongoDB.getInstance().find("user", {"username": req_dict["username"]}) is not None):
             raise REST_Exception("Username: {} already taken"
                                  .format(req_dict["username"]))
 
-        target_user = self.db.find({"username": original_username})
+        target_user = MongoDB.getInstance().find("user",
+                                                 {"username": original_username})
         if "password1" in req_dict and req_dict["password1"]:
             password = req_dict["password1"]
             if password != req_dict["password2"]:
@@ -130,23 +143,27 @@ class UserService:
 
         for key in target_keys:
             target_user[key] = req_dict[key]
-        self.db.update({"username": original_username}, target_user)
+        MongoDB.getInstance().update("user",
+                                     {"username": original_username}, target_user)
         return self.dump(target_user)
 
     def add_tool_to_user(self, session, tool_enum):
         self.assert_logged_in(session)
         username = session["username"]
-        session_user = self.db.find({"username": username})
+        session_user = MongoDB.getInstance().find(
+            "user", {"username": username})
         if "admin" in session_user["roles"]:
             return
         self.assert_still_exists(session_user, session)
         session_user["tools"].extend(self.enums_to_ids([tool_enum]))
-        self.db.update({"username": username}, session_user)
+        MongoDB.getInstance().update(
+            "user", {"username": username}, session_user)
         return self.dump(session_user)
 
     def get_current_user(self, session):
         self.assert_logged_in(session)
-        session_user = self.db.find({"username": session["username"]})
+        session_user = MongoDB.getInstance().find("user",
+                                                  {"username": session["username"]})
         if "admin" in session_user["roles"]:
             session_user["tools"] = self.get_all_tool_ids()
         self.assert_still_exists(session_user, session)
@@ -154,16 +171,18 @@ class UserService:
 
     def get_users(self, session):
         self.assert_logged_in(session)
-        session_user = self.db.find({"username": session["username"]})
+        session_user = MongoDB.getInstance().find("user",
+                                                  {"username": session["username"]})
         self.assert_still_exists(session_user, session)
         if "admin" not in session_user["roles"]:
             raise REST_Exception("You don't have the right to see other users")
-        users = self.db.find_all()
+        users = MongoDB.getInstance().find_all("user",)
         return [self.dump(user) for user in users]
 
     def get_tools_user(self, session):
         self.assert_logged_in(session)
-        session_user = self.db.find({"username": session["username"]})
+        session_user = MongoDB.getInstance().find("user",
+                                                  {"username": session["username"]})
         self.assert_still_exists(session_user, session)
         if "admin" in session_user["roles"]:
             # None is special placeholder for all tools
@@ -188,13 +207,13 @@ class UserService:
         return UserSchema(exclude=['_id', 'password']).dump(obj)
 
     def enums_to_ids(self, enums):
-        return [str(self.db_tools.find({"enum": enum})["_id"])
+        return [str(MongoDB.getInstance().find("tools", {"enum": enum})["_id"])
                 for enum in enums]
 
     def ids_to_enums(self, ids):
-        return [self.db_tools.find({"_id": ObjectId(id)})["enum"]
+        return [MongoDB.getInstance().find("tools", {"_id": ObjectId(id)})["enum"]
                 for id in ids]
 
     def get_all_tool_ids(self):
-        all_tools = self.db_tools.find_all()
+        all_tools = MongoDB.getInstance().find_all("tools")
         return [t["_id"] for t in all_tools]

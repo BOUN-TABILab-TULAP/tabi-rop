@@ -1,12 +1,13 @@
 from flask import Flask, json, g, request, jsonify, json, session
 from flask_cors import CORS, cross_origin
-from backend_proxy.tool.schema import ToolSchema
-from backend_proxy.tool.service import ToolService
-from backend_proxy.user.service import UserService
-from backend_proxy.api.exception import REST_Exception
-from backend_proxy.db.mongoDB import MongoDB
+from backend.backend_proxy.tool.formats.supportedFormats import SupportedFormats
+from backend.backend_proxy.tool.schema import ToolSchema
+from backend.backend_proxy.tool.service import ToolService
+from backend.backend_proxy.user.service import UserService
+from backend.backend_proxy.api.exception import REST_Exception
+from backend.backend_proxy.db.mongoDB import MongoDB
 from datetime import timedelta
-from backend_proxy.misc.util import *
+from backend.backend_proxy.misc.util import *
 import traceback
 
 app = Flask(__name__)
@@ -24,7 +25,7 @@ def alive():
 def list_all_tools():
     try:
         access_tools = UserService().get_tools_user(session)
-        data = ToolService.getInstance().list_all_tools(access_tools)
+        data = ToolService().list_all_tools(access_tools)
         status = 200
     except REST_Exception as e:
         traceback.print_exc()
@@ -38,7 +39,7 @@ def list_all_tools():
 def get_tool_names():
     try:
         access_tools = None
-        data = ToolService.getInstance().list_all_tools(access_tools)
+        data = ToolService().list_all_tools(access_tools)
         status = 200
     except REST_Exception as e:
         traceback.print_exc()
@@ -53,7 +54,7 @@ def add_tool():
     try:
         UserService().assert_logged_in(session)
         req_dict = json.loads(request.data)
-        req_dict = ToolService.getInstance().add_tool(req_dict)
+        req_dict = ToolService().add_tool(req_dict)
         UserService().add_tool_to_user(session, req_dict["enum"])
         data = dict({"title": "Tool is added to the proxy",
                      "subTitle": "Tool Info: {}".format(json.dumps(req_dict))})
@@ -65,13 +66,18 @@ def add_tool():
         status = e.status
     return get_response_json(data, status)
 
+@app.route("/api/tool/formats", methods=["GET"])
+def toolFormats():
+    data = SupportedFormats.getSupportedTypes()
+    return get_response_json(data, 200)
+
 
 @app.route("/api/tool/<enum>", methods=["PUT"])
 def update_tool(enum):
     try:
         access_tools = UserService().get_tools_user(session)
         req_dict = json.loads(request.data)
-        req_dict = ToolService.getInstance().update_tool(req_dict, enum, access_tools)
+        req_dict = ToolService().update_tool(req_dict, enum, access_tools)
         data = dict({"title": "Tool is updated",
                      "subTitle": "Tool Info: {}".format(json.dumps(req_dict))})
         status = 200
@@ -87,7 +93,7 @@ def delete_tool(enum):
     try:
         access_tools = UserService().get_tools_user(session)
         UserService().delete_tool(access_tools, enum)
-        tool_json = ToolService.getInstance().delete_tool(enum, access_tools)
+        tool_json = ToolService().delete_tool(enum, access_tools)
         data = dict({"title": "Tool is deleted",
                      "subTitle": "Tool Info: {}".format(json.dumps(tool_json))})
         status = 200
@@ -101,7 +107,7 @@ def delete_tool(enum):
 @app.route("/api/tool/ui/<enum>", methods=["GET"])
 def get_tool_ui_info(enum):
     try:
-        data = ToolService.getInstance().get_tool_ui_info(enum)
+        data = ToolService().get_tool_ui_info(enum)
         status = 200
     except REST_Exception as e:
         data = dict({"title": "Server Error",
@@ -115,7 +121,7 @@ def run_tool(enum):
     try:
         # input for the tool
         input_dict = json.loads(request.data)
-        data = ToolService.getInstance().run_tool(enum, input_dict)
+        data = ToolService().run_tool(enum, input_dict)
         status = 200
     except REST_Exception as e:
         traceback.print_exc()
