@@ -2,11 +2,9 @@ import React from "react";
 import "antd/dist/antd.css";
 import tr_flag from "./assets/images/tr.svg";
 import en_flag from "./assets/images/gb.svg";
-// TODO change the logo
-import logo from "./assets/images/tabilab_big.png";
 import { Layout, Menu } from "antd";
 import { useTranslation } from "react-i18next";
-
+import styles from "./GlobalHeader.module.css"
 const { Header } = Layout;
 const GlobalHeader = () => {
   const { t, i18n } = useTranslation();
@@ -18,31 +16,22 @@ const GlobalHeader = () => {
 
   return (
     <Header
-      className="header"
-      style={{
-        position: "absolute",
-        zIndex: 1,
-        width: "100%",
-        paddingLeft: "0",
-        height: "6%",
-      }}
+      // className="header"
+      // className={styles.header}
     >
       <Menu
         theme="dark"
         mode="horizontal"
         defaultSelectedKeys={["-1"]}
-        style={{
-          marginTop: "0",
-          height: "100%",
-        }}
+        // className={styles.menu}
       >
-        <Menu.Item key="1" className="local-header-text">
+        <Menu.Item key="1" >
           <a href="/home">{t("header.home")}</a>
         </Menu.Item>
-        <Menu.Item key="2" className="local-header-text">
+        <Menu.Item key="2" >
           <a href="/about">{t("header.about")}</a>
         </Menu.Item>
-        <Menu.Item key="3" className="local-header-text">
+        <Menu.Item key="3" >
           <a
             href="https://tabilab.cmpe.boun.edu.tr/"
             target="_blank"
@@ -52,7 +41,7 @@ const GlobalHeader = () => {
           </a>
         </Menu.Item>
 
-        <Menu.Item key="4" className="local-header-text">
+        <Menu.Item key="4" >
           <a
             href="https://tabilab.cmpe.boun.edu.tr/"
             target="_blank"
@@ -62,35 +51,21 @@ const GlobalHeader = () => {
           </a>
         </Menu.Item>
       </Menu>
+      <div className={styles.flag}>
       <a>
         <img
           src={tr_flag}
-          style={{
-            position: "fixed",
-            top: "15px",
-            right: "50px",
-            float: "right",
-            height: "25px",
-            width: "35px",
-          }}
+          className={styles.flagtr} 
           onClick={() => changeLanguage("tr")}
         />
       </a>
       <a>
         <img
           src={en_flag}
-          style={{
-            position: "fixed",
-            top: "15px",
-            right: "15px",
-            float: "right",
-            height: "25px",
-            width: "35px",
-            overflow: "hidden",
-          }}
           onClick={() => changeLanguage("en")}
         />
       </a>
+      </div>
     </Header>
   );
 };
