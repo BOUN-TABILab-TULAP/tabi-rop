@@ -26,10 +26,10 @@ const GlobalHeader = () => {
         // className={styles.menu}
       >
         <Menu.Item key="1" >
-          <a href="/home">{t("header.home")}</a>
+          <a href="/">{t("header.home")}</a>
         </Menu.Item>
         <Menu.Item key="2" >
-          <a href="/about">{t("header.about")}</a>
+          <a href="/demo/about">{t("header.about")}</a>
         </Menu.Item>
         <Menu.Item key="3" >
           <a
