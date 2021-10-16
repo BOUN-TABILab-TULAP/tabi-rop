@@ -51,6 +51,7 @@ const UseTool = ({ tool }) => {
             console.log(tool)
             var inputs = tool['inputFormats']
             var data = {}
+
             inputs.map((inp, i) => {
 
                 // data[inp['data_type']] = inp['example'];
@@ -74,9 +75,9 @@ const UseTool = ({ tool }) => {
             data['input_' + i] = value["$root"][inp];
             setData(data)
         })
-
+        console.log("1" + data)
         setFormData(data);
-
+        console.log("2" + data)
         console.log("bu bir form" + JSON.stringify(formData));
 
         let response = await postQuery(url_post_run + tool.enum, formData);
@@ -102,10 +103,10 @@ const UseTool = ({ tool }) => {
             tab: 'Demo',
         },
     ];
-    const addOutputs=(answer)=>
-        
-        Object.keys(answer).map(function(input, i){{console.log(answer)}return<OutputCard text={answer[input]} format={format} />})
-    
+    const addOutputs = (answer) =>
+
+        Object.keys(answer).map(function (input, i) { { console.log(answer) } return <OutputCard text={answer[input]} format={format} /> })
+
     const contentTab = {
         Tool_Information: <TaskDefinition tool={tool} />,
         Project_Details: <TaskInformation tool={tool} />,
@@ -113,8 +114,6 @@ const UseTool = ({ tool }) => {
 
             <SchemaForm json={tool["schema"]} className={styles.form}
                 value={formData}
-                // schema={tool["schema"]}
-                // onSubmit={handleSubmit}
 
                 onOk={(form, value, keys) => handleSubmit(value)
                 }
@@ -123,11 +122,11 @@ const UseTool = ({ tool }) => {
             />
             {wait && <div>Wait please</div>}
 
-            {((Object.keys(answer).length != 0) &&!wait)
+            {((Object.keys(answer).length != 0) && !wait)
 
-                && 
+                &&
                 addOutputs(answer)}
-                 {/* (<OutputCard text={answer} format={format} />)} */}
+
 
 
         </div>,
@@ -166,7 +165,7 @@ const UseTool = ({ tool }) => {
                     </>
                 }
                 <Brat doc={docs[0]} coll={colls[0]} />
-               
+
 
             </ErrorBoundary>
         </div>
