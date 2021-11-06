@@ -1,7 +1,7 @@
+import sys
+import requests
 from backend.backend_proxy.api.exception import REST_Exception
 from backend.backend_proxy.tool.formats.supportedFormats import SupportedFormats
-import requests
-import sys
 
 
 def debugPrint(*args, **kwargs):
@@ -22,14 +22,15 @@ class Tool:
         # self.endpoint = "evaluate"
 
     def run(self, parameters: dict) -> dict:
-        parsedInputs = {}
-        for formatIndex in range(len(self.inputFormats)):
-            f = self.inputFormats[formatIndex]
-            output = f["type"]
-            outputFormatEnum = SupportedFormats.strToEnum(output)
-            SupportedFormats.formatsMap[outputFormatEnum].fromString(
-                parameters[f"input_{formatIndex}"])
-            parsedInputs[f['field']] = parameters[f"input_{formatIndex}"]
+        parsed_inputs = {}
+        # for format_index in range(len(self.inputFormats)):
+        for format_index, current_format in enumerate(self.inputFormats):
+            current_format = self.inputFormats[format_index]
+            output = current_format["type"]
+            output_format_enum = SupportedFormats.strToEnum(output)
+            SupportedFormats.formatsMap[output_format_enum].fromString(
+                parameters[f"input_{format_index}"])
+            parsed_inputs[current_format['field']] = parameters[f"input_{format_index}"]
 
         # # BUG We expect one input format and one output format. We may need multiple formats
         # if "inputFormat" not in parameters.keys():
@@ -75,7 +76,7 @@ class Tool:
         # givenParsed = SupportedFormats.formatsMap[inputFormatEnum].fromString(
         #     given)
         response = requests.post(
-            url=f"http://{self.ip}:{self.port}/{self.endpoint}", json=parsedInputs)
+            url=f"http://{self.ip}:{self.port}/{self.endpoint}", json=parsed_inputs)
         if not response.ok:
             raise REST_Exception(
                 message=response.text,
@@ -83,12 +84,12 @@ class Tool:
             )
         response = response.json()
         parsedOutputs = {}
-        for formatIndex in range(len(self.outputFormats)):
-            f = self.outputFormats[formatIndex]
-            output = f["type"]
-            outputFormatEnum = SupportedFormats.strToEnum(output)
-            parsedOutputs[f['field']] = SupportedFormats.formatsMap[outputFormatEnum].getTypesAsJson(
-                response[f['field']])
+        for format_index in range(len(self.outputFormats)):
+            current_format = self.outputFormats[format_index]
+            output = current_format["type"]
+            output_format_enum = SupportedFormats.strToEnum(output)
+            parsedOutputs[current_format['field']] = SupportedFormats.formatsMap[output_format_enum].getTypesAsJson(
+                response[current_format['field']])
         return parsedOutputs
         # text = response.json()[self.jsonOutputKeyword]
         # debugPrint(f"output text: {text}")

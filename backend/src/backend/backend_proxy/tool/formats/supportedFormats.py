@@ -1,3 +1,4 @@
+from backend.backend_proxy.tool.formats.conll import CoNLL
 from backend.backend_proxy.tool.formats.rawSentence import RawSentence
 from backend.backend_proxy.tool.formats.tokenizedSentence import TokenizedSentence
 from backend.backend_proxy.tool.formats.listOfListOfMorphFeatList import ListOfListOfMorphFeatList
@@ -8,7 +9,7 @@ class SupportedFormats(Enum):
     TokenizedSentence = auto()
     ListOfListOfMorphFeatList = auto()
     RawSentence = auto()
-    Format_3 = auto()
+    CoNLL = auto()
     Format_4 = auto()
 
 
@@ -34,10 +35,12 @@ SupportedFormats.formatsMap = {
     SupportedFormats.TokenizedSentence : TokenizedSentence(SupportedFormats.TokenizedSentence),
     SupportedFormats.ListOfListOfMorphFeatList : ListOfListOfMorphFeatList(SupportedFormats.ListOfListOfMorphFeatList),
     SupportedFormats.RawSentence : RawSentence(SupportedFormats.RawSentence),
+    SupportedFormats.CoNLL : CoNLL(SupportedFormats.CoNLL),
 } 
 
 enumMap = {
     "TokenizedSentence": SupportedFormats.TokenizedSentence,
     "ListOfListOfMorphFeatList": SupportedFormats.ListOfListOfMorphFeatList,
     "RawSentence": SupportedFormats.RawSentence,
+    "CoNLL": SupportedFormats.CoNLL,
 }
