@@ -1,4 +1,3 @@
-from pymongo import MongoClient
 import requests
 from flask import app, Flask
 import atexit
@@ -86,7 +85,7 @@ def checker(log_if_noerror=True):
     slackTool.send(output, log_if_noerror)
 
 
-@app.route("/check", methods=["POST"])
+@app.route("/health/check", methods=["POST"])
 def check_health():
 
     response = app.response_class(
@@ -105,7 +104,7 @@ def check_health():
 if __name__ == '__main__':
 
     scheduler = BackgroundScheduler()
-    scheduler.add_job(func=checker, trigger="interval", seconds=10)
+    scheduler.add_job(func=checker, trigger="interval", seconds=360)
     scheduler.start()
 
     # Shut down the scheduler when exiting the app

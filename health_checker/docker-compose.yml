@@ -1,11 +1,15 @@
 version: '3'
 services:
-  system_health:
+  system-health:
     build: 
       context: .
     container_name: system-health
     hostname: system-health
     ports:
       - "5001:5000"
-    # networks:
-    #   - DIP-network
+    networks:
+      - DIP-network
+    
+networks:
+  DIP-network:
+      external: true
