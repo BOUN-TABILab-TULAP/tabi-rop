@@ -76,11 +76,11 @@ const UseTool = ({ tool }) => {
     useEffect(async () => {
         const head_script = document.createElement("script");
         head_script.type = "text/javascript";
-        head_script.src = "../brat/head.js";
+        head_script.src = "../demo/brat/head.js";
         head_script.setAttribute("id", "headjs");
 
         const loader_script = document.createElement("script");
-        loader_script.src = "../brat/brat_loader.js";
+        loader_script.src = "../demo/brat/brat_loader.js";
         loader_script.type = "text/javascript";
         loader_script.setAttribute("id", "loader_script");
 
