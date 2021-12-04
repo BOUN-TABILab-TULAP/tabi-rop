@@ -18,6 +18,28 @@
         "header": "Collection of TABILAB NLP tool demos",
         "content": "TABILAB (Text and Bioinformatics Labaratory) is a research group at Bogazici University, focusing on Bioinformatics and Natural Language Processing. This website serves some of the tools implemented by the lab members as interactive demos."
     },
+    "addTool":{
+        "description":"Please explain the tool in detail",
+        "usageInformation":" How to use this tool, what are inputs and outputs",
+        "citing":"Please Write the citation if there is",
+        "funding":"you can write the fundign of the tool",
+        "gitAddress":"Also you should enter the git address which is used by proxy to save the input/output specifications of the given program.",
+        "enum":"Finally, you also specify a 'unique' name for the program and a human readable name",
+        "name":"Corpus Name",
+        "version":"please explain the version of tool",
+        "update_time":"please write last update date of tool",
+        "languages":"Select the language(s) that resource supports",
+        "domain":"Select the domain of corpus",
+        "contact":"please write a contact email",
+        "bibtex":"If there is a paper, specify the paper information about the tool in BibTeX Citation",
+        "links":"You can add related links here.",
+        "endpoint":"You must give a endpoint of API",
+        "inout":"You must specify input and outputs",
+        "input":"Input Specifications:",
+        "ouput":" Output Specifications:"
+
+
+    },
     "mparser": {
         "header": "Morphological Analysis",
         "content": "Write each sentence in a newline. End-of-sentence markers should be seperated from the previous token with white spaces. \n\nExample:\n \"Şekerleri yedim .\"\n\"Eve gittim .\"",

@@ -6,21 +6,31 @@ import { Card } from "antd";
 import ErrorBoundary from "./ErrorBoundary";
 import Brat from "./Brat";
 import { getQuery, postQuery } from "./utils";
-import { withTheme } from '@rjsf/core';
+import { withTheme } from "@rjsf/core";
 import Form from "@rjsf/core"
-import { Theme as AntDTheme } from '@rjsf/antd';
+import { Theme as AntDTheme } from "@rjsf/antd";
 import { docs, colls } from "./data_test_brat";
 import ReactJson from 'react-json-view'
 import styles from "./UseTool.module.css"
 import "antd/dist/antd.css";
+import Text from "antd/lib/typography/Text";
 import { useRef } from 'react';
-
-
 import SchemaForm, {
     getKeysFromObject,  // Get all the keys under schema.json
     getObjectFromValue, // Object formatted into the value required by the form
     getValueFromObject  // The value of the form obtained from the form, formatted into an object
 } from 'antd-schema-form';
+
+var silbu = "# newdoc\n\
+# newpar\n\
+# sent_id = 1\n\
+# text = Babam bana bal aldı.\n\
+1	Babam	baba	NOUN	Noun	Case=Nom|Number=Sing|Number[psor]=Sing|Person=3|Person[psor]=1	4	nsubj	_	_\n\
+2	bana	ben	PRON	Pers	Case=Dat|Number=Sing|Person=1|PronType=Prs	4	obl	_	_\n\
+3	bal	bal	NOUN	Noun	Case=Nom|Number=Sing|Person=3	4	obj	_	_\n\
+4	aldı	al	VERB	Verb	Aspect=Perf|Mood=Ind|Number=Sing|Person=3|Polarity=Pos|Tense=Past	0	root	_	SpaceAfter=No\n\
+5	.	.	PUNCT	Punc	_	4	punct	_	SpacesAfter=\n\n\
+"
 const log = (type) => console.log.bind(console, type);
 // import 'antd-schema-form/style/antd-schema-form.css'; // Introducing style
 
@@ -40,6 +50,7 @@ const formItemLayout = {
 };
 
 const UseTool = ({ tool }) => {
+
 
     const [format, setFormat] = useState({});
     const [formData, setFormData] = useState({});
@@ -62,6 +73,36 @@ const UseTool = ({ tool }) => {
         }
     }, [tool]);
 
+    useEffect(async () => {
+        const head_script = document.createElement("script");
+        head_script.type = "text/javascript";
+        head_script.src = "../brat/head.js";
+        head_script.setAttribute("id", "headjs");
+
+        const loader_script = document.createElement("script");
+        loader_script.src = "../brat/brat_loader.js";
+        loader_script.type = "text/javascript";
+        loader_script.setAttribute("id", "loader_script");
+
+        head_script.onload = () => {
+            document.body.appendChild(loader_script);
+            console.log("Brat header script is loaded");
+
+        };
+
+        loader_script.onload = () => {
+            console.log("Brat loader script is loaded.");
+        }
+        if (document.getElementById("headjs") === null) {
+            console.log("headjs loading");
+            // keep the scripts loaded all the time, and don't reload
+            document.head.appendChild(head_script);
+
+        }
+
+
+    }, [])
+
 
 
     const [data, setData] = useState({})
@@ -70,15 +111,15 @@ const UseTool = ({ tool }) => {
         setAnswer({})
         console.log(value)
         Object.keys(value["$root"]).map((inp, i) => {
-            console.log(inp)
-            // data[inp['data_type']] = inp['example'];
+            // console.log(inp)
+
             data['input_' + i] = value["$root"][inp];
             setData(data)
         })
-        console.log("1" + data)
+        // console.log("1" + data)
         setFormData(data);
-        console.log("2" + data)
-        console.log("bu bir form" + JSON.stringify(formData));
+        // console.log("2" + data)
+        // console.log("bu bir form" + JSON.stringify(formData));
 
         let response = await postQuery(url_post_run + tool.enum, formData);
         let temp = await getQuery(url_format)
@@ -105,7 +146,14 @@ const UseTool = ({ tool }) => {
     ];
     const addOutputs = (answer) =>
 
-        Object.keys(answer).map(function (input, i) { { console.log(answer) } return <OutputCard text={answer[input]} format={format} /> })
+        Object.keys(answer).map(function (input, i) {
+            console.log(answer);
+             return <>
+             <h2>{ tool['outputFormats'][i]['data_type']}</h2>
+             <OutputCard text={answer[input]} format={format} />
+             </>
+            })
+
 
     const contentTab = {
         Tool_Information: <TaskDefinition tool={tool} />,
@@ -120,15 +168,9 @@ const UseTool = ({ tool }) => {
                 okText="Submit"
                 onError={log("errors")}
             />
-            {wait && <div>Wait please</div>}
+            {wait && <div>Waiting for output from the tool</div>}
 
-            {((Object.keys(answer).length != 0) && !wait)
-
-                &&
-                addOutputs(answer)}
-
-
-
+            {((Object.keys(answer).length != 0) && !wait) && addOutputs(answer)}
         </div>,
     };
     const onTabChange = (key) => {
@@ -144,8 +186,6 @@ const UseTool = ({ tool }) => {
     return (
         <div>
             <ErrorBoundary>
-
-
                 {(Object.keys(tool).length != 0)
                     &&
                     <>
@@ -164,90 +204,10 @@ const UseTool = ({ tool }) => {
 
                     </>
                 }
-                <Brat doc={docs[0]} coll={colls[0]} />
-
-
             </ErrorBoundary>
         </div>
     );
 };
 
-const OutputText = ({ text, isJson = false }) => {
-    const [content, setContent] = useState([
-
-        {
-            key: 'app',
-            tab: 'app',
-        },
-        {
-            key: 'project',
-            tab: 'project',
-        },
-    ]);
-    let contentTab = {
-
-    }
-
-    Object.keys(text).map((data, index) => {
-        let temp = { key: "", tab: "" }
-        temp["key"] = data
-        temp["tab"] = text["data"]
-        contentTab["data"] = text["data"]
-
-        setContent(content => [...content, temp])
-
-
-    })
-    setContent(content)
-
-    let state = content[0]
-    console.log(content)
-    return (<div>
-        <>
-            <Card
-                style={{ width: '100%' }}
-                tabList={content}
-                activeTabKey={state.key}
-
-                onTabChange={key => {
-                    state.key = key;
-
-
-                }}
-            >
-                {contentTab[state.key]}
-            </Card>
-        </>
-
-        {isJson && <ReactJson src={JSON.parse(text)} iconStyle={"triangle"} collapseStringsAfterLength={false} enableClipboard={false} displayDataTypes={false} />}
-
-        {/* {!isJson &&
-            <>{text.split("\n").map((line) => {
-                return (
-                    <>
-                        {line.split("\t").map((token, index) => {
-                            if (index !== 0) {
-                                return (<>&nbsp; {token}</>);
-                            }
-                            else {
-                                return (<>{token}</>);
-                            }
-                        })}
-                        <br />
-                    </>
-                );
-            })}
-            </>} */}
-    </div>);
-};
-
-const OutputBrat = ({ standoff }) => {
-    return (
-        <>
-            <Brat doc={docs[0]} coll={{ text: "Brat test", ...colls[0] }} />
-            {/* <Brat doc={docs[0]} coll={colls[0]} /> */}
-        </>
-    );
-};
 
 export default UseTool;

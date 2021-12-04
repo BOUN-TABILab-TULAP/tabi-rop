@@ -1,48 +1,40 @@
 import React, { useState, useEffect } from 'react';
-import { Result, Form as OldForm, Input, Button, Select, DatePicker } from 'antd';
+import { Result, Form, Input, Button, Select, DatePicker } from 'antd';
 import { postQuery } from "../utils";
-import { MinusCircleOutlined } from "@ant-design/icons";
-// import Form from "@rjsf/core";
-import { withTheme } from '@rjsf/core';
-import { Theme as AntDTheme } from '@rjsf/antd';
 import 'antd/dist/antd.css';
-import styles from "./AddTool.module.css"
-import FormItemLabel from 'antd/lib/form/FormItemLabel';
+import "../index.css"
+import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 
-const Form = withTheme(AntDTheme);
+import { useTranslation } from "react-i18next";
+
+import styles from "./AddTool.module.css"
+
+
+
+const { Option } = Select;
+// const Form = withTheme(AntDTheme);
 
 const url = process.env.REACT_APP_BACKEND + "/api/tool";
 const url_auth = process.env.REACT_APP_BACKEND + "/api/user/isauth";
 
-
-
-// const inputTypes = ["List of MorphFeatList", "MorphFeatList", "Tokenized Text", "Token", "List of Token", "Raw Sentence", "Tokenized Sentence"]
 const inputTypes = {
   "TokenizedSentence": "Tokenized Sentence",
   "ListOfListOfMorphFeatList": "List of MorphFeatList",
-  "RawSentence":"Raw Sentence",
+  "RawSentence": "Raw Sentence",
   "CoNLL":"CoNLL"
 };
-const outputTypes = {
-  "JSON": "JSON",
-  "raw_sentence": "Raw sentence",
-  "conll":"conll"
-};
-
-
-const log = (type) => console.log.bind(console, type);
-
-
-
-const { TextArea } = Input;
-const { Option } = Select;
-const { RangePicker } = DatePicker;
-
 
 
 const AddTools = ({ isAuth, setIsAuth }) => {
-  const [form, outputForm] = OldForm.useForm();
-  const [nestedform] = OldForm.useForm();
+  const { t, i18n } = useTranslation();
+  const changeLanguage = (lang) => {
+    if (i18n.language !== lang) {
+     
+      i18n.changeLanguage(lang);
+    }
+  };
+  const [form, outputForm] = Form.useForm();
+  const [nestedform] = Form.useForm();
 
   const [inputTemp, setInputTemp] = useState({
     "type": null,
@@ -52,7 +44,7 @@ const AddTools = ({ isAuth, setIsAuth }) => {
   });
   const [outputTemp, setOutputTemp] = useState({
     "type": null,
-    "output_type":null,
+    "output_type": null,
     "data_type": null,
     "field": null
 
@@ -63,8 +55,6 @@ const AddTools = ({ isAuth, setIsAuth }) => {
   const [formLayout, setFormLayout] = useState('horizontal');
   const [wait, setWait] = useState(false);
   const [serverResponse, setServerResponse] = useState({});
-
-
 
   const deleteInput = (index) => {
     let temp = inputs
@@ -89,7 +79,7 @@ const AddTools = ({ isAuth, setIsAuth }) => {
   }
   const addInput = (e) => {
     if (inputTemp['type'] == null || inputTemp['data_type'] == null) return;
-    console.log(inputTemp);
+
     setInputs(inputs => [...inputs, inputTemp]);
 
     setInputTemp({
@@ -98,13 +88,10 @@ const AddTools = ({ isAuth, setIsAuth }) => {
       "field": null
     });
   }
-
-
   const addOutput = (e) => {
     if (outputTemp['type'] == null || outputTemp['data_type'] == null) { return }
     console.log(outputTemp);
     setOutputs(outputs => [...outputs, outputTemp]);
-
     setOutputTemp({
       "type": null,
       "data_type": null,
@@ -112,10 +99,6 @@ const AddTools = ({ isAuth, setIsAuth }) => {
 
     });
   }
-
-
-
-
   const onFinish = async (values) => {
     let response = {};
     setServerResponse({});
@@ -128,20 +111,17 @@ const AddTools = ({ isAuth, setIsAuth }) => {
     else {
       values['inputFormats'] = inputs
       values['outputFormats'] = outputs
-      console.log(values);
+
       setWait(true);
       response = await postQuery(url, values);
       setWait(false);
       let { data, status } = response;
       if (status === 200) {
-        // form.resetFields();
+
       }
     }
     setServerResponse(response);
   };
-
-
-
   const formItemLayoutWithOutLabel = {
     wrapperCol: {
       xs: { span: 24, offset: 0 },
@@ -181,174 +161,183 @@ const AddTools = ({ isAuth, setIsAuth }) => {
 
   return (
     <>
-      <OldForm
+      <Form
+        layout={"horizontal"}
         {...formItemLayout}
         form={form}
         onFinish={onFinish}
-
       >
 
-        {/* <b>
-          Please explain the tool in detail
-        </b> */}
-        <OldForm.Item name="description" label="Description" required="true">
+        <b>
+         {t("addTool.description")}
+        </b>
+        <Form.Item name="description" label="Description" required="true">
           <Input.TextArea />
-        </OldForm.Item>
+        </Form.Item>
 
-        {/* <b>
-          How to use this tool, what are inputs and outputs
-        </b> */}
-        <OldForm.Item name="usageInformation" label="Usage Information">
+        <b>
+          {t("addTool.usageInformation")}
+        </b>
+        <Form.Item name="usageInformation" label="Usage Information">
           <Input.TextArea />
-        </OldForm.Item>
+        </Form.Item>
 
 
-        {/* <b>
-          Select the language(s) that resource supports
-        </b> */}
-        <OldForm.Item name="citing" label="Citation">
+        <b>
+        {t("addTool.citing")}
+        </b>
+        <Form.Item name="citing" label="Citation">
           <Input.TextArea />
-        </OldForm.Item>
+        </Form.Item>
 
 
-        {/* <b>
-          Select the language(s) that resource supports
-        </b> */}
-        <OldForm.Item name="funding" label="Funding">
+        <b>
+        {t("addTool.funding")}
+        </b>
+        <Form.Item name="funding" label="Funding">
           <Input.TextArea />
-        </OldForm.Item>
+        </Form.Item>
 
 
         {/* Repository address */}
-        {/* <b>
-          Also you should enter the git address which is used by proxy to save the input/output specifications of the given program.
-        </b> */}
-        <OldForm.Item label="Git Address" name="git" required="true">
+        <b>
+        {t("addTool.gitAddress")}
+        </b>
+        <Form.Item label="Git Address" name="git" required="true">
           <Input placeholder="e.g. https://github.com/tabilab-dip/BOUN-PARS.git" />
-        </OldForm.Item>
+        </Form.Item>
 
         {/* Unique Name */}
-        {/* <b>
-          Finally, you also specify a "unique" name for the program and a human readable name
-        </b> */}
-        <OldForm.Item label="Name (enum)" name="enum" required="true">
+        <b>
+        {t("addTool.enum")}
+        </b>
+        <Form.Item label="Name (enum)" name="enum" required="true">
           <Input placeholder="boun-pars (no spaces, use only alphanumeric characters and '-')" />
-        </OldForm.Item>
-        {/* Corpus Name */}
-        <OldForm.Item label="Name" name="name" required="true">
+        </Form.Item>
+        <b>
+        {t("addTool.name")}
+        </b>
+      
+        <Form.Item label="Name" name="name" required="true">
           <Input placeholder="Dependency Parser: BOUN-PARS" />
-        </OldForm.Item>
-        {/* Corpus Name */}
-        <OldForm.Item label="Version" name="version" required="true" >
+        </Form.Item>
+        <b>
+        {t("addTool.version")}
+        </b>
+        
+        <Form.Item label="Version" name="version" required="true" >
           <Input placeholder="2.0" />
-        </OldForm.Item>
-        <OldForm.Item name="update_time" label="Last Updated">
+        </Form.Item>
+        <b>
+        {t("addTool.update_time")}
+        </b>
+        <Form.Item name="update_time" label="Last Updated">
           <DatePicker />
-        </OldForm.Item>
+        </Form.Item>
 
-        {/* Sample Sentence
-        <OldForm.Item label="Example" name="sample" >
-          <Input placeholder="şekerleri yedim." />
-        </OldForm.Item> */}
-
-        {/* Description */}
-
-        {/* <b>
-          Select the language(s) that resource supports
-        </b> */}
-        <OldForm.Item name="languages" label="Language(s)">
+      
+        <b>
+        {t("addTool.languages")}
+        </b>
+        <Form.Item name="languages" label="Language(s)">
           <Select mode="multiple" mode="tags" tokenSeparators={[',']} placeholder="Turkish, English, ...">
-            <Option value="tr">Turkish</Option>
+            <Option value="tr" label="Turkish"></Option>
             <Option value="en">English</Option>
             <Option value="de">Deutsch</Option>
             <Option value="mult">Multilingual</Option>
             <Option value="ind">Language Independent</Option>
             <Option value="code-switch">Code-switching Corpus</Option>
           </Select>
-        </OldForm.Item>
-        {/* <b>
-          Select the domain of the corpus
-        </b> */}
-        <OldForm.Item label="Domains" name="domains" >
+        </Form.Item>
+        <b>
+        {t("addTool.domain")}
+         
+        </b>
+        <Form.Item label="Domains" name="domains" >
           <Select name="domain" label="Domains" mode="tags" tokenSeparators={[',']}></Select>
-        </OldForm.Item>
-        {/* <b>
-          You must give a contact information
-        </b> */}
-        <OldForm.Item name="contact" label="Contact Address" required="true">
+        </Form.Item>
+        <b>
+          {t("addTool.contact")}
+        </b>
+        <Form.Item name="contact" label="Contact Address" required="true">
           <Input placeholder="utku.turk@boun.edu.tr" />
-        </OldForm.Item>
+        </Form.Item>
 
         <b>
-          If there is a paper, specify the paper information about the tool in BibTeX Citation
+        {t("addTool.bibtex")}
+      
         </b>
-        <OldForm.Item name="bibtex" label="Bibtex Entry">
+        <Form.Item name="bibtex" label="Bibtex Entry">
           <Input.TextArea />
-        </OldForm.Item>
-        <OldForm.Item name="doi" label="DOI">
+        </Form.Item>
+        <Form.Item name="doi" label="DOI">
           <Input placeholder="DOI/10.8971" />
-        </OldForm.Item>
+        </Form.Item>
 
         <b>
-          You can specify additional links in here
+        {t("addTool.links")}
         </b>
-
-        <OldForm.List name="links">
+        <Form.List name="links"
+          className={styles.linklist}
+        >
           {(fields, { add, remove }) => (
             <>
               {fields.map((field, index) => (
-                <OldForm.Item
+                <Form.Item
+                  style={{ margin: "0px", }}
                   {...(index === 0 ? formItemLayout : buttonItemLayout)}
                   label={index === 0 ? 'Link' : ''}
                   required={false}
                   key={field.key}
                 >
-                  <OldForm.Item validateTrigger={['onChange', 'onBlur']} {...field}>
-
-                    <Input placeholder="https://github.com" style={{ width: '60%' }} />
-                  </OldForm.Item>
-                  {fields.length > 1 ? (
-                    <MinusCircleOutlined
-                      class={styles.dynamic}
-                      onClick={() => remove(field.name)}
-                    />
-                  ) : null}
-                </OldForm.Item>
+                  <Form.Item validateTrigger={['onChange', 'onBlur']} {...field}>
+                    <div className={styles.align}>
+                      <Input placeholder="https://github.com" style={{ width: '60%' }} />
+                      {fields.length > 1 ? (
+                        <MinusCircleOutlined
+                          className={styles.delete}
+                          onClick={() => remove(field.name)}
+                        />
+                      ) : null}
+                    </div>
+                  </Form.Item>
+                </Form.Item>
               ))}
-              <OldForm.Item>
-                <Button type="primary" onClick={() => add()}>Add Link</Button>
-              </OldForm.Item>
+              <Form.Item {...buttonItemLayout}>
+                <Button type="dashed" onClick={() => add()} style={{ width: '60%' }} icon={<PlusOutlined className={styles.plus} />}>Add Link</Button>
+              </Form.Item>
             </>
           )}
-        </OldForm.List>
+        </Form.List>
 
         <b>
-          You must give a contact information
+        {t("addTool.endpoint")}
         </b>
-        <OldForm.Item name="endpoint" label="Endpoint to call the tool's API" required="true">
+        <Form.Item name="endpoint" label="Endpoint to call the tool's API" required="true">
           <Input placeholder="api/parser" addonBefore="http://ip:port/" />
-        </OldForm.Item>
+        </Form.Item>
         <b>
-          You must specify input output type
+        {t("addTool.inout")}
+         
         </b>
 
         <div className={styles.input}>
           <div className={styles.column}>
             <b>
-              Input Specifications:
+            {t("addTool.input")}
             </b>
 
 
 
-            <OldForm form={nestedform}
+            <Form form={nestedform}
               {...nestedFormItemLayout}
             >
-              <OldForm.Item label="Name">
+              <Form.Item label="Name">
 
                 <Input value={inputTemp["data_type"]} onChange={(v) => { inputTemp['data_type'] = v.target.value; setInputTemp({ ...inputTemp }); }} />
-              </OldForm.Item>
+              </Form.Item>
 
-              <OldForm.Item label="Input Format">
+              <Form.Item label="Input Format">
 
                 <Select value={inputTemp['type']} onChange={(v) => {
                   inputTemp['type'] = v;
@@ -358,20 +347,20 @@ const AddTools = ({ isAuth, setIsAuth }) => {
                     <Option value={key}>{inputTypes[key]}</Option>
                   ))}
                 </Select>
-              </OldForm.Item>
+              </Form.Item>
 
-              <OldForm.Item label="Example:">
+              <Form.Item label="Example:">
                 <Input value={inputTemp["example"]} onChange={(v) => { inputTemp['example'] = v.target.value; setInputTemp({ ...inputTemp }); }} />
-              </OldForm.Item>
+              </Form.Item>
 
-              <OldForm.Item label="Field:">
+              <Form.Item label="Field:">
                 <Input value={inputTemp["field"]} onChange={(v) => { inputTemp['field'] = v.target.value; setInputTemp({ ...inputTemp }); }} />
-              </OldForm.Item>
+              </Form.Item>
 
-              <OldForm.Item >
+              <Form.Item >
                 <Button type="primary" onClick={addInput}>Add Input</Button>
-              </OldForm.Item>
-            </OldForm>
+              </Form.Item>
+            </Form>
             {inputs.map((t, index) =>
               <div class={styles.inputs}>
                 {t['data_type'] + "         " + t['type']}
@@ -385,22 +374,22 @@ const AddTools = ({ isAuth, setIsAuth }) => {
 
           <div className={styles.column}>
             <b>
-              Output Specifications:
+            {t("addTool.output")}
             </b>
 
 
 
-            <OldForm
+            <Form
               form={outputForm}
               onFinish={addOutput}
               {...nestedFormItemLayout}
             >
 
-              <OldForm.Item label="Name">
+              <Form.Item label="Name">
 
                 <Input value={outputTemp["data_type"]} onChange={(v) => { outputTemp['data_type'] = v.target.value; setOutputTemp({ ...outputTemp }); }} />
-              </OldForm.Item>
-              <OldForm.Item label="Output Description">
+              </Form.Item>
+              <Form.Item label="Output Description">
                 <Select value={outputTemp['type']} onChange={(v) => {
                   outputTemp['type'] = v;
                   setOutputTemp({ ...outputTemp });
@@ -409,26 +398,18 @@ const AddTools = ({ isAuth, setIsAuth }) => {
                     <Option value={key}>{inputTypes[key]}</Option>
                   ))}
                 </Select>
-              </OldForm.Item>
+              </Form.Item>
 
-              <OldForm.Item label="Field">
+              <Form.Item label="Field">
                 <Input value={outputTemp["field"]} onChange={(v) => { outputTemp['field'] = v.target.value; setOutputTemp({ ...outputTemp }); }} />
-              </OldForm.Item>
-              <OldForm.Item label="Output Type">
-             
-             <Select value={outputTemp['output_type']} onChange={(v) => {
-                  outputTemp['output_type'] = v;
-                  setOutputTemp({ ...outputTemp });
-                }} placeholder="Select Output Type" label="Output Type">
-                  {Object.keys(outputTypes).map((key, index) => (
-                    <Option value={key}>{outputTypes[key]}</Option>
-                  ))}
-                </Select>
-              </OldForm.Item>
-              <OldForm.Item >
+              </Form.Item>
+            
+
+
+              <Form.Item >
                 <Button type="primary" onClick={addOutput}>Add output</Button>
-              </OldForm.Item>
-            </OldForm>
+              </Form.Item>
+            </Form>
             {outputs.map((t, index) =>
               <div class={styles.inputs}>
                 <div class={styles.row}>{t['data_type'] + "         " + t['type']}</div>
@@ -445,11 +426,11 @@ const AddTools = ({ isAuth, setIsAuth }) => {
 
 
         {/* Submit */}
-        <OldForm.Item {...buttonItemLayout}>
+        <Form.Item {...buttonItemLayout}>
           <Button type="primary" htmlType="submit">Submit</Button>
-        </OldForm.Item>
+        </Form.Item>
 
-      </OldForm>
+      </Form>
 
       {wait && <Result {...{ title: "Wait please" }}></Result>}
       {Object.keys(serverResponse).length != 0 && <pre><Result {...serverResponse.data}></Result></pre>}

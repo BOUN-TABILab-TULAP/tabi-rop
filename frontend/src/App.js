@@ -19,8 +19,7 @@ const url_tools = process.env.REACT_APP_BACKEND + "/api/tools/name";
 
 const { Content, Footer } = Layout;
 const App = () => {
-  const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
-  console.log(isMobile)
+
   const { t, i18n } = useTranslation();
   const [tools, setTools] = useState([]);
   const getTools = async () => {
@@ -41,7 +40,7 @@ const App = () => {
   }, []);
 
   return (
-    <Router basename={'/demo'}>
+    <Router>
       <Layout 
       className={styles.layout}
       >
