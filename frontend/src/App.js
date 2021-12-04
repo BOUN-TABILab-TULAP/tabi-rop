@@ -40,7 +40,7 @@ const App = () => {
   }, []);
 
   return (
-    <Router>
+    <Router basename={'/demo'}>
       <Layout 
       className={styles.layout}
       >

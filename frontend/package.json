@@ -1,6 +1,6 @@
 {
   "name": "demo_frontend",
-  "proxy": "http://localhost:3000/",
+  "homepage": "http://localhost/demo",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
