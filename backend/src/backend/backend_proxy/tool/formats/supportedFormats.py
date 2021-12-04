@@ -4,13 +4,15 @@ from backend.backend_proxy.tool.formats.tokenizedSentence import TokenizedSenten
 from backend.backend_proxy.tool.formats.listOfListOfMorphFeatList import ListOfListOfMorphFeatList
 from enum import Enum, auto
 
+from backend.backend_proxy.tool.formats.json import JSON
+
 
 class SupportedFormats(Enum):
     TokenizedSentence = auto()
     ListOfListOfMorphFeatList = auto()
     RawSentence = auto()
     CoNLL = auto()
-    Format_4 = auto()
+    json = auto()
 
 
     @staticmethod
@@ -36,6 +38,7 @@ SupportedFormats.formatsMap = {
     SupportedFormats.ListOfListOfMorphFeatList : ListOfListOfMorphFeatList(SupportedFormats.ListOfListOfMorphFeatList),
     SupportedFormats.RawSentence : RawSentence(SupportedFormats.RawSentence),
     SupportedFormats.CoNLL : CoNLL(SupportedFormats.CoNLL),
+    SupportedFormats.json : JSON(SupportedFormats.json),
 } 
 
 enumMap = {
@@ -43,4 +46,5 @@ enumMap = {
     "ListOfListOfMorphFeatList": SupportedFormats.ListOfListOfMorphFeatList,
     "RawSentence": SupportedFormats.RawSentence,
     "CoNLL": SupportedFormats.CoNLL,
+    "JSON":SupportedFormats.json
 }

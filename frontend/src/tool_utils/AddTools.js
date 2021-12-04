@@ -20,7 +20,8 @@ const url_auth = process.env.REACT_APP_BACKEND + "/api/user/isauth";
 const inputTypes = {
   "TokenizedSentence": "Tokenized Sentence",
   "ListOfListOfMorphFeatList": "List of MorphFeatList",
-  "RawSentence":"Raw Sentence"
+  "RawSentence":"Raw Sentence",
+  "CoNLL":"CoNLL"
 };
 const outputTypes = {
   "JSON": "JSON",
