@@ -493,7 +493,7 @@ fieldset legend {
   font-style: normal;
   font-weight: normal;
   src: local("Liberation Sans"), local("Liberation-Sans"),
-    url("localhost:3000/brat/static/fonts/Liberation_Sans-Regular.ttf")
+    url("LiberationSans-Regular.ttf")
       format("truetype");
 }
 @font-face {
@@ -501,7 +501,7 @@ fieldset legend {
   font-style: normal;
   font-weight: normal;
   src: local("PT Sans Caption"), local("PTSans-Caption"),
-    url("localhost:3000/brat/static/fonts/PT_Sans-Caption-Web-Regular.ttf")
+    url("PT_Sans-Caption-Web-Regular.ttf")
       format("truetype");
 }
 

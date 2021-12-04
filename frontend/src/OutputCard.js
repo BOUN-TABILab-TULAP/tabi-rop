@@ -4,7 +4,7 @@ import { useTranslation, withTranslation } from "react-i18next";
 import Text from "antd/lib/typography/Text";
 import styles from "./UseTool.module.css"
 import ReactJson from 'react-json-view'
-
+import Brat from "./Brat.js"
 import { useEffect, useState } from "react";
 const tabListNoTitle = [
   {
@@ -34,7 +34,7 @@ class OutputCard extends React.Component {
   }
 
   // setContent(content)
-  state = { key: "raw" }
+  state = { key: Object.keys(this.props.text)[0] }
   onTabChange = (key, type) => {
     console.log(key, type);
     this.setState({ [type]: key });
@@ -46,8 +46,6 @@ class OutputCard extends React.Component {
   constructor(props) {
     super(props);
     console.log(this.props)
-   
-
 
       Object.keys(this.props.text).map((data, index) => {
         console.log(index, data)
@@ -58,15 +56,21 @@ class OutputCard extends React.Component {
         console.log(this.props.text[data])
 
 
+
         if (data == "json") {
           let temp = JSON.stringify(this.props.text[data])
           this.contentTab[data] = <ReactJson src={JSON.parse(temp)} iconStyle={"triangle"} collapseStringsAfterLength={false} enableClipboard={false} displayDataTypes={false} />
         }
+        else if (data=="brat"){
+          this.contentTab[data]=<Brat conll={this.props.text["raw"]}/>
+          
+        }
 
         else {
+          
           this.contentTab[data] = <Text style={{whiteSpace:"pre-wrap"}}>{`${this.props.text[data]}`}</Text>
         }
-        console.log(this.contentTab)
+        
 
         this.content.push(temp)
 

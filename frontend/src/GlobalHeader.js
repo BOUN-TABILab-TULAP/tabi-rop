@@ -10,14 +10,14 @@ const GlobalHeader = () => {
   const { t, i18n } = useTranslation();
   const changeLanguage = (lang) => {
     if (i18n.language !== lang) {
+     
       i18n.changeLanguage(lang);
     }
   };
 
   return (
     <Header
-      // className="header"
-      // className={styles.header}
+     
     >
       <Menu
         theme="dark"

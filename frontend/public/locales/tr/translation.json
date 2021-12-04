@@ -18,6 +18,28 @@
         "header": "TABILAB Doğal Dil İşleme Araçları Demoları",
         "content": "TABILAB (Text and Bioinformatics Labaratory) is a research group at Bogazici University, focusing on Bioinformatics and Natural Language Processing. This website serves some of the tools implemented by the lab members as interactive demos."
     },
+    "addTool":{
+        "description":"Lütfen aracı tanımını giriniz.",
+        "usageInformation":"Araç nasıl kullanılır, girdi ve çıktı formatları nelerdir belirtiniz",
+        "citing":"Atıf var ise belirtiniz",
+        "funding":"Proje fon aldıysa burada belirtebilirsiniz.",
+        "gitAddress":"Ayrıca, verilen programın giriş/çıkış özelliklerini kaydetmek için proxy tarafından kullanılan git adresini de girmelisiniz..",
+        "enum":"Lütfen araç için özgün bir giriniz ",
+        "name":"Corpus un adını giriniz",
+        "version":"Aracın versiyonunu belirtiniz",
+        "update_time":"Son güncellenme tarihini giriniz.",
+        "languages":"Aracın desteklediği dilleri giriniz.",
+        "domain":"Corpusun domainini giriniz.",
+        "contact":"İletişim maili giriniz",
+        "bibtex":"Araç ile igili bir makale varsa  BibTeX bilgilerinin yazınız.",
+        "links":"İlgili linkleri burada belirtebilirsiniz.",
+        "endpoint":"API'n endpointini belirtiniz.",
+        "inout":"Aracın girdi ve çıktı bilgilerini belirtiniz.",
+        "input":"Girdi özellikleri:",
+        "output":"Çıktı özellikleri:"
+
+
+    },
     "mparser":{
         "header":"Morphological Analysis",
         "content": "Write each sentence in a newline. End-of-sentence markers should be seperated from the previous token with white spaces. \n\nExample:\n \"Şekerleri yedim .\"\n\"Eve gittim .\"",

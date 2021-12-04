@@ -25,6 +25,9 @@
   font-weight: bold;
   font-size: 18px;
 }
+.ant-row >.ant-form-item {
+  margin: 0px!important; 
+}
 
 .ant-collapse > .ant-collapse-item > .ant-collapse-text {
   font-weight: bold;
