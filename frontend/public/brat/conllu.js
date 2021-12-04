@@ -9,7 +9,6 @@ Format: http://universaldependencies.github.io/docs/format.html
 Author: Sampo Pyysalo
 License: MIT (http://opensource.org/licenses/MIT)
 */
-console.log("asd");
 var ConllU = (function(window, undefined) {
 
     /*
@@ -1263,15 +1262,6 @@ var ConllU = (function(window, undefined) {
     };
 
 })(window);
-var doc = new ConllU.Document();
-includeEmpty = true;    // assume empty nodes are always shown
-conll = "1	Babam	baba	NOUN	Noun	Case=Nom|Number=Sing|Person=3	4	nsubj	_	_\n\
-2	bana	ben	PRON	Pers	Case=Dat|Number=Sing|Person=1|PronType=Prs	4	obl	_	_\n\
-3	bal	bal	NOUN	Noun	Case=Nom|Number=Sing|Person=3	4	obj	_	_\n\
-4	aldı	al	VERB	Verb	Aspect=Perf|Mood=Ind|Number=Sing|Person=3|Polarity=Pos|Tense=Past	0	root	_	SpaceAfter=No\n\
-5	.	.	PUNCT	Punc	_	4	punct	_	SpacesAfter=\n"
-a =  doc.parse(conll, console.log, true).toBrat(console.log, includeEmpty);
-console.log(a);
 
 var normalizeSpace = function(s) {
     s = s.replace(/^\s+/, '');

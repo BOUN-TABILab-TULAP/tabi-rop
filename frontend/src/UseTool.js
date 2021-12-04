@@ -13,6 +13,7 @@ import { docs, colls } from "./data_test_brat";
 import ReactJson from 'react-json-view'
 import styles from "./UseTool.module.css"
 import "antd/dist/antd.css";
+import Text from "antd/lib/typography/Text";
 import { useRef } from 'react';
 import SchemaForm, {
     getKeysFromObject,  // Get all the keys under schema.json
@@ -71,8 +72,8 @@ const UseTool = ({ tool }) => {
             setFormData(data);
         }
     }, [tool]);
-    
-    useEffect(async() => {
+
+    useEffect(async () => {
         const head_script = document.createElement("script");
         head_script.type = "text/javascript";
         head_script.src = "../brat/head.js";
@@ -93,7 +94,7 @@ const UseTool = ({ tool }) => {
             console.log("Brat loader script is loaded.");
         }
         if (document.getElementById("headjs") === null) {
-            console.log("headjs yyukleniyor");
+            console.log("headjs loading");
             // keep the scripts loaded all the time, and don't reload
             document.head.appendChild(head_script);
 
@@ -110,15 +111,15 @@ const UseTool = ({ tool }) => {
         setAnswer({})
         console.log(value)
         Object.keys(value["$root"]).map((inp, i) => {
-            console.log(inp)
+            // console.log(inp)
 
             data['input_' + i] = value["$root"][inp];
             setData(data)
         })
-        console.log("1" + data)
+        // console.log("1" + data)
         setFormData(data);
-        console.log("2" + data)
-        console.log("bu bir form" + JSON.stringify(formData));
+        // console.log("2" + data)
+        // console.log("bu bir form" + JSON.stringify(formData));
 
         let response = await postQuery(url_post_run + tool.enum, formData);
         let temp = await getQuery(url_format)
@@ -145,7 +146,13 @@ const UseTool = ({ tool }) => {
     ];
     const addOutputs = (answer) =>
 
-        Object.keys(answer).map(function (input, i) { { console.log(answer) } return <OutputCard text={answer[input]} format={format} /> })
+        Object.keys(answer).map(function (input, i) {
+            console.log(answer);
+             return <>
+             <h2>{ tool['outputFormats'][i]['data_type']}</h2>
+             <OutputCard text={answer[input]} format={format} />
+             </>
+            })
 
 
     const contentTab = {
@@ -161,7 +168,7 @@ const UseTool = ({ tool }) => {
                 okText="Submit"
                 onError={log("errors")}
             />
-            {wait && <div>Wait please</div>}
+            {wait && <div>Waiting for output from the tool</div>}
 
             {((Object.keys(answer).length != 0) && !wait) && addOutputs(answer)}
         </div>,

@@ -110,20 +110,17 @@ class Brat extends React.Component {
     var includeEmpty = true;    // assume empty nodes are always shown
 
     var a = doc.parse(conll, console.log, true).toBrat(console.log, includeEmpty);
-    console.log(a);
+    // console.log(a);
     return a;
   }
 
 
   updateImage() {
     if (typeof window.Util === "undefined") {
-      console.log("dvdfsdd")
-      
-
      return
     }
     this.con = this.conllu_parser(this.props.conll)
-    console.log(this.con);
+    // console.log(this.con);
 
     if (typeof this.dispatcher === "undefined") {
       this.dispatcher = window.Util.embed(
@@ -142,8 +139,6 @@ class Brat extends React.Component {
  
 
   render() {
-    console.log("bok");
-
     return <>
       <div id="embedding-brat">
       </div>

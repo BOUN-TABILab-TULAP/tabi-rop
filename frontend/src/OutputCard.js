@@ -36,7 +36,7 @@ class OutputCard extends React.Component {
   // setContent(content)
   state = { key: Object.keys(this.props.text)[0] }
   onTabChange = (key, type) => {
-    console.log(key, type);
+    // console.log(key, type);
     this.setState({ [type]: key });
   };
 
@@ -53,7 +53,7 @@ class OutputCard extends React.Component {
         let temp = { key: "", tab: "" }
         temp["key"] = data
         temp["tab"] = data
-        console.log(this.props.text[data])
+        // console.log(this.props.text[data])
 
 
 
