@@ -24,6 +24,6 @@ expectedOutputs = {
     "relx": {"text": ["raw"]},
     "morphological_disambiguator": {"text": ["raw", "json"]},
     "ermie": {"text": ["raw"]},
-    "boun-pars": {"brat_conll": ["raw"]},
+    "boun-pars": {"brat_conll": ["raw","brat"]},
     "ner":{"tagger_output":["json"],"dataset_file_string":["json"]}
 }
