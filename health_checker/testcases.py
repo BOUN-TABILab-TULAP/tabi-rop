@@ -13,6 +13,8 @@ givenInputs = {
         {"input_0": "Sonunda anlaşmaya karar verdik. Önemli bir noktaya dikkat çektik bunun üzerine."},
     "boun-pars":
         {"input_0": "Babam bana bal aldı."},
+    "ner":
+        {"input_0":"Helmut Kohl'ün aradaki farkı kapatmasında da kararsız seçmenlerin bir bölümünü merkez sağa çekmesinin rol oynadığı ileri sürüldü"}    
 
 }
 expectedOutputs = {
@@ -22,5 +24,6 @@ expectedOutputs = {
     "relx": {"text": ["raw"]},
     "morphological_disambiguator": {"text": ["raw", "json"]},
     "ermie": {"text": ["raw"]},
-    "boun-pars": {"brat_conll": ["raw"]},
+    "boun-pars": {"brat_conll": ["raw","brat"]},
+    "ner":{"tagger_output":["json"],"dataset_file_string":["json"]}
 }
