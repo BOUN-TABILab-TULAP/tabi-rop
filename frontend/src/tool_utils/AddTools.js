@@ -21,7 +21,8 @@ const inputTypes = {
   "TokenizedSentence": "Tokenized Sentence",
   "ListOfListOfMorphFeatList": "List of MorphFeatList",
   "RawSentence": "Raw Sentence",
-  "CoNLL":"CoNLL"
+  "CoNLL":"CoNLL",
+  "JSON":"JSON"
 };
 
 
