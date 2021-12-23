@@ -9,6 +9,7 @@ __pycache__/
 backups/*
 
 .vscode/
+src/backend/backend_proxy/config.py
 # Distribution / packaging
 .Python
 build/

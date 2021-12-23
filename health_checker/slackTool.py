@@ -1,5 +1,9 @@
 import requests
 from read_config import get_config
+import sys
+
+def debugPrint(*args, **kwargs):
+    print(*args, file=sys.stderr, **kwargs)
 
 
 def send(message, log_if_noerror,):
@@ -20,4 +24,5 @@ def send(message, log_if_noerror,):
                 payload += f"\n *{key}*: {value}\n"
     if payload:
         webHookUrl = get_config("webHookUrl")
+        debugPrint(payload)
         requests.post(webHookUrl, json={"text": payload, })

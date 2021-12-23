@@ -2,10 +2,11 @@ from backend.backend_proxy.api.exception import REST_Exception
 from os import name, path, stat
 import docker
 from docker.api import container, image
-from docker.errors import NotFound
+from backend.backend_proxy.config import Config
 from backend.backend_proxy.db.mongoDB import MongoDB
 # from backend.app import debugPrint
 import sys
+
 
 
 def debugPrint(*args, **kwargs):
@@ -15,6 +16,8 @@ def debugPrint(*args, **kwargs):
 # This class is a singleton. Please use getInstance() instead of  __init__.
 class DockerService:
     __instance = None
+    _initialized = False
+    runningContainers = {}
 
     def __new__(cls, *args, **kwargs):
         if cls.__instance is None:
@@ -22,28 +25,26 @@ class DockerService:
             cls.__instance._initialized = False
         return cls.__instance
 
-    
     def __init__(self):
         if self._initialized:
             return
         self._initialized = True
 
         self.dockerClient = docker.from_env()
-        self.runningContainers = []
         existingTools = list(MongoDB.getInstance().find_all("tools"))
         debugPrint(f"Found {len(existingTools)} existing tools")
         for tool in existingTools:
-            container_name = f"{tool['enum']}_{tool['version']}-container"
-            debugPrint(container_name)
+            container_name = f"{tool['enum']}-container"
             try:
                 runningContainer = self.dockerClient.containers.get(
-                    f"{tool['enum']}_{tool['version']}-container")
+                    f"{tool['enum']}-container")
                 ports = runningContainer.ports
                 port = int(ports[list(ports.keys())[0]][0]['HostPort'])
                 tool['port'] = port
                 MongoDB.getInstance().db['tools'].update_one({u'_id': tool['_id']}, {
                     "$set": {"port": port}})
-            except NotFound as e:  # Tool is registered to the database but does not exist in docker
+                self.runningContainers[container_name] = tool
+            except docker.errors.NotFound as e:  # Tool is registered to the database but does not exist in docker
                 debugPrint(e)
                 # TODO(Muhammet) What to do when container cannot be found
                 pass
@@ -58,7 +59,7 @@ class DockerService:
     # version: version of the tool
 
     def create_new_container(self, dockerfilePath: str, nameEnum: str, version: str) -> int:
-        naming = f"{nameEnum}_{version}"
+        naming = f"{nameEnum}"
         imageTag = naming + "-image"
         containerTag = naming + "-container"
         debugPrint(f"Creating a new container with {containerTag}")
@@ -105,3 +106,29 @@ class DockerService:
         print(
             f"Created a container with port {ports[exposedPorts[0]][0]['HostPort']} ")
         return int(ports[exposedPorts[0]][0]['HostPort'])
+
+    def restart_container(self, enum, input_dict: dict) -> bool:
+        try:
+            secret = input_dict['secret']
+            if secret != Config.RESTART_SECRET:
+                return False
+        except KeyError as e:
+            return False
+        container_name = f"{enum}-container"
+        if container_name not in self.runningContainers:
+            return False
+        try:
+            container = self.dockerClient.containers.get(container_name)
+            container.restart()
+            tool = self.runningContainers[container_name]
+            runningContainer = self.dockerClient.containers.get(
+                container_name)
+            ports = runningContainer.ports
+            port = int(ports[list(ports.keys())[0]][0]['HostPort'])
+            tool['port'] = port
+            MongoDB.getInstance().db['tools'].update_one({'_id': tool['_id']}, {
+                "$set": {"port": port}})
+            self.runningContainers[container_name] = tool
+            return port
+        except (docker.errors.NotFound, docker.errors.APIError) as e:
+            return False

@@ -22,9 +22,9 @@ class NoResponse(Exception):
         tool_name: Name of the tool
         tool_enun: Enum of the tool
     """
-    def __init__(self, tool_name, tool_enum):
+    def __init__(self, tool_name, tool_enum, text):
         self.tool_name = tool_name
         self.tool_enum = tool_enum
         
-        self.message = f"Could not get an output from tool {tool_enum}"
+        self.message = f"Could not get an output from tool {tool_enum}. {text}"
         super().__init__(self.message)

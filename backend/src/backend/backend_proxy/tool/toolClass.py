@@ -18,12 +18,8 @@ class Tool:
         self.version = version  # TODO Use this
         self.endpoint = endpoint
 
-        # TODO (Muhammet) This should be given as a parameter
-        # self.endpoint = "evaluate"
-
     def run(self, parameters: dict) -> dict:
         parsed_inputs = {}
-        # for format_index in range(len(self.inputFormats)):
         for format_index, current_format in enumerate(self.inputFormats):
             current_format = self.inputFormats[format_index]
             output = current_format["type"]
@@ -32,49 +28,6 @@ class Tool:
                 parameters[f"input_{format_index}"])
             parsed_inputs[current_format['field']] = parameters[f"input_{format_index}"]
 
-        # # BUG We expect one input format and one output format. We may need multiple formats
-        # if "inputFormat" not in parameters.keys():
-        #     raise REST_Exception(
-        #         message=f"You need to specify an import format.",
-        #         status=400
-        #     )
-        # inputFormat = parameters["inputFormat"]
-        # inputFormatEnum = SupportedFormats.strToEnum(inputFormat)
-
-        # if not SupportedFormats.checkIfIncludes(inputFormat, self.inputFormats):
-        #     raise REST_Exception(
-        #         message=f"This tool does not work with the selected input format {inputFormat}.",
-        #         status=400
-        #     )
-
-        # if "outputFormat" not in parameters.keys():
-        #     raise REST_Exception(
-        #         message=f"You need to specify an output format.",
-        #         status=400
-        #     )
-        # outputFormat = parameters["outputFormat"]
-        # outputFormatEnum = SupportedFormats.strToEnum(outputFormat)
-
-        # if not SupportedFormats.checkIfIncludes(outputFormat, self.outputFormats):
-        #     raise REST_Exception(
-        #         message=f"This tool does not work with the selected output format {outputFormat}.",
-        #         status=400
-        #     )
-
-        # if inputFormatEnum not in SupportedFormats._member_names_:
-        #     raise REST_Exception(
-        #         message=f"DIP system does not support the selected input format {inputFormatEnum}. Supported input formats: {', '.join([f.name for f in self.inputFormats])}",
-        #         status=400
-        #     )
-
-        # if self.jsonKeyword not in parameters.keys():
-        #     raise REST_Exception(
-        #         message=f"You need to specify an input",
-        #         status=400
-        #     )
-        # given = parameters[self.jsonKeyword]
-        # givenParsed = SupportedFormats.formatsMap[inputFormatEnum].fromString(
-        #     given)
         response = requests.post(
             url=f"http://{self.ip}:{self.port}/{self.endpoint}", json=parsed_inputs)
         if not response.ok:
@@ -91,12 +44,6 @@ class Tool:
             parsedOutputs[current_format['field']] = SupportedFormats.formatsMap[output_format_enum].getTypesAsJson(
                 response[current_format['field']])
         return parsedOutputs
-        # text = response.json()[self.jsonOutputKeyword]
-        # debugPrint(f"output text: {text}")
-        # parsed = SupportedFormats.formatsMap[outputFormatEnum].toString(text)
-        # debugPrint(f"parsed text: {parsed}\n\n")
-
-        # return {self.jsonOutputKeyword: parsed}
 
     # TODO
     def delete(self):

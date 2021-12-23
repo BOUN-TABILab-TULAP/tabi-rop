@@ -1,3 +1,6 @@
+from typing import Container
+from backend.backend_proxy.config import Config
+from backend.backend_proxy.containerization.service import DockerService
 from flask import Flask, json, g, request, jsonify, json, session
 from flask_cors import CORS, cross_origin
 from backend.backend_proxy.tool.formats.supportedFormats import SupportedFormats
@@ -12,7 +15,7 @@ import traceback
 
 app = Flask(__name__)
 app.permanent_session_lifetime = timedelta(days=5)
-app.secret_key = "CHANGE-THIS!"
+app.secret_key = Config.FLASK_SECRET_KEY
 CORS(app, supports_credentials=True)
 
 
@@ -130,11 +133,27 @@ def run_tool(enum):
         status = e.status
     return get_response_json(data, status)
 
+@app.route("/api/tool/restart/<enum>", methods=["POST"])
+def restart_tool(enum):
+    try:
+        # input for the tool
+        input_dict = json.loads(request.data)
+        data = DockerService().restart_container(enum,input_dict)
+        if (data):
+            ToolService().toolObjects[enum].port = data
+            data = True
+        status = 200
+    except REST_Exception as e:
+        traceback.print_exc()
+        data = dict({"title": "Server Error",
+                     "subTitle": "Logs: {}".format(str(e))})
+        status = e.status
+    return get_response_json(data, status)
+
 # =============================================================
 
 
 @app.route("/api/user/login", methods=["POST"])
-# @cross_origin(supports_credentials=True)
 def login_user():
     session.clear()
     try:

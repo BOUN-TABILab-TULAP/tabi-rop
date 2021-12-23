@@ -36,6 +36,17 @@ def get_all_tools(endpoint="/tools/name"):
         } for tool in tools]
 
 
+def restart_tool(tool_enum):
+    endpoint = backendURL + '/tool/restart/' + tool_enum
+
+    response = requests.post(endpoint, json={'secret': get_config('secret')})
+    if response.ok:
+        is_successful = response.json()
+        if is_successful:
+            return "Restarted the tool"
+    return "Could not restarted the tool"
+
+
 def make_request(tool, endpoint="/tool/run/"):
     enum = tool['enum']
     name = tool['name']
@@ -49,9 +60,11 @@ def make_request(tool, endpoint="/tool/run/"):
     response = requests.post(reqURL, json=givenInput)
     if not response.ok:
         raise NoResponse(
-            tool_enum=enum, tool_name=name)
+            tool_enum=enum, tool_name=name, text=restart_tool(enum))
+
     response_body = response.json()
     returned_fields = {}
+
     for field in response_body:
         returned_fields[field] = list(response_body[field].keys())
     if returned_fields != expectedOutput:
@@ -79,7 +92,7 @@ def checker(log_if_noerror=True):
     try:
         tools = get_all_tools()
     except NetworkException as e:
-        output = {'Fatal Error':e.message}
+        output = {'Fatal Error': e.message}
     if tools:
         output = send_requests(tools=tools)
     slackTool.send(output, log_if_noerror)
