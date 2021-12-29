@@ -1,6 +1,7 @@
 from typing import Container
 from backend.backend_proxy.config import Config
 from backend.backend_proxy.containerization.service import DockerService
+from backend.backend_proxy.logging.event import Event
 from flask import Flask, json, g, request, jsonify, json, session
 from flask_cors import CORS, cross_origin
 from backend.backend_proxy.tool.formats.supportedFormats import SupportedFormats
@@ -12,12 +13,14 @@ from backend.backend_proxy.db.mongoDB import MongoDB
 from datetime import timedelta
 from backend.backend_proxy.misc.util import *
 import traceback
-
+import sys
 app = Flask(__name__)
 app.permanent_session_lifetime = timedelta(days=5)
 app.secret_key = Config.FLASK_SECRET_KEY
 CORS(app, supports_credentials=True)
 
+def debugPrint(*args, **kwargs):
+    print(*args, file=sys.stderr, **kwargs)
 
 @app.route("/api/alive", methods=["GET"])
 def alive():
@@ -78,9 +81,9 @@ def toolFormats():
 @app.route("/api/tool/<enum>", methods=["PUT"])
 def update_tool(enum):
     try:
-        access_tools = UserService().get_tools_user(session)
+        # access_tools = UserService().get_tools_user(session)
         req_dict = json.loads(request.data)
-        req_dict = ToolService().update_tool(req_dict, enum, access_tools)
+        req_dict = ToolService().update_tool(req_dict, enum, None)
         data = dict({"title": "Tool is updated",
                      "subTitle": "Tool Info: {}".format(json.dumps(req_dict))})
         status = 200
@@ -121,6 +124,7 @@ def get_tool_ui_info(enum):
 
 @app.route("/api/tool/run/<enum>", methods=["POST"])
 def run_tool(enum):
+    event = Event(enum)
     try:
         # input for the tool
         input_dict = json.loads(request.data)
@@ -131,6 +135,8 @@ def run_tool(enum):
         data = dict({"title": "Server Error",
                      "subTitle": "Logs: {}".format(str(e))})
         status = e.status
+    event.finish_event(status)
+    debugPrint(event)
     return get_response_json(data, status)
 
 @app.route("/api/tool/restart/<enum>", methods=["POST"])

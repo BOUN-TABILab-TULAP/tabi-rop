@@ -2,6 +2,7 @@ import sys
 import requests
 from backend.backend_proxy.api.exception import REST_Exception
 from backend.backend_proxy.tool.formats.supportedFormats import SupportedFormats
+from backend.backend_proxy.db.mongoDB import MongoDB
 
 
 def debugPrint(*args, **kwargs):
@@ -15,7 +16,7 @@ class Tool:
         self.port = port
         self.inputFormats = inputFormats
         self.outputFormats = outputFormats
-        self.version = version  # TODO Use this
+        self.version = version
         self.endpoint = endpoint
 
     def run(self, parameters: dict) -> dict:
@@ -46,9 +47,17 @@ class Tool:
         return parsedOutputs
 
     # TODO
-    def delete(self):
-        raise NotImplementedError
-    # TODO
+    def update(self, updated_map: dict) -> bool:
+        updatable_fields = ["name", "endpoint", "description", "usageInformation",
+                            "funding", "citing", "inputFormats", "outputFormats", "contact_info"]
+        changes = {}
+        for field in updatable_fields:
+            if field not in updated_map:
+                continue
+            changes[field] = updated_map[field]
+        MongoDB.getInstance().db['tools'].update_one({u'enum': self.enum}, {
+                    "$set": changes})           
+        return True
 
-    def update(self):
+    def delete(self):
         raise NotImplementedError

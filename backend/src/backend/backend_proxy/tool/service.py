@@ -74,56 +74,41 @@ class ToolService:
         )
         return self.dump(req_dict)
 
-        '''
-        # Old Version
-        enum = req_dict["enum"]
-        if self.enum_exists(enum):
-            raise REST_Exception("The enum: {} already exists, "
-                                 "enter a unique one".format(enum))
-        (author_json, form_data_json, root_json), toolPath = util.get_specs_from_git(
-            req_dict["git"])
-        if "author_json" not in req_dict or not req_dict["author_json"]:
-            req_dict["author_json"] = author_json
-        else:
-            req_dict["author_json"] = json.loads(req_dict["author_json"])
-        req_dict["root_json"] = root_json
-        req_dict["form_data_json"] = form_data_json
-        req_dict["update_time"] = dt.datetime.now()
-        # copy contact info to separate variable
-        req_dict['version'] = "1.0.0"
-        req_dict['port'] = DockerService().create_new_container(
-            toolPath, req_dict['enum'], req_dict['version'])
-        req_dict['ip'] = "172.17.0.1"
-        if "contact_info" in req_dict["author_json"]:
-            req_dict["contact_info"] = req_dict["author_json"]["contact_info"]
-        MongoDB.getInstance().create(req_dict)
-        return self.dump(req_dict)
-        '''
-
     def update_tool(self, req_dict, original_enum, access_tools):
-        if (access_tools is not None) and (original_enum not in access_tools):
-            raise REST_Exception("You have no right to update this tool")
+        #TODO Authentication
+        # if 'enum' not in req_dict:
+        #     raise REST_Exception("You must specify enum")
+        
+        enum = original_enum
+        if enum not in self.toolObjects:
+            raise REST_Exception("Could not find specified enum")
+        tool : Tool = self.toolObjects[enum]
+        is_successful = tool.update(req_dict)
+        return is_successful
 
-        enum = req_dict["enum"]
-        if self.enum_exists(enum) and (enum != original_enum):
-            raise REST_Exception("The enum: {} already exists, "
-                                 "enter a unique one".format(enum))
-        # Reloads the git URL again since
-        #   this might be the main motivation of the update
-        (author_json, form_data_json, root_json), toolPath = util.get_specs_from_git(
-            req_dict["git"])
-        if "author_json" not in req_dict or not req_dict["author_json"]:
-            req_dict["author_json"] = author_json
-        req_dict["author_json"] = author_json
-        req_dict["root_json"] = root_json
-        req_dict["form_data_json"] = form_data_json
-        req_dict["update_time"] = dt.datetime.now()
-        # copy contact info to separate variable
-        if "contact_info" in req_dict["author_json"]:
-            req_dict["contact_info"] = req_dict["author_json"]["contact_info"]
-        MongoDB.getInstance().update(
-            "tools", {"enum": original_enum}, req_dict)
-        return self.dump(req_dict)
+        
+        # if (access_tools is not None) and (original_enum not in access_tools):
+            # raise REST_Exception("You have no right to update this tool")
+
+        # if self.enum_exists(enum) and (enum != original_enum):
+        #     raise REST_Exception("The enum: {} already exists, "
+        #                          "enter a unique one".format(enum))
+        # # Reloads the git URL again since
+        # #   this might be the main motivation of the update
+        # (author_json, form_data_json, root_json), toolPath = util.get_specs_from_git(
+        #     req_dict["git"])
+        # if "author_json" not in req_dict or not req_dict["author_json"]:
+        #     req_dict["author_json"] = author_json
+        # req_dict["author_json"] = author_json
+        # req_dict["root_json"] = root_json
+        # req_dict["form_data_json"] = form_data_json
+        # req_dict["update_time"] = dt.datetime.now()
+        # # copy contact info to separate variable
+        # if "contact_info" in req_dict["author_json"]:
+        #     req_dict["contact_info"] = req_dict["author_json"]["contact_info"]
+        # MongoDB.getInstance().update(
+        #     "tools", {"enum": original_enum}, req_dict)
+        # return self.dump(req_dict)
 
     def delete_tool(self, enum, access_tools):
         if (access_tools is not None) and (enum not in access_tools):
@@ -145,17 +130,6 @@ class ToolService:
         return tool_dict
 
     def run_tool(self, enum, input_dict: dict):
-        # tool_dict = MongoDB.getInstance().find({"enum": enum})
-        # if tool_dict is None:
-        #     raise REST_Exception(
-        #         "Tool with enum: {} does not exist".format(enum))
-        # tool_dict = self.dump(tool_dict)
-        # ip, port = tool_dict["ip"], tool_dict["port"]
-        # response = self.run_request(ip, port, input_dict).json()
-        # if "brat_conll" in response:
-        #     standoff = conllXtostandoff.process(response["brat_conll"])
-        #     response["brat_standoff"] = standoff
-        #     del response["brat_conll"]
         return self.toolObjects[enum].run(input_dict)
 
     def list_all_tools(self, access_tools):
@@ -174,7 +148,7 @@ class ToolService:
         return (MongoDB.getInstance().find("tools", {"enum": enum}) is not None)
 
     def dump(self, obj):
-        return ToolSchema(exclude=['_id']).dump(obj)
+        return ToolSchema(exclude=['_id','ip','port','version']).dump(obj)
 
     def run_request(self, ip, port, input_dict):
         # all running programs must implement /evaluate endpoint
