@@ -18,7 +18,7 @@ services:
 
   mongo:
     container_name: mongo
-    # command: [--auth]
+    command: [--auth]
     image: mongo:5.0.0
     volumes:
       - ./mongo/data:/data/db
