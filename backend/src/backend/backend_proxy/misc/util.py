@@ -21,7 +21,7 @@ def get_specs_from_git(git_url) -> str:
     if p.returncode != 0:
         raise Exception("Git clone is not successfull. Check the git URL")
     # check if dip_specs folder exists
-    if not os.path.isdir("{}/dip_specs".format(dname)):
+    if not os.path.isdir("{}/{dname}/dip_specs".format(dname)):
         subprocess.run(["rm", "-rf", dname])
         raise Exception("The project does not contain the folder dip_specs. "
                         "Fix the project's root according to the tutorial")
