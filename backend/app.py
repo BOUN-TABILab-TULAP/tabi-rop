@@ -23,12 +23,8 @@ def register_admin():
     if existing_user is None:
         MongoDB.getInstance().create("user",user)
     else:
-        # db.update({"username": user["username"]}, user)
-        pass
+        db.update({"username": user["username"]}, user)
 
-
-def debugPrint(*args, **kwargs):
-    print(*args, file=sys.stderr, **kwargs)
 
 
 if __name__ == '__main__':
