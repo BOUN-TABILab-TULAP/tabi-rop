@@ -14,9 +14,8 @@ givenInputs = {
     "boun-pars":
         {"input_0": "Babam bana bal aldı."},
     "ner":
-        {"input_0":"Helmut Kohl'ün aradaki farkı kapatmasında da kararsız seçmenlerin bir bölümünü merkez sağa çekmesinin rol oynadığı ileri sürüldü"},
-    "question-answering":{"input_0":"Mitokondri nedir?"} 
-
+        {"input_0": "Helmut Kohl'ün aradaki farkı kapatmasında da kararsız seçmenlerin bir bölümünü merkez sağa çekmesinin rol oynadığı ileri sürüldü"},
+    "question-answering": {"input_0": "Mitokondri nedir?"}
 }
 expectedOutputs = {
     "morp_anal": {"text": ["raw", "json"]},
@@ -25,7 +24,7 @@ expectedOutputs = {
     "relx": {"text": ["raw"]},
     "morphological_disambiguator": {"text": ["raw", "json"]},
     "ermie": {"text": ["raw"]},
-    "boun-pars": {"brat_conll": ["raw","brat"]},
-    "ner":{"tagger_output":["json"]},
-    "question-answering":{"question":["json"]}
+    "boun-pars": {"brat_conll": ["raw", "brat"]},
+    "ner": {"tagger_output": ["json"]},
+    "question-answering": {"question": ["json"]}
 }

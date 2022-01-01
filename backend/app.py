@@ -2,6 +2,8 @@ from backend.backend_proxy.api.endpoints import app
 import sys
 import os
 
+from backend.backend_proxy.config import Config
+
 # run from root dir
 sys.path.append(".")
 
@@ -9,14 +11,13 @@ sys.path.append(".")
 def register_admin():
     from backend.backend_proxy.db.mongoDB import MongoDB
     import bcrypt
-    password = "DIP_DEMO_ADMIN_PASS"  # TODO: os.environ["DIP_DEMO_ADMIN_PASS"]
+    password = Config.ADMINISTRATOR_PASSWORD  
     pass_hashed = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
     user = {"username": "admin",
             "password": pass_hashed,
             "roles": ["admin"],
             "tools": [],
             "email": "tabilab.dip@gmail.com"}
-    # db = MongoDB(MongoConn("mongodb://mongo:27017/"), "user")
     existing_user = MongoDB.getInstance().find(
         "user", {"username": user["username"]})
     if existing_user is None:

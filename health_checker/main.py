@@ -87,7 +87,7 @@ def send_requests(tools, endpoint="/tool/run/"):
 app = Flask(__name__)
 
 
-def checker(log_if_noerror=True):
+def checker(log_if_noerror=False):
     tools, output = None, None
     try:
         tools = get_all_tools()
@@ -117,7 +117,7 @@ def check_health():
 if __name__ == '__main__':
 
     scheduler = BackgroundScheduler()
-    scheduler.add_job(func=checker, trigger="interval", seconds=360)
+    scheduler.add_job(func=checker, trigger="interval", seconds=3600)
     scheduler.start()
 
     # Shut down the scheduler when exiting the app
