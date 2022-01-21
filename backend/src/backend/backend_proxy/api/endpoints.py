@@ -14,6 +14,11 @@ from datetime import timedelta
 from backend.backend_proxy.misc.util import *
 import traceback
 import sys
+from datetime import datetime
+
+from backend.backend_proxy.user.user_controller import UserController
+from backend.backend_proxy.user.user_type import UserType
+
 app = Flask(__name__)
 app.permanent_session_lifetime = timedelta(days=5)
 app.secret_key = Config.FLASK_SECRET_KEY
@@ -26,6 +31,14 @@ def debugPrint(*args, **kwargs):
 def alive():
     return get_response_json("Hi", 200)
 
+@app.route("/api/debug", methods=["POST"])
+def de():
+    u = {
+        "password":"asdasda",
+    }
+    return UserController().update_user("61d1ba6e1d902ceccf404a6b",u)
+    # return UserController().create_user(u)
+    # return UserController().get_user("61d1ba6e1d902ceccf404a6b")
 
 @app.route("/api/tools", methods=["GET"])
 def list_all_tools():
