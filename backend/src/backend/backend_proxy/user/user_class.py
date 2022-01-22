@@ -1,4 +1,3 @@
-from backend.backend_proxy.user.user_controller import UserController
 from backend.backend_proxy.user.user_type import UserType
 from secrets import token_hex
 
@@ -12,6 +11,7 @@ class User:
         self.password_hash = user_dict['password']
 
     def update_token(self) -> str:
+        from backend.backend_proxy.user.user_controller import UserController
         self.token = token_hex(16)
         UserController().update_user(user_id=self._id,user_info={"token":self.token})
         return self.token

@@ -58,7 +58,7 @@ class ToolService:
         toolPath = util.get_specs_from_git(req_dict["git"])
         req_dict['port'] = DockerService().create_new_container(
             toolPath, req_dict['enum'], req_dict['version'])
-        req_dict['ip'] = "172.17.0.1"
+        req_dict['ip'] = "host.docker.internal"
         req_dict['schema'], req_dict['uiSchema'] = createUiSchema(
             req_dict['inputFormats'])
         MongoDB.getInstance().create("tools", req_dict)
