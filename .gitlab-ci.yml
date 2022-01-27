@@ -1,6 +1,7 @@
 image: ubuntu
 stages:
   - deploy
+
 before_script:
   - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client git -y )'
 
@@ -17,8 +18,7 @@ before_script:
   - chmod 644 ~/.ssh/known_hosts
 
 
-
-Deploy to test server:
+deploy_to_test_server:
   stage: deploy
   only:
     - triggers 
