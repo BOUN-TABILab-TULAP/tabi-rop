@@ -18,6 +18,7 @@ before_script:
 
 
 Deploy to test server:
+  stage: deploy
   only:
     - triggers 
   script:
