@@ -20,6 +20,8 @@ before_script:
 
 deploy_to_test_server:
   stage: deploy
+  only:
+    - web
   script:
     - ssh dipp@79.123.177.252
     - cd nlp-tools-platform
