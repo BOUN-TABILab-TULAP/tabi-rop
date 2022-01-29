@@ -132,3 +132,5 @@ class DockerService:
             return port
         except (docker.errors.NotFound, docker.errors.APIError) as e:
             return False
+    def remove_container(self, container_name:str)->bool:
+        pass

@@ -10,7 +10,7 @@ def debugPrint(*args, **kwargs):
 
 
 class Tool:
-    def __init__(self, enum: str, ip: str, port: int, inputFormats: list[SupportedFormats], outputFormats: list[SupportedFormats], version: str, endpoint: str) -> None:
+    def __init__(self, enum: str, ip: str, port: int, inputFormats, outputFormats, version: str, endpoint: str) -> None:
         self.enum = enum
         self.ip = ip
         self.port = port

@@ -74,14 +74,14 @@ class ToolService:
         )
         return self.dump(req_dict)
 
-    def update_tool(self, req_dict, original_enum, access_tools):
+    def update_tool(self, req_dict, original_enum):
         #TODO Authentication
         # if 'enum' not in req_dict:
         #     raise REST_Exception("You must specify enum")
         
         enum = original_enum
         if enum not in self.toolObjects:
-            raise REST_Exception("Could not find specified enum")
+            raise REST_Exception("Could not find the specified enum")
         tool : Tool = self.toolObjects[enum]
         is_successful = tool.update(req_dict)
         return is_successful
@@ -111,14 +111,16 @@ class ToolService:
         # return self.dump(req_dict)
 
     def delete_tool(self, enum, access_tools):
-        if (access_tools is not None) and (enum not in access_tools):
-            raise REST_Exception("You have no right to update this tool")
+            pass
 
-        tool_dict = MongoDB.getInstance().find("tools", {"enum": enum})
-        if tool_dict is None:
-            raise REST_Exception("Tool enum does not exist")
-        MongoDB.getInstance().delete("tools", tool_dict)
-        return self.dump(tool_dict)
+        # if (access_tools is not None) and (enum not in access_tools):
+        #     raise REST_Exception("You have no right to update this tool")
+
+        # tool_dict = MongoDB.getInstance().find("tools", {"enum": enum})
+        # if tool_dict is None:
+        #     raise REST_Exception("Tool enum does not exist")
+        # MongoDB.getInstance().delete("tools", tool_dict)
+        # return self.dump(tool_dict)
 
     def get_tool_ui_info(self, enum):
         tool_dict = MongoDB.getInstance().find("tools", {"enum": enum})

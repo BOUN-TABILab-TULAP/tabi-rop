@@ -11,7 +11,6 @@ sys.path.append(".")
 
 def register_admin():
     from backend.backend_proxy.db.mongoDB import MongoDB
-    import bcrypt
     password = Config.ADMINISTRATOR_PASSWORD
     pass_hashed = hash_password(password=password)
     user = {"username": "admin",
@@ -24,7 +23,6 @@ def register_admin():
     if existing_user is None:
         MongoDB.getInstance().create("user", user)
     else:
-        # db.update({"username": user["username"]}, user)
         pass
 
 
@@ -35,5 +33,5 @@ def debugPrint(*args, **kwargs):
 if __name__ == '__main__':
     register_admin()
     from backend.backend_proxy.containerization.service import DockerService
-    DockerService()
+    DockerService() # Initialize 
     app.run(host='0.0.0.0')
