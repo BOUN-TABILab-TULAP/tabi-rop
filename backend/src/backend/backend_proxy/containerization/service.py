@@ -13,17 +13,16 @@ def debugPrint(*args, **kwargs):
     print(*args, file=sys.stderr, **kwargs)
 
 
-# This class is a singleton. Please use getInstance() instead of  __init__.
 class DockerService:
-    __instance = None
+    __instance__ = None
     _initialized = False
     runningContainers = {}
 
     def __new__(cls, *args, **kwargs):
-        if cls.__instance is None:
-            cls.__instance = object.__new__(cls, *args, **kwargs)
-            cls.__instance._initialized = False
-        return cls.__instance
+        if cls.__instance__ is None:
+            cls.__instance__ = object.__new__(cls, *args, **kwargs)
+            cls.__instance__._initialized = False
+        return cls.__instance__
 
     def __init__(self):
         if self._initialized:
@@ -99,6 +98,7 @@ class DockerService:
         # We have the functionality to create containers with multiple ports; however, as 30 July 2021 our
         # tool system does not support multiple ports. Hence, I am just returning the first port exposed.
         ports = createdContainer.ports
+        
         if ports.__len__() == 0:
             # Container does not have a port. I am returning none for now but we need to discuss this furrther.
             # TODO https://gitlab.com/nlpgroup1/nlp-tools-platform/-/issues/1

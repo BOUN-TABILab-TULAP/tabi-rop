@@ -1,5 +1,5 @@
 import bcrypt
-from backend.backend_proxy.user.user_controller import UserController
+from backend.backend_proxy.user.controller.user_controller import UserController
 
 
 def hash_password(password: str) -> bytes:

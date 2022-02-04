@@ -16,7 +16,7 @@ import traceback
 import sys
 from datetime import datetime
 
-from backend.backend_proxy.user.user_controller import UserController
+from backend.backend_proxy.user.controller.user_controller import UserController
 from backend.backend_proxy.user.user_type import UserType
 
 app = Flask(__name__)
@@ -24,21 +24,15 @@ app.permanent_session_lifetime = timedelta(days=5)
 app.secret_key = Config.FLASK_SECRET_KEY
 CORS(app, supports_credentials=True)
 
+
 def debugPrint(*args, **kwargs):
     print(*args, file=sys.stderr, **kwargs)
+
 
 @app.route("/api/alive", methods=["GET"])
 def alive():
     return get_response_json("Hi", 200)
 
-@app.route("/api/debug", methods=["POST"])
-def de():
-    u = {
-        "password":"asdasda",
-    }
-    return UserController().update_user("61d1ba6e1d902ceccf404a6b",u)
-    # return UserController().create_user(u)
-    # return UserController().get_user("61d1ba6e1d902ceccf404a6b")
 
 @app.route("/api/tools", methods=["GET"])
 def list_all_tools():
@@ -74,7 +68,6 @@ def add_tool():
         UserService().assert_logged_in(session)
         req_dict = json.loads(request.data)
         req_dict = ToolService().add_tool(req_dict)
-        UserService().add_tool_to_user(session, req_dict["enum"])
         data = dict({"title": "Tool is added to the proxy",
                      "subTitle": "Tool Info: {}".format(json.dumps(req_dict))})
         status = 200
@@ -85,6 +78,7 @@ def add_tool():
         status = e.status
     return get_response_json(data, status)
 
+
 @app.route("/api/tool/formats", methods=["GET"])
 def toolFormats():
     data = SupportedFormats.getSupportedTypes()
@@ -94,7 +88,6 @@ def toolFormats():
 @app.route("/api/tool/<enum>", methods=["PUT"])
 def update_tool(enum):
     try:
-        # access_tools = UserService().get_tools_user(session)
         req_dict = json.loads(request.data)
         req_dict = ToolService().update_tool(req_dict, enum, None)
         data = dict({"title": "Tool is updated",
@@ -152,12 +145,13 @@ def run_tool(enum):
     debugPrint(event)
     return get_response_json(data, status)
 
+
 @app.route("/api/tool/restart/<enum>", methods=["POST"])
 def restart_tool(enum):
     try:
         # input for the tool
         input_dict = json.loads(request.data)
-        data = DockerService().restart_container(enum,input_dict)
+        data = DockerService().restart_container(enum, input_dict)
         if (data):
             ToolService().toolObjects[enum].port = data
             data = True
@@ -174,50 +168,27 @@ def restart_tool(enum):
 
 @app.route("/api/user/login", methods=["POST"])
 def login_user():
-    session.clear()
     try:
         req_dict = json.loads(request.data)
-        user = UserService().login_user(req_dict)
-        # login succeeded gen session
-        session["username"] = user["username"]
-        data = dict({"title": "Login success", })
+        data = UserService().login_user(req_dict)
         status = 200
     except REST_Exception as e:
         data = dict({"title": "Server Error",
-                     "subTitle": "Logs: {}".format(str(e))})
+                     "subTitle": f"Logs: {str(e)}"})
         status = e.status
     return get_response_json(data, status)
 
-
-@app.route("/api/user/<username>", methods=["DELETE"])
-def delete_user(username):
-    try:
-        UserService().delete_user(username, session)
-        data = dict({"title": "User is successfully deleted", })
-        status = 200
-    except REST_Exception as e:
-        data = dict({"title": "Server Error",
-                     "subTitle": "Logs: {}".format(str(e))})
-        status = e.status
-    return get_response_json(data, status)
-
-
-@app.route("/api/user", methods=["GET"])
-def get_user():
-    try:
-        data = UserService().get_current_user(session)
-        status = 200
-    except REST_Exception as e:
-        data = dict({"title": "Server Error",
-                     "subTitle": "Logs: {}".format(str(e))})
-        status = e.status
-    return get_response_json(data, status)
 
 
 @app.route("/api/users", methods=["GET"])
 def get_users():
+    if "Token" not in dict(request.headers):
+        raise REST_Exception(
+            "You must provide a token in the header", status=400)
+    token = request.headers.get("Token")
+
     try:
-        data = UserService().get_users(session)
+        data = UserService().get_users(token=token)
         status = 200
     except REST_Exception as e:
         data = dict({"title": "Server Error",
@@ -225,82 +196,26 @@ def get_users():
         status = e.status
     return get_response_json(data, status)
 
-
-@app.route("/api/user/isauth", methods=["GET"])
-def isauth_user():
-    try:
-        UserService().assert_logged_in(session)
-        data = dict({"title": "Authenticated", })
-        status = 200
-    except REST_Exception as e:
-        data = dict({"title": "Server Error",
-                     "subTitle": "Logs: {}".format(str(e))})
-        status = e.status
-    return get_response_json(data, status)
-
-
-@app.route("/api/user/logout", methods=["GET"])
-def logout_user():
-    session.clear()
-    data = dict({"title": "Logged out"})
-    status = 200
-    return get_response_json(data, status)
 
 
 @app.route("/api/user/register", methods=["POST"])
 def register_user():
     try:
         req_dict = json.loads(request.data)
-        user = UserService().register_user(req_dict, session)
-        data = dict({"title": "Register success", })
-        status = 200
+        is_successful = UserService().create_user(req_dict)
+        if is_successful:
+            data = dict({"title": "Register success", })
+            status = 200
+        else:
+            data = dict({"title": "Could not register", })
+            status = 400
+
     except REST_Exception as e:
         data = dict({"title": "Server Error",
                      "subTitle": "Logs: {}".format(str(e))})
         status = e.status
     return get_response_json(data, status)
 
-
-@app.route("/api/user/update_info", methods=["PUT"])
-def update_cur_user_info():
-    try:
-        req_dict = json.loads(request.data)
-        user = UserService().update_cur_user_info(req_dict, session)
-        data = dict({"title": "Information Update success", })
-        status = 200
-    except REST_Exception as e:
-        data = dict({"title": "Server Error",
-                     "subTitle": "Logs: {}".format(str(e))})
-        status = e.status
-    return get_response_json(data, status)
-
-
-@app.route("/api/user/update_pass", methods=["PUT"])
-def update_cur_user_pass():
-    try:
-        req_dict = json.loads(request.data)
-        user = UserService().update_cur_user_pass(req_dict, session)
-        data = dict({"title": "Password Update success", })
-        status = 200
-    except REST_Exception as e:
-        data = dict({"title": "Server Error",
-                     "subTitle": "Logs: {}".format(str(e))})
-        status = e.status
-    return get_response_json(data, status)
-
-
-@app.route("/api/user/update/<username>", methods=["PUT"])
-def update_other_user(username):
-    try:
-        req_dict = json.loads(request.data)
-        user = UserService().update_other_user(username, req_dict, session)
-        data = dict({"title": "Update success", })
-        status = 200
-    except REST_Exception as e:
-        data = dict({"title": "Server Error",
-                     "subTitle": "Logs: {}".format(str(e))})
-        status = e.status
-    return get_response_json(data, status)
 
 
 def get_response_json(data, status):

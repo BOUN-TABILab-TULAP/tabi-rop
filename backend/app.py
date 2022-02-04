@@ -4,6 +4,7 @@ import os
 
 from backend.backend_proxy.config import Config
 from backend.backend_proxy.user.authentication import hash_password
+from backend.backend_proxy.user.controller.user_controller import UserController
 
 # run from root dir
 sys.path.append(".")
@@ -15,13 +16,13 @@ def register_admin():
     pass_hashed = hash_password(password=password)
     user = {"username": "admin",
             "password": pass_hashed,
-            "type": "administrator",
+            "type_enum": "administrator",
             "email": "tabilab.dip@gmail.com"}
             
     existing_user = MongoDB.getInstance().find(
         "user", {"username": user["username"]})
     if existing_user is None:
-        MongoDB.getInstance().create("user", user)
+        UserController().create_user(user_info=user)
     else:
         pass
 

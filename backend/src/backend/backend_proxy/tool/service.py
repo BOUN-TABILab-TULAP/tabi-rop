@@ -136,11 +136,7 @@ class ToolService:
 
     def list_all_tools(self, access_tools):
         tools = MongoDB.getInstance().find_all("tools",)
-        if access_tools is None:
-            return [self.dump(tool) for tool in tools]
-        else:
-            access_tools = set(access_tools)
-            return [self.dump(tool) for tool in tools if tool["enum"] in access_tools]
+        return [self.dump(tool) for tool in tools]
 
     def get_tool_names(self):
         tools = MongoDB.getInstance().find_all("tools",)
@@ -152,7 +148,3 @@ class ToolService:
     def dump(self, obj):
         return ToolSchema(exclude=['_id','ip','port','version']).dump(obj)
 
-    def run_request(self, ip, port, input_dict):
-        # all running programs must implement /evaluate endpoint
-        addr = "http://{}:{}/evaluate".format(ip, port)
-        return requests.post(addr, json=input_dict)
