@@ -11,9 +11,3 @@ class User:
         if '_id' in user_dict: self._id = user_dict['_id']
         self.password = user_dict['password']
         self.token = user_dict['token']
-
-    def update_token(self) -> str:
-        from backend.backend_proxy.user.controller.user_controller import UserController
-        self.token = token_hex(16)
-        UserController().update_user(user_id=self._id,user_info={"token":self.token})
-        return self.token

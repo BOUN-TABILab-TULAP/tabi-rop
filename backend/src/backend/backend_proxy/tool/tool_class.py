@@ -1,4 +1,5 @@
 import sys
+from backend.backend_proxy.tool.abstract_tool_class import AbstractToolClass
 import requests
 from backend.backend_proxy.api.exception import REST_Exception
 from backend.backend_proxy.tool.formats.supportedFormats import SupportedFormats
@@ -9,15 +10,19 @@ def debugPrint(*args, **kwargs):
     print(*args, file=sys.stderr, **kwargs)
 
 
-class Tool:
-    def __init__(self, enum: str, ip: str, port: int, inputFormats, outputFormats, version: str, endpoint: str) -> None:
-        self.enum = enum
-        self.ip = ip
-        self.port = port
-        self.inputFormats = inputFormats
-        self.outputFormats = outputFormats
-        self.version = version
-        self.endpoint = endpoint
+class Tool(AbstractToolClass):
+    def __init__(self, tool_dict: dict) -> None:
+        self.name = tool_dict["name"]
+        self.enum = tool_dict["enum"]
+        self.added_by = tool_dict["added_by"]
+        self.registered_at = tool_dict["registered_at"]
+        self.ip = tool_dict["ip"]
+        self.port = tool_dict["port"]
+        self.endpoint = tool_dict["endpoint"]
+        self.description = tool_dict["description"]
+        self.contact_mail = tool_dict["contact_mail"]
+        self.input_fields = tool_dict["input_fields"]
+        self.output_fields = tool_dict["output_fields"]
 
     def run(self, parameters: dict) -> dict:
         parsed_inputs = {}
@@ -27,7 +32,8 @@ class Tool:
             output_format_enum = SupportedFormats.strToEnum(output)
             SupportedFormats.formatsMap[output_format_enum].fromString(
                 parameters[f"input_{format_index}"])
-            parsed_inputs[current_format['field']] = parameters[f"input_{format_index}"]
+            parsed_inputs[current_format['field']
+                          ] = parameters[f"input_{format_index}"]
 
         response = requests.post(
             url=f"http://{self.ip}:{self.port}/{self.endpoint}", json=parsed_inputs)
@@ -45,19 +51,4 @@ class Tool:
             parsedOutputs[current_format['field']] = SupportedFormats.formatsMap[output_format_enum].getTypesAsJson(
                 response[current_format['field']])
         return parsedOutputs
-
-    # TODO
-    def update(self, updated_map: dict) -> bool:
-        updatable_fields = ["name", "endpoint", "description", "usageInformation",
-                            "funding", "citing", "inputFormats", "outputFormats", "contact_info"]
-        changes = {}
-        for field in updatable_fields:
-            if field not in updated_map:
-                continue
-            changes[field] = updated_map[field]
-        MongoDB.getInstance().db['tools'].update_one({u'enum': self.enum}, {
-                    "$set": changes})           
-        return True
-
-    def delete(self):
-        raise NotImplementedError
+    

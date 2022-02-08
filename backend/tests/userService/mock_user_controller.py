@@ -71,3 +71,5 @@ class MockUserController(AbstractUserController):
 
     def get_all_users(self) -> list[User]:
         return self.users
+    def dump_user(self, user: User) -> dict:
+        return {}

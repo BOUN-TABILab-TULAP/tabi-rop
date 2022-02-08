@@ -22,3 +22,6 @@ class AbstractUserController(ABC):
 
     @abstractmethod
     def get_all_users(self) -> list[User]: pass
+
+    @abstractmethod
+    def dump_user(self, user:User) -> dict: pass

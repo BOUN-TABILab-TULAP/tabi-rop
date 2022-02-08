@@ -35,7 +35,7 @@ class UserController(AbstractUserController):
             return None
         return self.schema.create_object(user_dict)
 
-    def create_user(self, user_info: dict) -> bool:
+    def create_user(self, user_info: dict) -> User:
         if 'type_enum' in user_info and type(user_info['type_enum']) is UserType:
             user_info['type_enum'] = UserType.enumToStr(user_info['type_enum'])
 
@@ -59,3 +59,5 @@ class UserController(AbstractUserController):
 
     def get_all_users(self) -> list[User]:
         return [self.schema.create_object(x) for x in self.collection.find({})]
+
+    def dump_user(self, user:User) -> dict: return self.schema.dump(user=user)

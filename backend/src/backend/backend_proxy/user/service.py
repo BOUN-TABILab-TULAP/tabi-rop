@@ -2,6 +2,7 @@ import re
 import secrets
 from backend.backend_proxy.db.mongoDB import MongoDB
 from backend.backend_proxy.user.authentication import hash_password
+from backend.backend_proxy.user.controller.abstract_controller import AbstractUserController
 from backend.backend_proxy.user.schema import UserSchema
 from backend.backend_proxy.api.exception import REST_Exception
 import backend.backend_proxy.misc.util as util
@@ -26,7 +27,7 @@ class UserService:
         if self._initialized:
             return
         self._initialized = True
-        self.controller = controller
+        self.controller: AbstractUserController = controller
 
     def login_user(self, req_dict) -> dict:
         if 'username' not in req_dict:
@@ -45,7 +46,7 @@ class UserService:
         user.last_seen_at = dt.datetime.now().strftime('%Y-%m-%dT%H:%M:%S')
         user.token = secrets.token_hex(16)
         self.controller.update_user(user_id=user._id,
-                                     user_info=UserSchema.dump(user=user, include_credentials=True))
+                                    user_info=UserSchema.dump(user=user, include_credentials=True))
         return {"username": user.username, "token": user.token, "user_type": UserType.enumToStr(user.type_enum)}
 
     def create_user(self, req_dict):
@@ -68,12 +69,21 @@ class UserService:
         return is_successful
 
     def get_users(self, token: str):
-        user: User = self.controller.get_user_query({"token": token})
-        if user is None:
-            raise REST_Exception(
-                "You don't have the right to see other users", status=401)
-        if user.type_enum != UserType.administrator:
+        is_authorized = self.is_authorized(token=token)
+        if not is_authorized:
             raise REST_Exception(
                 "You don't have the right to see other users", status=401)
         users = self.controller.get_all_users()
         return [UserSchema.dump(user) for user in users]
+    
+    def get_user_query(self, query:dict) -> User:
+        return self.controller.get_user_query(query=query)
+
+    def is_authorized(self, token: str, required_role=UserType.administrator) -> bool:
+        user: User = self.controller.get_user_query(query={"token": token})
+        if user is None:
+            return False
+
+        if user.type_enum == required_role:
+            return True
+        return False

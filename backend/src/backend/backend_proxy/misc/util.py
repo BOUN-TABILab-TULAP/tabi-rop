@@ -1,12 +1,7 @@
 import os
-import sys
-import json
-import random
-import string
 import base64
 import subprocess
 
-KEYWORDS = ["panel", "about", "home", "test", ""]
 
 
 def get_specs_from_git(git_url) -> str: 

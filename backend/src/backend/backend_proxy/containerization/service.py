@@ -103,6 +103,7 @@ class DockerService:
             # Container does not have a port. I am returning none for now but we need to discuss this furrther.
             # TODO https://gitlab.com/nlpgroup1/nlp-tools-platform/-/issues/1
             return None
+        print(f"{exposedPorts=} {ports=}")
         print(
             f"Created a container with port {ports[exposedPorts[0]][0]['HostPort']} ")
         return int(ports[exposedPorts[0]][0]['HostPort'])

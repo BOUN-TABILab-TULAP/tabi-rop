@@ -37,8 +37,7 @@ def alive():
 @app.route("/api/tools", methods=["GET"])
 def list_all_tools():
     try:
-        access_tools = UserService().get_tools_user(session)
-        data = ToolService().list_all_tools(access_tools)
+        data = ToolService().list_all_tools()
         status = 200
     except REST_Exception as e:
         traceback.print_exc()
@@ -51,8 +50,7 @@ def list_all_tools():
 @app.route("/api/tools/name", methods=["GET"])
 def get_tool_names():
     try:
-        access_tools = None
-        data = ToolService().list_all_tools(access_tools)
+        data = ToolService().list_all_tools()
         status = 200
     except REST_Exception as e:
         traceback.print_exc()
@@ -65,9 +63,12 @@ def get_tool_names():
 @app.route("/api/tool", methods=["POST"])
 def add_tool():
     try:
-        UserService().assert_logged_in(session)
+        if "Token" not in dict(request.headers):
+            raise REST_Exception(
+                "You must provide a token in the header", status=400)
+        token = request.headers.get("Token")
         req_dict = json.loads(request.data)
-        req_dict = ToolService().add_tool(req_dict)
+        req_dict = ToolService().add_tool(req_dict=req_dict, token=token)
         data = dict({"title": "Tool is added to the proxy",
                      "subTitle": "Tool Info: {}".format(json.dumps(req_dict))})
         status = 200
@@ -108,18 +109,6 @@ def delete_tool(enum):
         tool_json = ToolService().delete_tool(enum, access_tools)
         data = dict({"title": "Tool is deleted",
                      "subTitle": "Tool Info: {}".format(json.dumps(tool_json))})
-        status = 200
-    except REST_Exception as e:
-        data = dict({"title": "Server Error",
-                     "subTitle": "Logs: {}".format(str(e))})
-        status = e.status
-    return get_response_json(data, status)
-
-
-@app.route("/api/tool/ui/<enum>", methods=["GET"])
-def get_tool_ui_info(enum):
-    try:
-        data = ToolService().get_tool_ui_info(enum)
         status = 200
     except REST_Exception as e:
         data = dict({"title": "Server Error",
@@ -179,7 +168,6 @@ def login_user():
     return get_response_json(data, status)
 
 
-
 @app.route("/api/users", methods=["GET"])
 def get_users():
     if "Token" not in dict(request.headers):
@@ -195,7 +183,6 @@ def get_users():
                      "subTitle": "Logs: {}".format(str(e))})
         status = e.status
     return get_response_json(data, status)
-
 
 
 @app.route("/api/user/register", methods=["POST"])
@@ -215,7 +202,6 @@ def register_user():
                      "subTitle": "Logs: {}".format(str(e))})
         status = e.status
     return get_response_json(data, status)
-
 
 
 def get_response_json(data, status):
