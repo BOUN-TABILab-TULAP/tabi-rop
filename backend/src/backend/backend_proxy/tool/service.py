@@ -1,3 +1,4 @@
+from json import tool
 from backend.backend_proxy.tool.controller.abstract_controller import AbstractToolController
 from backend.backend_proxy.tool.controller.tool_controller import ToolController
 from backend.backend_proxy.tool.formats.supportedFormats import SupportedFormats
@@ -84,7 +85,7 @@ class ToolService:
         return selected_tool.run(input_dict)
 
     def list_all_tools(self) -> list[Tool]:
-        return self.controller.get_all_tools()
+        return [self.controller.dump_tool(tool=tool) for tool in self.controller.get_all_tools()]
 
     def get_tool_names(self) -> dict[str, str]:
         return [{"name": tool.name, "enum": tool.enum} for tool in self.list_all_tools()]
