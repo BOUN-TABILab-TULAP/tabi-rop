@@ -1,5 +1,6 @@
 import sys
 from backend.backend_proxy.tool.abstract_tool_class import AbstractToolClass
+from backend.backend_proxy.tool.formats.formatAbstractClass import Format
 import requests
 from backend.backend_proxy.api.exception import REST_Exception
 from backend.backend_proxy.tool.formats.supportedFormats import SupportedFormats
@@ -25,30 +26,40 @@ class Tool(AbstractToolClass):
         self.output_fields = tool_dict["output_fields"]
 
     def run(self, parameters: dict) -> dict:
-        parsed_inputs = {}
-        for format_index, current_format in enumerate(self.inputFormats):
-            current_format = self.inputFormats[format_index]
-            output = current_format["type"]
-            output_format_enum = SupportedFormats.strToEnum(output)
-            SupportedFormats.formatsMap[output_format_enum].fromString(
-                parameters[f"input_{format_index}"])
-            parsed_inputs[current_format['field']
-                          ] = parameters[f"input_{format_index}"]
+        inputs = {}
+        for field, val in self.input_fields.items():
+            if field not in parameters:
+                raise REST_Exception(
+                    message=f"You did not provide a required field: {field}", status=400)
+            given_input = parameters[field]
+
+            format_of_field: str = val['type']
+            format_object: Format = SupportedFormats.get_format_from_string(
+                format_of_field)
+
+            formatted_input = format_object.fromString(text=given_input)
+            inputs[field] = formatted_input
 
         response = requests.post(
-            url=f"http://{self.ip}:{self.port}/{self.endpoint}", json=parsed_inputs)
+            url=f"http://{self.ip}:{self.port}/{self.endpoint}", json=inputs)
         if not response.ok:
             raise REST_Exception(
                 message=response.text,
                 status=response.status_code
             )
         response = response.json()
-        parsedOutputs = {}
-        for format_index in range(len(self.outputFormats)):
-            current_format = self.outputFormats[format_index]
-            output = current_format["type"]
-            output_format_enum = SupportedFormats.strToEnum(output)
-            parsedOutputs[current_format['field']] = SupportedFormats.formatsMap[output_format_enum].getTypesAsJson(
-                response[current_format['field']])
-        return parsedOutputs
-    
+        outputs = {}
+        for field, val in self.output_fields.items():
+            if field not in response:
+                raise REST_Exception(
+                    message=f"An error occured in the tool.", status=500)
+
+            format_of_field: str = val['type']
+            format_object: Format = SupportedFormats.get_format_from_string(
+                format_of_field)
+
+            formatted_output = format_object.getTypesAsJson(
+                text=response[field])
+            outputs[field] = formatted_output
+
+        return outputs

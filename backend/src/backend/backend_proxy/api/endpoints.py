@@ -106,7 +106,9 @@ def run_tool(enum):
         res = create_response(data=data, status=status)
     except REST_Exception as e:
         # traceback.print_exc()
-        res = create_response(message=e.message, status=e.status)
+        status = e.status
+        message = e.message
+        res = create_response(message=message, status=status)
     event.finish_event(status)
     debugPrint(event)
     return res

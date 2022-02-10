@@ -29,8 +29,17 @@ class SupportedFormats(Enum):
         for enum in enumMap:
             d[enum] = list(SupportedFormats.formatsMap[enumMap[enum]].supportedTypes.keys())
         return d
+    @staticmethod
+    def get_format(enum):
+        return SupportedFormats.formatsMap[enum]
 
-
+    @staticmethod
+    def get_format_from_string(string:str):
+        format_enum: SupportedFormats = SupportedFormats.strToEnum(
+                string)
+        format_object = SupportedFormats.get_format(
+                enum=format_enum)
+        return format_object
 
 
 SupportedFormats.formatsMap = {
