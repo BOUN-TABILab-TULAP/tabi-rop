@@ -15,6 +15,7 @@ from backend.backend_proxy.user.user_class import User
 import requests
 import json
 import sys
+from platform import uname
 
 
 def debugPrint(*args, **kwargs):
@@ -64,8 +65,16 @@ class ToolService:
         req_dict['port'] = DockerService().create_new_container(
             toolPath, req_dict['enum'], req_dict['version'])
 
-        req_dict['ip'] = "host.docker.internal"
+        # My main development machine is windows and I am using WSL(Windows Subsystem for Linux) for running docker.
+        # In linux, default IP of docker host is 172.17.0.1; however, that ip constantly changes in WSL so you can reach to docker host by `host.docker.internal` domain.
+        # As of Feb 10 2022, Docker in linux does not solve that domain without extra configurations.
+        # So, I have to make the following check to assign req_dict['ip']. 
+        is_running_in_wsl = 'microsoft-standard' in uname().release
 
+        if is_running_in_wsl:
+            req_dict['ip'] = "host.docker.internal"
+        else:
+            req_dict['ip'] = "172.17.0.1"
         tool: Tool = self.controller.create_tool(tool_info=req_dict)
         self.toolObjects[enum] = tool
 
