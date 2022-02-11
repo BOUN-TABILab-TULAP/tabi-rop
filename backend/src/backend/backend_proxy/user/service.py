@@ -23,11 +23,14 @@ class UserService:
             cls.__instance__ = object.__new__(cls)
         return cls.__instance__
 
-    def __init__(self, controller=UserController()) -> None:
+    def __init__(self, controller=None) -> None:
         if self._initialized:
             return
         self._initialized = True
-        self.controller: AbstractUserController = controller
+        if controller is None:
+            controller = UserController()
+        else:
+            self.controller: AbstractUserController = controller
 
     def login_user(self, req_dict) -> dict:
         if 'username' not in req_dict:

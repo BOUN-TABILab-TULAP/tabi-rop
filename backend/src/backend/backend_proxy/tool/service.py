@@ -31,12 +31,14 @@ class ToolService:
             cls.__instance._initialized = False
         return cls.__instance
 
-    def __init__(self, controller=ToolController()) -> None:
+    def __init__(self, controller=None) -> None:
         if self._initialized:
             return
         self._initialized = True
-        self.controller: AbstractToolController = controller
-
+        if controller is None:
+            self.controller = ToolController()
+        else:
+            self.controller: AbstractToolController = controller
         tools = self.controller.get_all_tools()
         self.toolObjects: dict[str, Tool] = {tool.enum: tool for tool in tools}
 
