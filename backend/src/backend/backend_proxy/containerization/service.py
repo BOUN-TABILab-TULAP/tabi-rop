@@ -1,10 +1,12 @@
 from backend.backend_proxy.api.exception import REST_Exception
 from os import name, path, stat
+from backend.backend_proxy.tool.tool_class import Tool
+from backend.backend_proxy.user.user_class import User
 import docker
 from docker.api import container, image
 from backend.backend_proxy.config import Config
 from backend.backend_proxy.db.mongoDB import MongoDB
-# from backend.app import debugPrint
+from backend.backend_proxy.user.service import UserService
 import sys
 
 
@@ -30,7 +32,7 @@ class DockerService:
         self._initialized = True
 
         self.dockerClient = docker.from_env()
-        existingTools = list(MongoDB.getInstance().find_all("tools"))
+        existingTools = list(MongoDB.getInstance().find_all("tool"))
         debugPrint(f"Found {len(existingTools)} existing tools")
         for tool in existingTools:
             container_name = f"{tool['enum']}-container"
@@ -98,7 +100,7 @@ class DockerService:
         # We have the functionality to create containers with multiple ports; however, as 30 July 2021 our
         # tool system does not support multiple ports. Hence, I am just returning the first port exposed.
         ports = createdContainer.ports
-        
+
         if ports.__len__() == 0:
             # Container does not have a port. I am returning none for now but we need to discuss this furrther.
             # TODO https://gitlab.com/nlpgroup1/nlp-tools-platform/-/issues/1
@@ -108,13 +110,30 @@ class DockerService:
             f"Created a container with port {ports[exposedPorts[0]][0]['HostPort']} ")
         return int(ports[exposedPorts[0]][0]['HostPort'])
 
-    def restart_container(self, enum, input_dict: dict) -> bool:
-        try:
+    def restart_container(self, enum, input_dict: dict = None, token: str = None) -> bool:
+        with_secret = False
+        with_token = False
+        if input_dict is not None and "secret" in input_dict:
             secret = input_dict['secret']
-            if secret != Config.RESTART_SECRET:
-                return False
-        except KeyError as e:
-            return False
+            if secret == Config.RESTART_SECRET:
+                with_secret = True
+
+        if token != None:
+            is_admin = UserService().is_authorized(token=token)
+            if is_admin:
+                with_token = True
+            else:
+                from backend.backend_proxy.tool.service import ToolService
+
+                tool: Tool = ToolService().get_tool_query(query={"enum": enum})
+                user: User = UserService().get_user_query(
+                    query={"token": token})
+                if user != None and tool.added_by == user.username:
+                    with_token = True
+
+        if with_secret == False and with_token == False:
+            return False  # You do not have permission to restart a tool
+
         container_name = f"{enum}-container"
         if container_name not in self.runningContainers:
             return False
@@ -127,11 +146,12 @@ class DockerService:
             ports = runningContainer.ports
             port = int(ports[list(ports.keys())[0]][0]['HostPort'])
             tool['port'] = port
-            MongoDB.getInstance().db['tools'].update_one({'_id': tool['_id']}, {
+            MongoDB.getInstance().db['tool'].update_one({'_id': tool['_id']}, {
                 "$set": {"port": port}})
             self.runningContainers[container_name] = tool
             return port
         except (docker.errors.NotFound, docker.errors.APIError) as e:
             return False
-    def remove_container(self, container_name:str)->bool:
+
+    def remove_container(self, container_name: str) -> bool:
         pass

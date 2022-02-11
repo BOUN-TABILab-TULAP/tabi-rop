@@ -28,7 +28,7 @@ class UserService:
             return
         self._initialized = True
         if controller is None:
-            controller = UserController()
+            self.controller = UserController()
         else:
             self.controller: AbstractUserController = controller
 

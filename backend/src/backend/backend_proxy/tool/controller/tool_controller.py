@@ -41,9 +41,16 @@ class ToolController(AbstractToolController):
         return self.get_tool(tool_id=inserted_object.inserted_id)
 
     def update_tool(self, tool_id: str, tool_info: dict) -> Tool:
-        del tool_info['_id']
+
+        # Check immutable fields since user should not modify some of the field
+        immutable_fields = ["port", "enum", "ip", "registered_at"]
+        for immutable_field in immutable_fields:
+            if immutable_field in tool_info:
+                del tool_info[immutable_field]
+
         self.collection.update_one(
             {"_id": ObjectId(tool_id)}, {"$set": tool_info})
+        return self.get_tool(tool_id=tool_id)
 
     def get_all_tools(self) -> list[Tool]:
         return [self.schema.create_object(x) for x in self.collection.find({})]

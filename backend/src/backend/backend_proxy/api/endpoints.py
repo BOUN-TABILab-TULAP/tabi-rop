@@ -44,6 +44,19 @@ def list_all_tools():
         # traceback.print_exc()
         return create_response(message=e.message, status=e.status)
 
+@app.route("/api/tools/editable", methods=["GET"])
+def list_editable_tools():
+    try:
+        if "Token" not in dict(request.headers):
+            raise REST_Exception(
+                "You must provide a token in the header", status=400)
+        token = request.headers.get("Token")
+        data = ToolService().list_editable_tools(token=token)
+        status = 200
+        return create_response(data=data, status=status)
+    except REST_Exception as e:
+        # traceback.print_exc()
+        return create_response(message=e.message, status=e.status)
 
 @app.route("/api/tools/name", methods=["GET"])
 def get_tool_names():
@@ -79,16 +92,20 @@ def toolFormats():
     return create_response(data=data, status=200)
 
 
-# @app.route("/api/tool/<enum>", methods=["PUT"])
-# def update_tool(enum):
-#     try:
-#         req_dict = json.loads(request.data)
-#         req_dict = ToolService().update_tool(req_dict, enum, None)
-#         data = {"message": "Tool is updated", "tool_info": req_dict}
-#         status = 200
-#         return create_response(data=data, status=status)
-#     except REST_Exception as e:
-#         return create_response(message=e.message, status=e.status)
+@app.route("/api/tool/<enum>", methods=["PUT"])
+def update_tool(enum):
+    try:
+        if "Token" not in dict(request.headers):
+            raise REST_Exception(
+                "You must provide a token in the header", status=400)
+        token = request.headers.get("Token")
+        req_dict = json.loads(request.data)
+        req_dict = ToolService().update_tool(req_dict=req_dict, enum=enum, token=token)
+        data = {"message": "Tool is updated", "tool_info": req_dict}
+        status = 200
+        return create_response(data=data, status=status)
+    except REST_Exception as e:
+        return create_response(message=e.message, status=e.status)
 
 # @app.route("/api/tool/<enum>", methods=["DELETE"])
 # def delete_tool(enum):
@@ -118,8 +135,13 @@ def run_tool(enum):
 def restart_tool(enum):
     try:
         # input for the tool
-        input_dict = json.loads(request.data)
-        data = DockerService().restart_container(enum, input_dict)
+        input_dict = None
+        token = None
+        if request.data != None and request.data != b'':
+            input_dict = json.loads(request.data)
+        if "Token" in dict(request.headers):
+            token = request.headers.get("Token")
+        data = DockerService().restart_container(enum, input_dict=input_dict,token=token)
         if (data):
             ToolService().toolObjects[enum].port = data
             data = {"message": f"Restarted {enum}"}

@@ -12,6 +12,7 @@ import backend.backend_proxy.misc.conllXtostandoff as conllXtostandoff
 import datetime as dt
 from backend.backend_proxy.user.service import UserService
 from backend.backend_proxy.user.user_class import User
+from backend.backend_proxy.user.user_type import UserType
 import requests
 import json
 import sys
@@ -43,7 +44,7 @@ class ToolService:
         self.toolObjects: dict[str, Tool] = {tool.enum: tool for tool in tools}
 
     def add_tool(self, req_dict: dict, token: str):
-        
+
         adding_user: User = UserService().get_user_query(
             query={"token": token})
         if adding_user is None:
@@ -70,7 +71,7 @@ class ToolService:
         # My main development machine is windows and I am using WSL(Windows Subsystem for Linux) for running docker.
         # In linux, default IP of docker host is 172.17.0.1; however, that ip constantly changes in WSL so you can reach to docker host by `host.docker.internal` domain.
         # As of Feb 10 2022, Docker in linux does not solve that domain without extra configurations.
-        # So, I have to make the following check to assign req_dict['ip']. 
+        # So, I have to make the following check to assign req_dict['ip'].
         is_running_in_wsl = 'microsoft-standard' in uname().release
 
         if is_running_in_wsl:
@@ -82,8 +83,33 @@ class ToolService:
 
         return self.controller.dump_tool(tool=tool)
 
-    def update_tool(self, req_dict, original_enum):
-        pass
+    def update_tool(self, enum: str, req_dict: dict, token: str):
+        user: User = UserService().get_user_query({"token": token})
+        if user is None:
+            raise REST_Exception(
+                message="Could not find user with the provided token", status=400)
+
+        tool: Tool = ToolService().get_tool_query({"enum": enum})
+        if tool is None:
+            raise REST_Exception(
+                message="Could not find tool with the provided enum", status=400)
+        # check authorization
+        is_authorized = False
+        if user.type_enum == UserType.administrator:
+            is_authorized = True
+        elif tool.added_by == user.username:
+            is_authorized = True
+        else:
+            raise REST_Exception(
+                message="You are not authorized to update this tool", status=401)
+
+        tool_dict: dict = self.controller.dump_tool(tool=tool)
+        tool_dict.update(req_dict)
+        if "_id" in tool_dict:
+            del tool_dict['_id']  # id cannot be updated
+        tool = self.controller.update_tool(tool._id, tool_info=tool_dict)
+        self.toolObjects[enum] = tool
+        return self.controller.dump_tool(tool=tool)
 
     def delete_tool(self, enum, access_tools):
         pass
@@ -100,3 +126,20 @@ class ToolService:
 
     def get_tool_names(self) -> dict[str, str]:
         return [{"name": tool.name, "enum": tool.enum} for tool in self.list_all_tools()]
+
+    def get_tool_query(self, query: dict) -> Tool:
+        return self.controller.get_tool_query(query=query)
+
+    def list_editable_tools(self, token: str) -> list[Tool]:
+        user: User = UserService().get_user_query({"token": token})
+        if user is None:
+            raise REST_Exception(message="Could not find user", status=400)
+        tools: list[Tool] = self.controller.get_all_tools()
+        editable_tools = []
+        if user.type_enum == UserType.administrator:
+            editable_tools = tools
+        else:
+            for tool in tools:
+                if tool.added_by == user.username:
+                    editable_tools.append(tool)
+        return [self.controller.dump_tool(tool=tool) for tool in editable_tools]
