@@ -23,8 +23,5 @@ deploy_to_test_server:
   only:
     - web
   script:
-    - ssh dipp@79.123.177.252
-    - pwd
-    - git branch development
-    - git pull
+    - ssh dipp@79.123.177.252 "cd nlp-tools-platform && git pull"
 
