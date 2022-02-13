@@ -154,4 +154,5 @@ class DockerService:
             return False
 
     def remove_container(self, container_name: str) -> bool:
-        pass
+        container = self.dockerClient.containers.get(container_name)
+        container.remove(force=True)

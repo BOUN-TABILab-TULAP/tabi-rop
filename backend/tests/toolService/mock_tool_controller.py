@@ -65,3 +65,6 @@ class MockToolController(AbstractToolController):
 
     def get_all_tools(self) -> list[MockToolClass]:
         return self.mock_tools
+
+    def delete_tool(self, tool_id: str) -> bool:
+        return True

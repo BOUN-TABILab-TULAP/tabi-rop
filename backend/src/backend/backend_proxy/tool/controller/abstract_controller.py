@@ -23,6 +23,9 @@ class AbstractToolController(ABC):
     def update_tool(self, tool_id: str, tool_info: dict) -> AbstractToolClass: pass
 
     @abstractmethod
+    def delete_tool(self, tool_id: str) -> bool: pass
+
+    @abstractmethod
     def get_all_tools(self) -> list[AbstractToolClass]: pass
 
     @abstractmethod

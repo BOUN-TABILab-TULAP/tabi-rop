@@ -107,9 +107,20 @@ def update_tool(enum):
     except REST_Exception as e:
         return create_response(message=e.message, status=e.status)
 
-# @app.route("/api/tool/<enum>", methods=["DELETE"])
-# def delete_tool(enum):
-#     pass
+
+@app.route("/api/tool/<enum>", methods=["DELETE"])
+def delete_tool(enum):
+    try:
+        if "Token" not in dict(request.headers):
+            raise REST_Exception(
+                "You must provide a token in the header", status=400)
+        token = request.headers.get("Token")
+        req_dict = ToolService().delete_tool(enum=enum, token=token)
+        data = {"message": "Tool is deleted",}
+        status = 200
+        return create_response(data=data, status=status)
+    except REST_Exception as e:
+        return create_response(message=e.message, status=e.status)
 
 @app.route("/api/tool/run/<enum>", methods=["POST"])
 def run_tool(enum):

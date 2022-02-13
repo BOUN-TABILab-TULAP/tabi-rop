@@ -9,7 +9,7 @@ from bson.objectid import ObjectId
 
 class ToolController(AbstractToolController):
     __instance__ = None
-    schema:ToolSchema =  ToolSchema()
+    schema: ToolSchema = ToolSchema()
 
     def __new__(cls, *args, **kwargs):
         if cls.__instance__ is None:
@@ -52,7 +52,10 @@ class ToolController(AbstractToolController):
             {"_id": ObjectId(tool_id)}, {"$set": tool_info})
         return self.get_tool(tool_id=tool_id)
 
+    def delete_tool(self, tool_id: str) -> bool:
+        return self.collection.delete_one({"_id": tool_id}).deleted_count > 0
+
     def get_all_tools(self) -> list[Tool]:
         return [self.schema.create_object(x) for x in self.collection.find({})]
 
-    def dump_tool(self, tool:Tool) -> dict: return self.schema.dump(tool=tool)
+    def dump_tool(self, tool: Tool) -> dict: return self.schema.dump(tool=tool)

@@ -111,8 +111,27 @@ class ToolService:
         self.toolObjects[enum] = tool
         return self.controller.dump_tool(tool=tool)
 
-    def delete_tool(self, enum, access_tools):
-        pass
+    def delete_tool(self, enum: str, token: str):
+        user: User = UserService().get_user_query({"token": token})
+        if user is None:
+            raise REST_Exception(
+                message="Could not find user with the provided token", status=400)
+
+        tool: Tool = ToolService().get_tool_query({"enum": enum})
+        if tool is None:
+            raise REST_Exception(
+                message="Could not find tool with the provided enum", status=400)
+        # check authorization
+        is_authorized = False
+        if user.type_enum == UserType.administrator:
+            is_authorized = True
+        elif tool.added_by == user.username:
+            is_authorized = True
+        else:
+            raise REST_Exception(
+                message="You are not authorized to update this tool", status=401)
+        DockerService().remove_container(container_name=f"{enum}-container")
+        return self.controller.delete_tool(tool_id=tool._id)
 
     def run_tool(self, enum: str, input_dict: dict):
         if enum not in self.toolObjects:
