@@ -52,7 +52,10 @@ class UserService:
                                     user_info=UserSchema.dump(user=user, include_credentials=True))
         return {"username": user.username, "token": user.token, "user_type": UserType.enumToStr(user.type_enum)}
 
-    def create_user(self, req_dict):
+    def create_user(self, req_dict: dict, token: str):
+        is_authorized = self.is_authorized(token=token)
+        if not is_authorized:
+            raise REST_Exception("You are not authorized to create a new user", status=400)
         if 'username' not in req_dict:
             raise REST_Exception("You must provide an username", status=400)
         username = req_dict['username']
@@ -78,8 +81,8 @@ class UserService:
                 "You don't have the right to see other users", status=401)
         users = self.controller.get_all_users()
         return [UserSchema.dump(user) for user in users]
-    
-    def get_user_query(self, query:dict) -> User:
+
+    def get_user_query(self, query: dict) -> User:
         return self.controller.get_user_query(query=query)
 
     def is_authorized(self, token: str, required_role=UserType.administrator) -> bool:

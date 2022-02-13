@@ -197,8 +197,12 @@ def get_users():
 @app.route("/api/user/register", methods=["POST"])
 def register_user():
     try:
+        if "Token" not in dict(request.headers):
+            raise REST_Exception(
+                "You must provide a token in the header", status=400)
+        token = request.headers.get("Token")
         req_dict = json.loads(request.data)
-        is_successful = UserService().create_user(req_dict)
+        is_successful = UserService().create_user(req_dict,token=token)
         if is_successful:
             data = {"message": "Registered Successfully"}
             return create_response(data=data, status=200)

@@ -14,7 +14,7 @@ def test_register_successful():
         "password": "password5",
         "email": "email5",
     }
-    res = userService.create_user(req_dict=req)
+    res = userService.create_user(req_dict=req,token="token3")
     assert res == True
 
 
@@ -25,7 +25,7 @@ def test_register_user_exists():
         "email": "email5",
     }
     try:
-        res = userService.create_user(req_dict=req)
+        res = userService.create_user(req_dict=req,token="token3")
     except REST_Exception as e:
         assert e.message == "Username is already taken"
         assert e.status == 400
@@ -38,7 +38,7 @@ def test_register_no_username():
         "email": "email5",
     }
     try:
-        res = userService.create_user(req_dict=req)
+        res = userService.create_user(req_dict=req,token="token3")
     except REST_Exception as e:
         assert e.message == "You must provide an username"
         assert e.status == 400
@@ -50,7 +50,7 @@ def test_register_no_password():
         "email": "email5",
     }
     try:
-        res = userService.create_user(req_dict=req)
+        res = userService.create_user(req_dict=req,token="token3")
     except REST_Exception as e:
         assert e.message == "You must provide a password"
         assert e.status == 400
@@ -62,7 +62,7 @@ def test_register_no_email():
         "password": "password6",
     }
     try:
-        res = userService.create_user(req_dict=req)
+        res = userService.create_user(req_dict=req,token="token3")
     except REST_Exception as e:
         assert e.message == "You must provide an email"
         assert e.status == 400
