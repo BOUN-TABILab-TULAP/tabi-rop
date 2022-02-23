@@ -13,7 +13,7 @@ def get_authentication_for_db() -> str:
 
 class MongoDB(object):
     __instance = None
-    collections = ['tool','user','event']
+    collections = ['tool','user','event','feedback']
 
     @staticmethod
     def getInstance(address="mongo", port=27017, username=None, password=None):
