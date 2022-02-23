@@ -73,3 +73,6 @@ class MockUserController(AbstractUserController):
         return self.users
     def dump_user(self, user: User) -> dict:
         return {}
+    def delete_user(self, user_id: str) -> bool: pass
+
+    def update_user(self, user_id: str, user_info: dict) -> User: pass
