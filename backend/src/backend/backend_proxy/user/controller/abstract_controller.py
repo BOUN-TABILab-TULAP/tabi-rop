@@ -24,4 +24,10 @@ class AbstractUserController(ABC):
     def get_all_users(self) -> list[User]: pass
 
     @abstractmethod
-    def dump_user(self, user:User) -> dict: pass
+    def dump_user(self, user: User) -> dict: pass
+
+    @abstractmethod
+    def delete_user(self, user_id: str) -> bool: pass
+
+    @abstractmethod
+    def update_user(self, user_id: str, user_info: dict) -> User: pass

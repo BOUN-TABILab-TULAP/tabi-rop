@@ -113,14 +113,14 @@ def update_tool(enum):
         return create_response(message=e.message, status=e.status)
 
 
-@app.route("/api/tool/<enum>", methods=["GET"])
+@app.route("/api/tool/<enum>", methods=["DELETE"])
 def delete_tool(enum):
     try:
         if "Token" not in dict(request.headers):
             raise REST_Exception(
                 "You must provide a token in the header", status=400)
         token = request.headers.get("Token")
-        req_dict = ToolService().delete_tool(enum=enum, token=token)
+        ToolService().delete_tool(enum=enum, token=token)
         data = {"message": "Tool is deleted", }
         status = 200
         return create_response(data=data, status=status)
@@ -219,6 +219,46 @@ def register_user():
     except REST_Exception as e:
         # traceback.print_exc()
         return create_response(message=e.message, status=e.status)
+
+
+@app.route("/api/user/<user_id>", methods=["DELETE"])
+def delete_user(user_id):
+    try:
+        if "Token" not in dict(request.headers):
+            raise REST_Exception(
+                "You must provide a token in the header", status=400)
+        token = request.headers.get("Token")
+        is_successful = UserService().delete_user(user_id=user_id, token=token)
+        if is_successful:
+            data = {"message": "Deleted Successfully"}
+            return create_response(data=data, status=200)
+        else:
+            data = {"message": "Could not delete"}
+            return create_response(data=data, status=400)
+    except REST_Exception as e:
+        # traceback.print_exc()
+        return create_response(message=e.message, status=e.status)
+
+
+@app.route("/api/user/<user_id>", methods=["PUT"])
+def edit_user(user_id):
+    try:
+        if "Token" not in dict(request.headers):
+            raise REST_Exception(
+                "You must provide a token in the header", status=400)
+        token = request.headers.get("Token")
+        req_dict = json.loads(request.data)
+
+        user_dict = UserService().update_user(
+            user_id=user_id, req_dict=req_dict, token=token)
+
+        data = {"message": "Updated Successfully", "user_info": user_dict}
+        return create_response(data=data, status=200)
+    except REST_Exception as e:
+        # traceback.print_exc()
+        return create_response(message=e.message, status=e.status)
+
+# =============================================================
 
 
 @app.route("/api/feedback", methods=["POST"])

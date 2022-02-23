@@ -55,7 +55,8 @@ class UserService:
     def create_user(self, req_dict: dict, token: str):
         is_authorized = self.is_authorized(token=token)
         if not is_authorized:
-            raise REST_Exception("You are not authorized to create a new user", status=400)
+            raise REST_Exception(
+                "You are not authorized to create a new user", status=400)
         if 'username' not in req_dict:
             raise REST_Exception("You must provide an username", status=400)
         username = req_dict['username']
@@ -84,6 +85,45 @@ class UserService:
 
     def get_user_query(self, query: dict) -> User:
         return self.controller.get_user_query(query=query)
+
+    def delete_user(self, user_id: str, token: str) -> bool:
+        deleting_user = UserService().get_user_query(query={"token": token})
+        if deleting_user is None:
+            raise REST_Exception(
+                message="You are not authorized to delete this user")
+
+        is_authorized = deleting_user.type_enum == UserType.administrator or user_id == deleting_user._id
+        if not is_authorized:
+            raise REST_Exception(
+                message="You are not authorized to delete this user")
+
+        return self.controller.delete_user(user_id=user_id)
+
+    def update_user(self, user_id: str, req_dict: dict, token: str):
+        updating_user: User = UserService().get_user_query({"token": token})
+        if updating_user is None:
+            raise REST_Exception(
+                message="Could not find user with the provided token", status=400)
+
+        is_authorized = False
+        if updating_user.type_enum == UserType.administrator:
+            is_authorized = True
+        elif str(updating_user._id) == user_id:
+            is_authorized = True
+            if "type_enum" in req_dict:
+                del req_dict['type_enum']
+        else:
+            raise REST_Exception(
+                message="You are not authorized to update this tool", status=401)
+        user: User = self.controller.get_user(user_id=user_id)
+        user_dict = self.controller.dump_user(user=user)
+        user_dict.update(req_dict)
+        if "_id" in user_dict:
+            del user_dict['_id']
+
+        user = self.controller.update_user(
+            user_id=user_id, user_info=user_dict)
+        return self.controller.dump_user(user=user)
 
     def is_authorized(self, token: str, required_role=UserType.administrator) -> bool:
         user: User = self.controller.get_user_query(query={"token": token})

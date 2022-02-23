@@ -7,7 +7,7 @@ from backend.backend_proxy.user.controller.abstract_controller import AbstractUs
 from backend.backend_proxy.user.schema import UserSchema
 from bson.objectid import ObjectId
 from backend.backend_proxy.user.user_class import User
-
+from pymongo.results import DeleteResult
 from backend.backend_proxy.user.user_type import UserType
 
 
@@ -39,25 +39,47 @@ class UserController(AbstractUserController):
         if 'type_enum' in user_info and type(user_info['type_enum']) is UserType:
             user_info['type_enum'] = UserType.enumToStr(user_info['type_enum'])
 
-        user_info['last_seen_at'] = datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%S')
-        user_info['registered_at'] = datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%S')
+        user_info['last_seen_at'] = datetime.datetime.now().strftime(
+            '%Y-%m-%dT%H:%M:%S')
+        user_info['registered_at'] = datetime.datetime.now().strftime(
+            '%Y-%m-%dT%H:%M:%S')
         user_info['token'] = secrets.token_hex(16)
 
         created_user = self.schema.create_object(user_info)
 
         inserted_object = self.collection.insert_one(
-            self.schema.dump(created_user,include_credentials=True))
+            self.schema.dump(created_user, include_credentials=True))
         return self.get_user(user_id=inserted_object.inserted_id)
 
-    def update_user(self, user_id: str, user_info: dict) -> User:
-        if 'type_enum' in user_info and type(user_info['type_enum']) is UserType:
-            user_info['type_enum'] = UserType.enumToStr(user_info['type_enum'])
-        del user_info['_id'] # Cannot update _id
-        self.collection.update_one(
-            {"_id": ObjectId(user_id)}, {"$set": user_info})
-        return UserController().get_user(user_id=user_id)
+    # def update_user(self, user_id: str, user_info: dict) -> User:
+    #     if 'type_enum' in user_info and type(user_info['type_enum']) is UserType:
+    #         user_info['type_enum'] = UserType.enumToStr(user_info['type_enum'])
+    #     del user_info['_id']  # Cannot update _id
+    #     self.collection.update_one(
+    #         {"_id": ObjectId(user_id)}, {"$set": user_info})
+    #     return UserController().get_user(user_id=user_id)
 
     def get_all_users(self) -> list[User]:
         return [self.schema.create_object(x) for x in self.collection.find({})]
 
-    def dump_user(self, user:User) -> dict: return self.schema.dump(user=user)
+    def dump_user(self, user: User) -> dict: return self.schema.dump(user=user)
+
+    def delete_user(self, user_id: str) -> bool:
+        result: DeleteResult = self.collection.delete_one(
+            {"_id": ObjectId(user_id)})
+        return result.deleted_count > 0
+
+    def update_user(self, user_id: str, user_info: dict) -> User:
+        if 'type_enum' in user_info and type(user_info['type_enum']) is UserType:
+            user_info['type_enum'] = UserType.enumToStr(user_info['type_enum'])
+        if "_id" in user_info:
+            del user_info['_id']  # Cannot update _id
+        # Check immutable fields since user should not modify some of the field
+        immutable_fields = ["registered_at", "username"]
+        for immutable_field in immutable_fields:
+            if immutable_field in user_info:
+                del user_info[immutable_field]
+
+        self.collection.update_one(
+            {"_id": ObjectId(user_id)}, {"$set": user_info})
+        return self.get_user(user_id=user_id)
