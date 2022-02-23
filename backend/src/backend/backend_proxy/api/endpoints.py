@@ -1,12 +1,15 @@
 from typing import Container
 from backend.backend_proxy.config import Config
 from backend.backend_proxy.containerization.service import DockerService
+from backend.backend_proxy.feedback.service import FeedbackService
 from backend.backend_proxy.logging.event import Event
 from flask import Flask, json, g, request, jsonify, json, session
 from flask_cors import CORS, cross_origin
 from backend.backend_proxy.tool.formats.supportedFormats import SupportedFormats
 from backend.backend_proxy.tool.schema import ToolSchema
 from backend.backend_proxy.tool.service import ToolService
+from backend.backend_proxy.db.mongoDB import MongoDB
+
 from backend.backend_proxy.user.service import UserService
 from backend.backend_proxy.api.exception import REST_Exception
 from datetime import timedelta
@@ -44,6 +47,7 @@ def list_all_tools():
         # traceback.print_exc()
         return create_response(message=e.message, status=e.status)
 
+
 @app.route("/api/tools/editable", methods=["GET"])
 def list_editable_tools():
     try:
@@ -57,6 +61,7 @@ def list_editable_tools():
     except REST_Exception as e:
         # traceback.print_exc()
         return create_response(message=e.message, status=e.status)
+
 
 @app.route("/api/tools/name", methods=["GET"])
 def get_tool_names():
@@ -108,7 +113,7 @@ def update_tool(enum):
         return create_response(message=e.message, status=e.status)
 
 
-@app.route("/api/tool/<enum>", methods=["DELETE"])
+@app.route("/api/tool/<enum>", methods=["GET"])
 def delete_tool(enum):
     try:
         if "Token" not in dict(request.headers):
@@ -116,11 +121,12 @@ def delete_tool(enum):
                 "You must provide a token in the header", status=400)
         token = request.headers.get("Token")
         req_dict = ToolService().delete_tool(enum=enum, token=token)
-        data = {"message": "Tool is deleted",}
+        data = {"message": "Tool is deleted", }
         status = 200
         return create_response(data=data, status=status)
     except REST_Exception as e:
         return create_response(message=e.message, status=e.status)
+
 
 @app.route("/api/tool/run/<enum>", methods=["POST"])
 def run_tool(enum):
@@ -152,7 +158,8 @@ def restart_tool(enum):
             input_dict = json.loads(request.data)
         if "Token" in dict(request.headers):
             token = request.headers.get("Token")
-        data = DockerService().restart_container(enum, input_dict=input_dict,token=token)
+        data = DockerService().restart_container(
+            enum, input_dict=input_dict, token=token)
         if (data):
             ToolService().toolObjects[enum].port = data
             data = {"message": f"Restarted {enum}"}
@@ -202,13 +209,44 @@ def register_user():
                 "You must provide a token in the header", status=400)
         token = request.headers.get("Token")
         req_dict = json.loads(request.data)
-        is_successful = UserService().create_user(req_dict,token=token)
+        is_successful = UserService().create_user(req_dict, token=token)
         if is_successful:
             data = {"message": "Registered Successfully"}
             return create_response(data=data, status=200)
         else:
             data = {"message": "Could not register"}
             return create_response(data=data, status=400)
+    except REST_Exception as e:
+        # traceback.print_exc()
+        return create_response(message=e.message, status=e.status)
+
+
+@app.route("/api/feedback", methods=["POST"])
+def create_feedback():
+    try:
+        req_dict = json.loads(request.data)
+        is_successful = FeedbackService().create_feedback(req_dict=req_dict)
+        if is_successful:
+            data = {"message": " Feedback saved successfully"}
+            return create_response(data=data, status=200)
+        else:
+            data = {"message": "Could not save the feedback"}
+            return create_response(data=data, status=400)
+    except REST_Exception as e:
+        return create_response(message=e.message, status=e.status)
+
+
+@app.route("/api/feedbacks", methods=["GET"])
+def get_feedbacks():
+    if "Token" not in dict(request.headers):
+        raise REST_Exception(
+            "You must provide a token in the header", status=400)
+    token = request.headers.get("Token")
+
+    try:
+        data = FeedbackService().get_feedbacks(token=token)
+        status = 200
+        return create_response(data=data, status=status)
     except REST_Exception as e:
         # traceback.print_exc()
         return create_response(message=e.message, status=e.status)
