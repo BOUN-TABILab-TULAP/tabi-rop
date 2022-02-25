@@ -46,7 +46,35 @@ export default function ToolUse({ tool }) {
         }
 
     const { register, handleSubmit,watch, control,setValue, formState: { errors } } = useForm({});
-    
+    React.useEffect(async () => {
+        const head_script = document.createElement("script");
+        head_script.type = "text/javascript";
+        head_script.src = "../demo/brat/head.js";
+        head_script.setAttribute("id", "headjs");
+
+        const loader_script = document.createElement("script");
+        loader_script.src = "../demo/brat/brat_loader.js";
+        loader_script.type = "text/javascript";
+        loader_script.setAttribute("id", "loader_script");
+
+        head_script.onload = () => {
+            document.body.appendChild(loader_script);
+            console.log("Brat header script is loaded");
+
+        };
+
+        loader_script.onload = () => {
+            console.log("Brat loader script is loaded.");
+        }
+        if (document.getElementById("headjs") === null) {
+            console.log("headjs loading");
+            // keep the scripts loaded all the time, and don't reload
+            document.head.appendChild(head_script);
+
+        }
+
+
+    }, [])
     return <>
     <Box>
         <Typography variant="h4" className={classes.header}> Morphological Analysis </Typography>
