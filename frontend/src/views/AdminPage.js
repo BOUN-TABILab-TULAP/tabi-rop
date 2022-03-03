@@ -7,7 +7,7 @@ import TabPanel from '@mui/lab/TabPanel';
 import { makeStyles } from '@mui/styles';
 import toolsApi from "../services/toolsApi"
 import ToolManagement from "./ToolManagement"
-import ToolMan from './ToolMan';
+
 import UserManagement from './UserManagement';
 const useStyles = makeStyles({
 });

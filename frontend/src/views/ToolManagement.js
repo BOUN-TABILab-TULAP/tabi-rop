@@ -87,8 +87,6 @@ export default function ToolManagement() {
         getTools()
     }, []);
     return <>
-
-
         {rows.length == 0 ? <div>wait</div> :
             <div style={{ height: 400, width: '100%' }}>
                 <DataGrid
@@ -110,7 +108,7 @@ export default function ToolManagement() {
                 aria-labelledby="responsive-dialog-title"
             >
                 <DialogTitle id="responsive-dialog-title">
-                    {"Use Google's location service?"}
+                    {}
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText>

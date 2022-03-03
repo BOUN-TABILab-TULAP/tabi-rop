@@ -17,7 +17,7 @@ import ToolManagement from './views/ToolManagement.js';
 import UserManagement from "./views/UserManagement.js"
 import AdminPage from './views/AdminPage.js';
 import {UserContext} from './userContext.js';
-import ToolMan from "./views/ToolMan.js"
+
 const useStyles = makeStyles({
   MainContainer: {
     backgroundColor:"white",

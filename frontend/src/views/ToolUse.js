@@ -10,6 +10,7 @@ import { useForm, useFieldArray, Controller } from "react-hook-form";
 import toolsApi from '../services/toolsApi';
 import SubmitButton from '../components/SubmitButton';
 import Output from "../components/Output"
+import { useNavigate } from "react-router-dom";
 const useStyles = makeStyles({
     Tabs: { 
         flexDirection: "column",
@@ -77,9 +78,9 @@ export default function ToolUse({ tool }) {
     }, [])
     return <>
     <Box>
-        <Typography variant="h4" className={classes.header}> Morphological Analysis </Typography>
+        <Typography variant="h4" className={classes.header}> {tool.name} </Typography>
         <Divider   />  
-        <Typography className={classes.explanation} >Morphological analysis (MA) is a method for identifying, structuring and investigating the total set of possible relationships contained in a given multidimensional problem complex. MA allows small groups of subject specialists to define, link, and internally evaluate the parameters of complex problem spaces, creating a solution space and a flexible inference model </Typography>
+        <Typography className={classes.explanation} >{tool.description}</Typography>
    
             <TabContext value={value}>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>

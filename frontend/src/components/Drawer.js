@@ -58,17 +58,8 @@ export default function MyDrawer({drawerWidth,open,handleDrawerClose,tools}){
           </IconButton>
         </DrawerHeader>
         <Divider />
-        <List>
-          {tools.map((tool, index) => (
-             <Link className={classes.link}  to={'/'+tool.enum}>
-            <ListItem button key={tool.enum}>
-                   
-              <ListItemText primary={tool.name} />
-            </ListItem>
-                </Link>
-          ))}
-        </List>
-        <Divider />
+        
+       
         <List>
         {tools.map((tool, index) => (
             <ListItem button key={tool.enum}>
