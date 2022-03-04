@@ -14,6 +14,7 @@ import { DataGrid, GridColDef, GridApi, GridCellValue } from '@mui/x-data-grid';
 import { useNavigate } from "react-router-dom";
 import Add from "../components/Add"
 import Update from "../components/Update"
+import { Typography } from '@mui/material';
 
 
 export default function UserManagement() {
@@ -99,18 +100,18 @@ export default function UserManagement() {
                 />
             </div>}
         <Button onClick={(event)=>{addUser()}}>Add User</Button>
-        <div>
+        <div >
 
-            <Dialog
+            <Dialog 
                 fullScreen={fullScreen}
                 open={open}
                 onClose={handleClose}
                 aria-labelledby="responsive-dialog-title"
             >
                 <DialogTitle id="responsive-dialog-title">
-                    { }
+                     {!update? <Typography variant='h4' align="center">Add User</Typography>:<Typography variant='h4' center>Update {chosen.username}</Typography>}
                 </DialogTitle>
-                <DialogContent>
+                <DialogContent sx={{width:"500px"}} >
                     <DialogContentText>
                        {update? <Update user={chosen}></Update>:<Add></Add>}
                     </DialogContentText>
