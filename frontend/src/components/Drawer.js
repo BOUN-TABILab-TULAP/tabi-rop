@@ -38,7 +38,6 @@ export default function MyDrawer({drawerWidth,open,handleDrawerClose,tools}){
   const theme = useTheme();
   const classes = useStyles();
   return<>
-  
 <Drawer
         sx={{
           width: drawerWidth,
@@ -61,13 +60,16 @@ export default function MyDrawer({drawerWidth,open,handleDrawerClose,tools}){
         
        
         <List>
-        {tools.map((tool, index) => (
+          {tools.map((tool, index) => (
+             <Link className={classes.link}  to={'/'+tool.enum}>
             <ListItem button key={tool.enum}>
-             
+                   
               <ListItemText primary={tool.name} />
             </ListItem>
+                </Link>
           ))}
         </List>
+
       </Drawer>
       </>
 }

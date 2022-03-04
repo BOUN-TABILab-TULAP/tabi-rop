@@ -80,9 +80,9 @@ function App() {
             <Route exact path="/addTool" element={<AddTool />} />
             <Route exact path="/panel" element={<AdminPage />} />
             {tools.map((tool, index) => {
+              {console.log(tool.enum)}
               return (
-                <Route path={"/" + tool.enum}
-                
+                <Route   path={"/" + tool.enum}
                   element={<ToolUse tool={tool} />}
                 />
               );
