@@ -16,6 +16,7 @@ const useStyles = makeStyles({
         flexDirection: "column",
         alignItems: "left", 
         marginBottom:"0",
+        margin:"0"
     },
     Fields: {
         // margin: "20px",

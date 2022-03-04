@@ -23,7 +23,7 @@ const useStyles = makeStyles({
     },
     result:{
         paddingLeft:"10px",
-        marginTop:"-50px"
+        marginTop:"0px"
     }
    
 })
@@ -31,7 +31,7 @@ const useStyles = makeStyles({
 export default function Output({ result }) {
     const classes = useStyles()
     console.log(result)
-    const [value, set_value] = React.useState("1");
+    const [value, set_value] = React.useState("0");
     const handleChange = (event, newValue) => {
         set_value(newValue);
     };
@@ -39,7 +39,6 @@ export default function Output({ result }) {
 
         {Object.keys(result).map((key, i) => {
            return <Box className={classes.result}>    
-                <Typography variant="h4">{key}</Typography>
                 <TabContext value={value}>
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                         <TabList onChange={handleChange}>
