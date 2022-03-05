@@ -67,7 +67,7 @@ class DockerService:
 
         createdImage = self.dockerClient.images.build(
             path=f"/app/{dockerfilePath}",
-            dockerfile=f"/app/{dockerfilePath}/dip_specs/Dockerfile",
+            dockerfile=f"/app/{dockerfilePath}/Dockerfile",
             tag=imageTag
         )
         # images.build returns two objects. First one is image that was build, second is generator of the build logs as JSON-decoded objects.
