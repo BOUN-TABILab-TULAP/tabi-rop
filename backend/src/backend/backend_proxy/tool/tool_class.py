@@ -24,6 +24,7 @@ class Tool(AbstractToolClass):
         self.contact_mail = tool_dict["contact_mail"]
         self.input_fields = tool_dict["input_fields"]
         self.output_fields = tool_dict["output_fields"]
+        self.usage_information = tool_dict["usage_information"]
         if '_id' in tool_dict: self._id = tool_dict['_id']
 
     def run(self, parameters: dict) -> dict:
