@@ -88,7 +88,7 @@ export default function ToolUse({ tool }) {
                     <TabList onChange={handleChange}>
                         <Tab label="Demo" value="1" />
                         <Tab label="Usage" value="2" />
-                        <Tab label="Item Three" value="3" />
+                     
                     </TabList>
                 </Box>
                 <TabPanel className={classes.Tabs} value="1">
@@ -141,8 +141,7 @@ export default function ToolUse({ tool }) {
 
                     </Box>
                 </TabPanel>
-
-                <TabPanel className={classes.Tabs} value="3">Item Three</TabPanel>
+                
             </TabContext>
             {result!==undefined ?<Output result={result} ></Output>:<></>}
             </Box>

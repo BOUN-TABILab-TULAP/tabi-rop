@@ -29,7 +29,7 @@ const useStyles = makeStyles({
     
   }
 })
-export default function Navigation({ handleDrawerOpen }) {
+export default function Navigation({ handleDrawerToggle }) {
   const classes = useStyles()
   const { user, logout } = useContext(UserContext);
   const navigate=useNavigate()
@@ -51,25 +51,24 @@ export default function Navigation({ handleDrawerOpen }) {
     setOpen(false)
   };
   return <>
-    <Toolbar sx={{ display: "flex", justifyContent: 'space-between',alignItems:"center" }}>
+    <Toolbar sx={{ zIndex:2,display: "flex", justifyContent: 'space-between',alignItems:"center" }}>
       <div style={{ display: "flex" }}>
 
-        <IconButton
-          color="inherit"
-          aria-label="open drawer"
-          onClick={handleDrawerOpen}
-          edge="start"
-          sx={{ mr: 2, ...(open && { display: 'none' }) }}
-        >
-          <MenuIcon />
-        </IconButton>
+      <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+            onClick={handleDrawerToggle}
+            sx={{ mr: 2, display: { sm: 'none' } }}
+          >
+            <MenuIcon />
+          </IconButton>
         <Typography variant="h4" sx={{ mt: "5px" }} noWrap component="div">
           Tabilab
         </Typography>
       </div>
       <div>
         
-      
         <IconButton
           size="large"
           aria-label="account of current user"
