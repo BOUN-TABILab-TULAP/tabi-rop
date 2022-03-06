@@ -176,23 +176,15 @@ class Brat extends React.Component {
    
   // }
 
-  conllu_parser = function (conll) {
-    var doc = new window.ConllU.Document();
-
-    var includeEmpty = true;    // assume empty nodes are always shown
-
-    var a = doc.parse(conll, console.log, true).toBrat(console.log, includeEmpty);
-    // console.log(a);
-    return a;
-  }
+  
 
 
   updateImage() {
     if (typeof window.Util === "undefined") {
      return
     }
-    this.con = this.conllu_parser(this.props.conll)
-    // console.log(this.con);
+    this.con = this.props.conll
+
 
     if (typeof this.dispatcher === "undefined") {
       this.dispatcher = window.Util.embed(
