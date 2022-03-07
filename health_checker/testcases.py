@@ -15,7 +15,9 @@ givenInputs = {
         {"input_0": "Babam bana bal aldı."},
     "ner":
         {"input_0": "Helmut Kohl'ün aradaki farkı kapatmasında da kararsız seçmenlerin bir bölümünü merkez sağa çekmesinin rol oynadığı ileri sürüldü"},
-    "question-answering": {"input_0": "Mitokondri nedir?"}
+    "question-answering": {"input_0": "Mitokondri nedir?"},
+    "lemmatizer": {"input_0": "ağacı"},
+
 }
 expectedOutputs = {
     "morp_anal": {"text": ["raw", "json"]},
@@ -26,5 +28,6 @@ expectedOutputs = {
     "ermie": {"text": ["raw"]},
     "boun-pars": {"brat_conll": ["raw", "brat"]},
     "ner": {"tagger_output": ["json"]},
-    "question-answering": {"question": ["json"]}
+    "question-answering": {"question": ["json"]},
+    "lemmatizer": {"result": ["json"]}
 }
