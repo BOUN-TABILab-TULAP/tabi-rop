@@ -4,6 +4,7 @@ import Box from '@mui/material/Box';
 import { Divider, Typography} from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import CustomInput from '../components/CustomInput.js';
+import CustomTextArea from '../components/CustomTextArea.js';
 const useStyles = makeStyles({
     step:{
       display:"flex",
@@ -62,7 +63,7 @@ export default function GeneralInfo(inputcontroller, outputcontroller) {
             <CustomInput {...formList[0]}></CustomInput>
             <CustomInput {...formList[1]}></CustomInput>
             <CustomInput {...formList[2]}></CustomInput>
-            <CustomInput {...formList[3]}></CustomInput>
+            <CustomTextArea {...formList[3]}></CustomTextArea>
             </Box>
       
     </div>

@@ -6,22 +6,24 @@ import { makeStyles } from '@mui/styles';
 const useStyles = makeStyles({
     input:{
      marginBottom:"20px !important",
-      width:"100%"
+      width:"100%",
+
     },
     
    
   });
 
-export default function CustomInput({label,placeholder,helper,name,defaultValue}) {
+export default function CustomTextArea({label,placeholder,helper,name,defaultValue}) {
     const { register, handleSubmit, watch, control, formState: { errors } } = useFormContext();
     const classes=useStyles()
     return <>
    
           <FormControl className={classes.input}  >
-            <TextField
+            <TextField  multiline
             fullWidth
                type="text"
               label={label}
+              rows={4}
               placeholder={placeholder}
               defaultValue={defaultValue}
               helper={helper}

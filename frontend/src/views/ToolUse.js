@@ -12,27 +12,27 @@ import SubmitButton from '../components/SubmitButton';
 import Output from "../components/Output"
 import { useNavigate } from "react-router-dom";
 const useStyles = makeStyles({
-    Tabs: { 
+    Tabs: {
         flexDirection: "column",
-        alignItems: "left", 
-        marginBottom:"0",
-        margin:"0"
+        alignItems: "left",
+        marginBottom: "0",
+        margin: "0"
     },
     Fields: {
         // margin: "20px",
     },
-    formElement:{
-        marginBottom:"5px !important",
-        padding:"10px !important"   
+    formElement: {
+        marginBottom: "5px !important",
+        padding: "10px !important"
     },
-    divider:{
-        margin:"30px !important"    
+    divider: {
+        margin: "30px !important"
     },
-    header:{
-        paddingBottom:"0.5em",
+    header: {
+        paddingBottom: "0.5em",
     },
-    explanation:{
-        padding:"1em"
+    explanation: {
+        padding: "1em"
     }
 });
 export default function ToolUse({ tool }) {
@@ -41,13 +41,13 @@ export default function ToolUse({ tool }) {
     const handleChange = (event, newValue) => {
         set_value(newValue);
     };
-    const [result,setResult]=React.useState()
-    const onSubmit=async (data)=>{
-        let runresult=await toolsApi.runTool(data,tool.enum)
+    const [result, setResult] = React.useState()
+    const onSubmit = async (data) => {
+        let runresult = await toolsApi.runTool(data, tool.enum)
         setResult(runresult)
-        }
+    }
 
-    const { register, handleSubmit,watch, control,setValue, formState: { errors } } = useForm({});
+    const { register, handleSubmit, watch, control, setValue, formState: { errors } } = useForm({});
     React.useEffect(async () => {
         const head_script = document.createElement("script");
         head_script.type = "text/javascript";
@@ -78,17 +78,17 @@ export default function ToolUse({ tool }) {
 
     }, [])
     return <>
-    <Box>
-        <Typography variant="h4" className={classes.header}> {tool.name} </Typography>
-        <Divider   />  
-        <Typography className={classes.explanation} >{tool.description}</Typography>
-   
+        <Box>
+            <Typography variant="h4" className={classes.header}> {tool.name} </Typography>
+            <Divider />
+            <Typography className={classes.explanation} >{tool.description}</Typography>
+
             <TabContext value={value}>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                     <TabList onChange={handleChange}>
                         <Tab label="Demo" value="1" />
                         <Tab label="Usage" value="2" />
-                     
+
                     </TabList>
                 </Box>
                 <TabPanel className={classes.Tabs} value="1">
@@ -97,36 +97,41 @@ export default function ToolUse({ tool }) {
                             let value = tool.input_fields[key]
                             return <div className={classes.Fields}>
                                 <Typography>{value.title}</Typography>
-                                <FormControl  className={classes.formElement} fullWidth>
-                                   
+                                <FormControl className={classes.formElement} fullWidth>
+
                                     <Select
                                         defaultValue={"0"}
-                                        {...register(`${key}_select`,{
-                                            onChange: (e) => setValue(key,e.target.value===0?"":e.target.value),
+                                        {...register(`${key}_select`, {
+                                            onChange: (e) => setValue(key, e.target.value === 0 ? "" : e.target.value),
                                             value: "0",
-                                        })}   
-                                    >      
-                                        <MenuItem value={"0"}><em>Select an example</em></MenuItem>
-                                        {value.examples.map((example,index)=>{
-                                        return <MenuItem value={example}>{example}</MenuItem>
                                         })}
-                                       
+                                    >
+                                        <MenuItem value={"0"}><em>Select an example</em></MenuItem>
+                                        {value.examples.map((example, index) => {
+                                            return <MenuItem value={example}>{example}</MenuItem>
+                                        })}
+
                                     </Select>
                                 </FormControl>
-                                <FormControl fullWidth  className={classes.formElement}>
+                                <FormControl fullWidth className={classes.formElement}>
                                     <TextField multiline fullWidth
                                         InputLabelProps={{
                                             shrink: true,
                                         }}
+                                        rows={4}
                                         type={value.type}
                                         label={value.title}
-                                        {...register(key,{onChange: (e) => {
-                                            setValue(`${key}_select`,"0");
-                                        }
+                                        {...register(key, { required: true }, {
+                                            onChange: (e) => {
+                                                setValue(`${key}_select`, "0");
+                                            }
                                         })}
-                                         />
+                                    />
+                                    <Typography >
+                                        {errors[key]?.type === 'required' && value.title + " is required"}
+                                    </Typography>
                                 </FormControl>
-                              <Divider className={classes.divider}  />  
+                                <Divider className={classes.divider} />
                             </div>
                         })}
                         <SubmitButton >Submit</SubmitButton>
@@ -134,17 +139,17 @@ export default function ToolUse({ tool }) {
                 </TabPanel>
                 <TabPanel className={classes.Tabs} value="2">
                     <Box>
-                        <Typography variant="h4">Installation</Typography>
-                        <Typography>You can just visit the github link to clone the code and just writing 
-                            
-                        </Typography>
+                        <Typography variant="h4">Usage Information</Typography>
+                        <Typography>
+                            {tool.usage_information}
 
+                        </Typography>
                     </Box>
                 </TabPanel>
-                
+
             </TabContext>
-            {result!==undefined ?<Output result={result} ></Output>:<></>}
-            </Box>
+            {result !== undefined ? <Output result={result} ></Output> : <></>}
+        </Box>
     </>
 
 }

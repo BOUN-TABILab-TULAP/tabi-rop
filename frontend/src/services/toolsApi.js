@@ -3,7 +3,7 @@ export default class toolsApi {
     static async getTools() {
         const requestOptions = {
             method: "GET",
-            headers: {  },
+           
           };
         const response = await fetch(process.env.REACT_APP_BACKEND + "/api/tools", requestOptions);
         ;
@@ -15,11 +15,11 @@ export default class toolsApi {
         return data;
     }
     static async addtool(query) {
-
+        let localuser=JSON.parse(localStorage.getItem("user"))??{ username: '',user_type:"",token:"",auth: false }
         const requestOptions = {
             method: "POST",
             credentials: 'include',
-            headers: { "Content-Type": "application/json" },
+            headers: { "Content-Type": "application/json","token":localuser.token },
             body: JSON.stringify(query),
         };
         const response = await fetch(process.env.REACT_APP_BACKEND + "/api/tool", requestOptions);

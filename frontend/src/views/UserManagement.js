@@ -16,7 +16,6 @@ import Add from "../components/Add"
 import Update from "../components/Update"
 import { Typography } from '@mui/material';
 
-
 export default function UserManagement() {
     const [rows, setRows] = React.useState([])
     const [open, setOpen] = React.useState(false);

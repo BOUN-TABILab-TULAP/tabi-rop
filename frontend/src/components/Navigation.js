@@ -22,6 +22,7 @@ const useStyles = makeStyles({
   svg: {
     textDecoration: "none !important",
     color:"white",  
+    border:"none"
   },
   link: {
     textDecoration: "none !important",

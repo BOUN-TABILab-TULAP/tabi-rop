@@ -6,6 +6,7 @@ import { Divider, Typography, Grid } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import CustomInput from './CustomInput.js';
 import CustomSelect from './CustomSelect.js';
+import CustomTextArea from './CustomTextArea.js';
 const useStyles = makeStyles({
     step: {
         display: "flex",
@@ -27,7 +28,7 @@ export default function GuideInfo() {
         <div >
             <Typography variant="h6" align="center" className={classes.header}> Usage Guide</Typography>
             <Box className={classes.step}>
-            <CustomInput label="Write your guide here" name={"guide"} ></CustomInput>
+            <CustomTextArea label="Write your guide here" name={"usage_information"} ></CustomTextArea>
             </Box>
 
         </div>)

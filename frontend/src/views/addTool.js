@@ -20,7 +20,7 @@ const steps = [
   'General Information',
   'Define Input',
   'Define Output',
-  'Guide to Use'
+  'Usage Information'
 ];
 const useStyles = makeStyles({
   steps:{
@@ -60,13 +60,6 @@ export default function AddTool() {
     if (isStepValid && activeStep!=steps.length-1) setActiveStep((prevActiveStep) => prevActiveStep + 1);  
   };
 
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-
-  };
-
- 
-  
   return (
     <Container component="main" maxWidth="l" >
       <Typography variant="h5">
@@ -95,7 +88,7 @@ export default function AddTool() {
         <Button
           color="inherit"
           disabled={activeStep === 0}
-          onClick={handleBack}
+          onClick={()=> setActiveStep((prevActiveStep) => prevActiveStep - 1)}
           sx={{ mr: 1 }} >
           Back
         </Button>

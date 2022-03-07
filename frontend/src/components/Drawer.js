@@ -22,10 +22,12 @@ const drawerWidth = 290;
 
 
 export default function MyDrawer({ tools, mobileOpen, handleDrawerToggle, ...props }) {
-
+  const [selectedIndex, setSelectedIndex] = React.useState(1);
   const theme = useTheme();
   const classes = useStyles();
-
+  const handleListItemClick = (event, index) => {
+    setSelectedIndex(index);
+  };
   return <>
     
       <Drawer
@@ -65,11 +67,16 @@ export default function MyDrawer({ tools, mobileOpen, handleDrawerToggle, ...pro
       >
          <Toolbar />
         <Divider />
-        <List>
+        <List 
+        
+        >
 
           {tools.map((tool, index) => (
             <Link className={classes.link} to={'/' + tool.enum}>
-              <ListItem button key={tool.enum}>
+              <ListItem button key={tool.enum}
+              selected={selectedIndex === index}
+              onClick={(event) => handleListItemClick(event, index)}
+              >
 
                 <ListItemText primary={tool.name} />
               </ListItem>
