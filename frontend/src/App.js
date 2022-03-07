@@ -1,74 +1,106 @@
-import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import GlobalHeader from "./GlobalHeader";
-import Home from "./Home";
-import ToolPanel from "./ToolPanel";
-import "antd/dist/antd.css";
-import SideMenu from "./SideMenu";
-import { useTranslation } from "react-i18next";
-import { Layout } from "antd";
-import UseTool from "./UseTool";
-import { getQuery } from "./utils";
-import About from "./About";
-import styles from "./App.module.css"
-import { useMediaQuery } from 'react-responsive';
+import React, { useState, useEffect, useContext } from 'react';
+import { styled, useTheme } from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import MuiAppBar from '@mui/material/AppBar';
+import Typography from '@mui/material/Typography';
+import Login from "./views/Login.js"
+import ToolUse from "./views/ToolUse.js"
+import { Menu, Container, Avatar, Tooltip, MenuItem,Paper,Toolbar,IconButton,Drawer } from '@mui/material';
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Navigation from "./components/Navigation.js"
+import MyDrawer from "./components/Drawer.js"
+import AddTool from "./views/addTool.js"
+import MainPage from "./views/mainPage.js"
+import toolsApi from './services/toolsApi.js';
+import { makeStyles } from '@mui/styles';
+import ToolManagement from './views/ToolManagement.js';
+import UserManagement from "./views/UserManagement.js"
+import AdminPage from './views/AdminPage.js';
+import AppBar from '@mui/material/AppBar';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { Link } from "react-router-dom";
 
-
-
-const url_tools = process.env.REACT_APP_BACKEND + "/api/tools/name";
-
-const { Content, Footer } = Layout;
-const App = () => {
-
-  const { t, i18n } = useTranslation();
-  const [tools, setTools] = useState([]);
+const useStyles = makeStyles({
+  MainContainer: {
+    marginLeft:"310px",
+    backgroundColor:"white",
+    marginRight:"60px",
+    marginTop:"80px",
+    padding:"20px"
+  },
+  mobileContainer: {
+    marginLeft:"0px",
+    backgroundColor:"white",
+    marginRight:"0px",
+    marginTop:"80px",
+    padding:"20px"
+  },
+})
+const drawerWidth = 290;
+function App(props) {
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const { window } = props;
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [tools, setTools] = useState([])
+  const [open, setOpen] = React.useState(true);
+  const classes = useStyles(open);
+  const container = window !== undefined ? () => window().document.body : undefined;
+  const handleDrawerToggle = () => {
+   
+    setMobileOpen(!mobileOpen);
+  };
   const getTools = async () => {
-    let { data: data, status: status } = await getQuery(url_tools);
-    if (status !== 200) {
-      return;
-    }
-    data = data.map((tool, index) => {
-      let o = Object.assign({}, tool);
-      o.key = index;
-      return o;
-    });
-    console.log("Tools are gathered.", data.length);
-    setTools(data);
+    let tool = await toolsApi.getTools()
+    console.log(tool)
+    setTools(tool)
   };
   useEffect(() => {
-    getTools();
+    getTools()
   }, []);
-
   return (
-    <Router basename={'/demo'}>
-      <Layout 
-      className={styles.layout}
+    tools === undefined | tools.length == 0 ? <div>wait</div> :
+      <> <Box >
+        <AppBar
+        position="fixed"
+       
+        sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
       >
-        <GlobalHeader />
-        <Layout  className="site-layout-background">
-          <SideMenu tools={tools} />
-          <Content
-            className={styles.sitelayout}
-          >
-            <Switch>
-              <Route exact path="/" component={Home} />
-              <Route exact path="/about" component={About} />
-              <Route exact path="/panel" component={ToolPanel} />
-              {tools.map((tool, index) => {
-                return (
-                  <Route path={"/" + tool.enum}
-                    component={() => <UseTool tool={tool} />}
-                  />
-                );
-              })}
-              <Route path="*" component={Home} />
-            </Switch>
-          </Content>
-        </Layout>
-        <Footer className={styles.footer} >{t("footer")}</Footer>
-      </Layout>
-    </Router>
-  );
+        <Navigation   sx={{  zIndex:100,width:"100%"  }} handleDrawerToggle={handleDrawerToggle} />
+        </AppBar>
+       
+        <MyDrawer handleDrawerToggle={handleDrawerToggle} mobileOpen={mobileOpen} drawerWidth={drawerWidth} tools={tools} />
+        
+        <Box elevation="3"  
+        className={!fullScreen?classes.MainContainer:classes.mobileContainer} 
+        >
+          <Routes>
+            <Route exact path="/Login" element={<Login/>} />
+            <Route exact path="/manageUsers" element={<UserManagement />} />
+            <Route exact path="/manageTools" element={<ToolManagement />} />
+            <Route exact path="/addTool" element={<AddTool />} />
+            <Route exact path="/panel" element={<AdminPage />} />
+            {tools.map((tool, index) => {
+              return (
+                <Route   path={"/" + tool.enum}
+                  element={<ToolUse tool={tool} />}
+                />
+              );
+            })}
+            <Route path="/main" element={<MainPage/>} />
+            <Route path="/" element={<MainPage/>} />
+          </Routes>
+
+        </Box>
+
+       
+
+
+      </Box>
+      </>
+  )
+
 };
+
 
 export default App;
