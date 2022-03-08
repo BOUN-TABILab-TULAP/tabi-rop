@@ -113,7 +113,7 @@ def update_tool(enum):
         return create_response(message=e.message, status=e.status)
 
 
-@app.route("/api/tool/<enum>", methods=["DELETE"])
+@app.route("/api/tool/delete/<enum>", methods=["POST"])
 def delete_tool(enum):
     try:
         if "Token" not in dict(request.headers):
@@ -221,7 +221,7 @@ def register_user():
         return create_response(message=e.message, status=e.status)
 
 
-@app.route("/api/user/<user_id>", methods=["DELETE"])
+@app.route("/api/user/delete/<user_id>", methods=["POST"])
 def delete_user(user_id):
     try:
         if "Token" not in dict(request.headers):
