@@ -97,7 +97,7 @@ def toolFormats():
     return create_response(data=data, status=200)
 
 
-@app.route("/api/tool/<enum>", methods=["PUT"])
+@app.route("/api/tool/update/<enum>", methods=["POST"])
 def update_tool(enum):
     try:
         if "Token" not in dict(request.headers):
@@ -240,7 +240,7 @@ def delete_user(user_id):
         return create_response(message=e.message, status=e.status)
 
 
-@app.route("/api/user/<user_id>", methods=["PUT"])
+@app.route("/api/user/update/<user_id>", methods=["POST"])
 def edit_user(user_id):
     try:
         if "Token" not in dict(request.headers):
