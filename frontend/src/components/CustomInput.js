@@ -12,7 +12,7 @@ const useStyles = makeStyles({
    
   });
 
-export default function CustomInput({label,placeholder,helper,name,defaultValue}) {
+export default function CustomInput({type="text",label,placeholder,helper,name,defaultValue}) {
     const { register, handleSubmit, watch, control, formState: { errors } } = useFormContext();
     const classes=useStyles()
     return <>
@@ -20,7 +20,8 @@ export default function CustomInput({label,placeholder,helper,name,defaultValue}
           <FormControl className={classes.input}  >
             <TextField
             fullWidth
-               type="text"
+            
+               type={type}
               label={label}
               placeholder={placeholder}
               defaultValue={defaultValue}

@@ -90,7 +90,7 @@ static async login(username, password) {
     };
     try{
 
-      const response = await fetch(process.env.REACT_APP_BACKEND + `/api/user/${id}`, requestOptions);
+      const response = await fetch(process.env.REACT_APP_BACKEND + `/api/user/delete/${id}`, requestOptions);
       const data = await response.json();
       if (response.status == 200) {
         return {data,success:true}
