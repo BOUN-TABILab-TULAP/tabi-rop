@@ -15,7 +15,7 @@ class JSON(Format):
     def fromString(self, text) -> str:
         return text
 
-    def getTypesAsJson(self, text) -> str:
+    def getTypesAsJson(self, text, input="") -> str:
         d = {}
 
         for t in self.supportedTypes:
