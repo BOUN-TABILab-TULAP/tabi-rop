@@ -52,7 +52,7 @@ export default function Navigation({ handleDrawerToggle }) {
     setOpen(false)
   };
   return <>
-    <Toolbar sx={{ zIndex:2,display: "flex", justifyContent: 'space-between',alignItems:"center" }}>
+    <Toolbar   sx={{ zIndex: (theme) => theme.zIndex.drawer + 1,display: "flex", justifyContent: 'space-between',alignItems:"center",backgroundColor:"rgb(100,149,237)",border:"2px solid rgb(169,169,169,0.5)" }}>
       <div style={{ display: "flex" }}>
 
       <IconButton
@@ -64,9 +64,11 @@ export default function Navigation({ handleDrawerToggle }) {
           >
             <MenuIcon />
           </IconButton>
+          <Link className={classes.link} to='/'> 
         <Typography variant="h4" sx={{ mt: "5px" }} noWrap component="div">
           Tabilab
         </Typography>
+          </Link>
       </div>
       <div>
         

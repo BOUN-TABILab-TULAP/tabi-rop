@@ -9,33 +9,43 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
-import Button from '@mui/material/Button'
+import {Button,Box } from '@mui/material'
 import { DataGrid, GridColDef, GridApi, GridCellValue } from '@mui/x-data-grid';
 import { useNavigate } from "react-router-dom";
 import Add from "../components/Add"
 import Update from "../components/Update"
 import { Typography } from '@mui/material';
-
+import CircularProgress from '@mui/material/CircularProgress';
 export default function UserManagement() {
     const [rows, setRows] = React.useState([])
     const [open, setOpen] = React.useState(false);
     const [update,setUpdate]=React.useState(false)
     const [chosen,setChosen]=React.useState("")
     const theme = useTheme();
+    const [wait,setWait]=React.useState(false)
     const handleDelete = async (event, cellValues) => {
-        UserApi.delete({ id: cellValues.row.id })
+        setWait(true)
+        
+        const response=await UserApi.delete({ id: cellValues.row.id })
+        console.log(response)
+        if(response.success){
+          await getUsers()
+          setWait(false)
+        }
+        else{
+            setWait(false)
+            window.alert(response.message)
+        }
+
     }
-    const handleEdit = (event, cellValues) => {
-        // cellValues.row
+    const handleEdit = (event, cellValues) => { 
         setChosen(cellValues.row)
         setOpen(true);
         setUpdate(true);
     }
-    const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+    const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
     const navigate = useNavigate();
-  
     const handleClose = () => {
-        console.log("close")
         setOpen(false);
         setUpdate(true);
     };
@@ -51,7 +61,6 @@ export default function UserManagement() {
             window.alert("you have to login again")
             navigate("/login")
         }
-        console.log(response)
         row = response.data.map((key, index) => {
             return { id: key._id, type: key.type_enum, email: key.email, username: key.username }
         })
@@ -88,19 +97,17 @@ export default function UserManagement() {
     let row = []
    
     return <>
-        {rows.length == 0 ? <div>wait</div> :
+        {rows.length == 0 ? <Box sx={{ display: 'flex' }}><CircularProgress/></Box> :
             <div style={{ height: 400, width: '100%' }}>
                 <DataGrid
                     rows={rows}
                     columns={columns}
                     pageSize={6}
-                    rowsPerPageOptions={[5]}
-                // onSelectionModelChange={}
+                    rowsPerPageOptions={[6]}
                 />
             </div>}
         <Button onClick={(event)=>{addUser()}}>Add User</Button>
         <div >
-
             <Dialog 
                 fullScreen={fullScreen}
                 open={open}
@@ -113,6 +120,7 @@ export default function UserManagement() {
                 <DialogContent sx={{width:"500px"}} >
                     <DialogContentText>
                        {update? <Update user={chosen}></Update>:<Add></Add>}
+                      
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>

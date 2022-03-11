@@ -7,9 +7,16 @@ import UserApi from "../services/UserApi";
 import SubmitButton from "./SubmitButton";
 export default function App() {
   const methods = useForm();
-  const onSubmit = data => {
-      UserApi.add({data})
-      console.log(data)
+  const onSubmit = async data => {
+     const response= await UserApi.add({user:data})
+     if(response.success){
+       window.alert("success")
+     }
+     else{
+       window.alert(response.message)
+     }
+
+      
   };
   
   const useStyles = makeStyles({

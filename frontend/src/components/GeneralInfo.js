@@ -24,7 +24,7 @@ const formList = [
         label: "Git address",
         placeholder: "https://github.com/boun-tabi/BoAT.git",
         helper: "please give us the address git repository",
-        name: "gitAddress",
+        name: "git_address",
         required: true
     },
     {

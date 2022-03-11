@@ -11,6 +11,8 @@ import toolsApi from '../services/toolsApi';
 import SubmitButton from '../components/SubmitButton';
 import Output from "../components/Output"
 import { useNavigate } from "react-router-dom";
+import {CircularProgress,LinearProgress} from "@mui/material"
+import  CustomLoadingButton from '../components/LoadingButton';
 const useStyles = makeStyles({
     Tabs: {
         flexDirection: "column",
@@ -42,11 +44,15 @@ export default function ToolUse({ tool }) {
         set_value(newValue);
     };
     const [result, setResult] = React.useState()
+    const [loading,setLoading]=React.useState(false)
     const onSubmit = async (data) => {
+        setLoading(true)
         let runresult = await toolsApi.runTool(data, tool.enum)
         setResult(runresult)
-    }
+        setLoading(false)
 
+    }
+    
     const { register, handleSubmit, watch, control, setValue, formState: { errors } } = useForm({});
     React.useEffect(async () => {
         const head_script = document.createElement("script");
@@ -118,6 +124,7 @@ export default function ToolUse({ tool }) {
                                         InputLabelProps={{
                                             shrink: true,
                                         }}
+                                        defaultValue={""}
                                         rows={4}
                                         type={value.type}
                                         label={value.title}
@@ -134,8 +141,12 @@ export default function ToolUse({ tool }) {
                                 <Divider className={classes.divider} />
                             </div>
                         })}
-                        <SubmitButton >Submit</SubmitButton>
+
+                        {!loading?<SubmitButton>Submit</SubmitButton>:<CustomLoadingButton />}
                     </form>
+                    <Box>
+                    {result !== undefined ? <Output result={result} ></Output> : <></>}
+                    </Box>
                 </TabPanel>
                 <TabPanel className={classes.Tabs} value="2">
                     <Box>
@@ -148,7 +159,7 @@ export default function ToolUse({ tool }) {
                 </TabPanel>
 
             </TabContext>
-            {result !== undefined ? <Output result={result} ></Output> : <></>}
+           
         </Box>
     </>
 

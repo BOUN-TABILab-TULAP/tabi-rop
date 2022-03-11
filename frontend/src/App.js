@@ -25,7 +25,7 @@ const useStyles = makeStyles({
     marginLeft:"310px",
     backgroundColor:"white",
     marginRight:"60px",
-    marginTop:"80px",
+    marginTop:"20px",
     padding:"20px"
   },
   mobileContainer: {
@@ -40,12 +40,10 @@ const drawerWidth = 290;
 function App(props) {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
-  const { window } = props;
   const [mobileOpen, setMobileOpen] = useState(false);
   const [tools, setTools] = useState([])
   const [open, setOpen] = React.useState(true);
   const classes = useStyles(open);
-  const container = window !== undefined ? () => window().document.body : undefined;
   const handleDrawerToggle = () => {
    
     setMobileOpen(!mobileOpen);
@@ -61,14 +59,7 @@ function App(props) {
   return (
     tools === undefined | tools.length == 0 ? <div>wait</div> :
       <> <Box >
-        <AppBar
-        position="fixed"
-       
-        sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
-      >
         <Navigation   sx={{  zIndex:100,width:"100%"  }} handleDrawerToggle={handleDrawerToggle} />
-        </AppBar>
-       
         <MyDrawer handleDrawerToggle={handleDrawerToggle} mobileOpen={mobileOpen} drawerWidth={drawerWidth} tools={tools} />
         
         <Box elevation="3"  
@@ -82,7 +73,7 @@ function App(props) {
             <Route exact path="/panel" element={<AdminPage />} />
             {tools.map((tool, index) => {
               return (
-                <Route   path={"/" + tool.enum}
+                <Route key={index}  path={"/" + tool.enum}
                   element={<ToolUse tool={tool} />}
                 />
               );
