@@ -43,8 +43,7 @@ export default function MyDrawer({ tools, mobileOpen, handleDrawerToggle, ...pro
           '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
         }}
       >
-         <Toolbar />
-        <Divider />
+        <Toolbar />
         <List>
 
           {tools.map((tool, index) => (
