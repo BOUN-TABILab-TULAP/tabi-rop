@@ -48,7 +48,7 @@ export default function App() {
             
       <form onSubmit={methods.handleSubmit(onSubmit)}>
         <CustomInput label="Email" placeholder=""  helper="please write a valid email" name="email"/>
-        <CustomInput label="Password" placeholder="" helper="please define a password to user" name="password"/>
+        <CustomInput type="password" label="Password" placeholder="" helper="please define a password to user" name="password"/>
         <CustomInput label="username" placeholder="" helper="please give a unique username" name="username"/>
           <SubmitButton type="submit" >Submit</SubmitButton>
         

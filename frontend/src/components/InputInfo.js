@@ -34,7 +34,7 @@ export default function InputInfo({ inputcontroller }) {
                               
                         <Grid container spacing={2}>
                             <Grid item xs={6}>
-                                <CustomInput label="json field" name={`input.${index}.json_field`} ></CustomInput>
+                                <CustomInput label="json field" name={`input.${index}.name`} ></CustomInput>
                             </Grid>
                             <Grid item xs={6}>
                             <CustomSelect label="input type" name={`input.${index}.input_type`} options={["sentence", "raw", "array"]} > </CustomSelect>
