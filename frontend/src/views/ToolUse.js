@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useLocation } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
@@ -38,6 +39,14 @@ const useStyles = makeStyles({
     }
 });
 export default function ToolUse({ tool }) {
+    const location = useLocation();
+    const { register, handleSubmit, watch, control, setValue, formState: { errors },reset } = useForm({});
+  
+    React.useEffect(() => {
+       setResult(undefined)
+       setLoading(false)
+       reset()
+      }, [location]);
     const classes = useStyles();
     const [value, set_value] = React.useState('1');
     const handleChange = (event, newValue) => {
@@ -52,9 +61,8 @@ export default function ToolUse({ tool }) {
         setLoading(false)
 
     }
-    
-    const { register, handleSubmit, watch, control, setValue, formState: { errors } } = useForm({});
     React.useEffect(async () => {
+        
         const head_script = document.createElement("script");
         head_script.type = "text/javascript";
         head_script.src = "../demo/brat/head.js";
@@ -76,11 +84,8 @@ export default function ToolUse({ tool }) {
         }
         if (document.getElementById("headjs") === null) {
             console.log("headjs loading");
-            // keep the scripts loaded all the time, and don't reload
             document.head.appendChild(head_script);
-
         }
-
 
     }, [])
     return <>

@@ -9,7 +9,7 @@ ReactDOM.render(
     <UserProvider>
 
    <Suspense fallback="Loading...">
-   <Router basename={'/demo'}>
+   <Router basename={'/demo'} forceRefresh={true}>
 
       <App />
       </Router>
