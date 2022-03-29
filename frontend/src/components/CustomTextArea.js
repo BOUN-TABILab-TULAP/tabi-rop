@@ -1,6 +1,6 @@
 import React from "react";
-import { useForm, FormProvider, useFormContext } from "react-hook-form";
-import { Divider, Typography, MenuItem, Select,Button, TextField, FormControl, InputLabel, createStyles } from '@mui/material';
+import {  useFormContext } from "react-hook-form";
+import { Typography,TextField, FormControl} from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles({
@@ -9,12 +9,10 @@ const useStyles = makeStyles({
       width:"100%",
 
     },
-    
-   
   });
 
 export default function CustomTextArea({label,placeholder,helper,name,defaultValue}) {
-    const { register, handleSubmit, watch, control, formState: { errors } } = useFormContext();
+    const { register,formState: { errors } } = useFormContext();
     const classes=useStyles()
     return <>
    

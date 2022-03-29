@@ -12,14 +12,13 @@ const useStyles = makeStyles({
    
   });
 
-export default function CustomInput({type="text",label,placeholder,helper,name,defaultValue}) {
+export default function CustomInput({type="text",label,placeholder,helper,name,defaultValue,fullWidth=true}) {
     const { register, handleSubmit, watch, control, formState: { errors } } = useFormContext();
     const classes=useStyles()
     return <>
    
           <FormControl className={classes.input}  >
             <TextField
-            fullWidth
             
                type={type}
               label={label}
