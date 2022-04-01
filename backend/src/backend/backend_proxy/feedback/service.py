@@ -42,10 +42,12 @@ class FeedbackService:
             self.controller: AbstractFeedbackController = controller
 
     def create_feedback(self, req_dict: dict):
-
-        if "message" not in req_dict:
-            raise REST_Exception(
-                message="You need to provide a message", status=400)
+        required_fiels = ["message","type"]
+        for field in required_fiels:
+            if field not in req_dict:
+                raise REST_Exception(
+                    message=f"You need to provide {field}", status=400)
+        
 
         is_successful = self.controller.create_feedback(feedback=req_dict)
         return is_successful

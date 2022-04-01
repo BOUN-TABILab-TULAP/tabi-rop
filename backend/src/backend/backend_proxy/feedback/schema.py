@@ -20,6 +20,7 @@ class IncorrectTypeException(Exception):
 class FeedbackSchema():
     fields = {
         "message": str,
+        "type": str,
         "registered_at": str,
 
     }
@@ -39,6 +40,7 @@ class FeedbackSchema():
     def dump(feedback: Feedback) -> dict:
         d = {
             "message": feedback.message,
+            "type": feedback.type,
             "registered_at": feedback.registered_at,
         }
         if hasattr(feedback, "_id"):
