@@ -1,3 +1,4 @@
+from backend.backend_proxy.tool.formats.BIO import BIO
 from backend.backend_proxy.tool.formats.conll import CoNLL
 from backend.backend_proxy.tool.formats.rawSentence import RawSentence
 from backend.backend_proxy.tool.formats.tokenizedSentence import TokenizedSentence
@@ -13,6 +14,7 @@ class SupportedFormats(Enum):
     RawSentence = auto()
     CoNLL = auto()
     json = auto()
+    BIO = auto()
 
 
     @staticmethod
@@ -48,6 +50,7 @@ SupportedFormats.formatsMap = {
     SupportedFormats.RawSentence : RawSentence(SupportedFormats.RawSentence),
     SupportedFormats.CoNLL : CoNLL(SupportedFormats.CoNLL),
     SupportedFormats.json : JSON(SupportedFormats.json),
+    SupportedFormats.BIO : BIO(SupportedFormats.BIO),
 } 
 
 enumMap = {
@@ -55,5 +58,6 @@ enumMap = {
     "ListOfListOfMorphFeatList": SupportedFormats.ListOfListOfMorphFeatList,
     "RawSentence": SupportedFormats.RawSentence,
     "CoNLL": SupportedFormats.CoNLL,
-    "JSON":SupportedFormats.json
+    "JSON":SupportedFormats.json,
+    "BIO":SupportedFormats.BIO
 }

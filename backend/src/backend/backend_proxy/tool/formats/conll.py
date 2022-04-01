@@ -1,4 +1,6 @@
 from backend.backend_proxy.tool.formats.formatAbstractClass import Format
+import subprocess
+import json
 
 class CoNLL(Format):
     def __init__(self,enum) -> None:
@@ -12,12 +14,14 @@ class CoNLL(Format):
         return text
         
     def brat(self, text) -> dict:
-        return text
+        p = subprocess.run(args=["node","/app/src/backend/backend_proxy/tool/formats/scripts/conllu.js",text],capture_output=True)
+        decoded =  p.stdout.decode("utf-8")
+        return json.loads(decoded)
     
     def raw(self, text) -> str:
         return text
 
-    def getTypesAsJson(self, text) -> dict:
+    def getTypesAsJson(self, text, input="") -> dict:
         d = {}
    
         for t in self.supportedTypes:

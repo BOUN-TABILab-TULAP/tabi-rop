@@ -9,7 +9,7 @@ class TokenizedSentence(Format):
             "raw": self.raw
         }
 
-    def getTypesAsJson(self, text) -> str:
+    def getTypesAsJson(self, text, input="") -> str:
         d = {}
 
         for t in self.supportedTypes:

@@ -117,6 +117,10 @@ class UserService:
                 message="You are not authorized to update this tool", status=401)
         user: User = self.controller.get_user(user_id=user_id)
         user_dict = self.controller.dump_user(user=user)
+        if 'password' in req_dict:
+            pass_hashed = hash_password(password=req_dict['password'])
+            req_dict['password'] = pass_hashed
+
         user_dict.update(req_dict)
         if "_id" in user_dict:
             del user_dict['_id']

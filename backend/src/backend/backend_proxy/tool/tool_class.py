@@ -61,7 +61,7 @@ class Tool(AbstractToolClass):
                 format_of_field)
 
             formatted_output = format_object.getTypesAsJson(
-                text=response[field])
+                text=response[field],input=list(inputs.values())[0])
             outputs[field] = formatted_output
 
         return outputs
