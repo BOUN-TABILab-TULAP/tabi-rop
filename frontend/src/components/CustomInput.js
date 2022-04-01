@@ -1,15 +1,13 @@
 import React from "react";
-import { useForm, FormProvider, useFormContext } from "react-hook-form";
-import { Divider, Typography, MenuItem, Select,Button, TextField, FormControl, InputLabel, createStyles } from '@mui/material';
+import {useFormContext } from "react-hook-form";
+import {TextField, FormControl,Typography} from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles({
     input:{
      marginBottom:"20px !important",
       width:"100%"
-    },
-    
-   
+    }
   });
 
 export default function CustomInput({type="text",label,placeholder,helper,name,defaultValue,fullWidth=true}) {
@@ -19,7 +17,6 @@ export default function CustomInput({type="text",label,placeholder,helper,name,d
    
           <FormControl className={classes.input}  >
             <TextField
-            
                type={type}
               label={label}
               placeholder={placeholder}

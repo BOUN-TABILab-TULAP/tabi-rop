@@ -53,7 +53,7 @@ export default function Update({user}) {
     
     <FormProvider {...methods} > 
      <div className={classes.form}>
-     <LinearProgress color="secondary"/>
+     <LinearProgress />
       <form onSubmit={methods.handleSubmit(onSubmit)}>
         <CustomInput label="Email" defaultValue={user.email}   helper="please write a valid email" name="email"/>
         <CustomInput type="password"  label="Password"  helper="please define a password to user" name="password"/>

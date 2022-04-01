@@ -76,7 +76,7 @@ export default function UserManagement() {
         { field: "username", headerName: "Username", width: 130 },
         {
             field: "Edit", renderCell: (cellValues) => {
-                return (<Button variant="contained" color="primary"
+                return (<Button variant="contained" 
                     onClick={(event) => {
                         handleEdit(event, cellValues);
                     }}>
@@ -85,7 +85,7 @@ export default function UserManagement() {
         },
         {
             field: "Delete", renderCell: (cellValues) => {
-                return (<Button variant="contained" color="primary"
+                return (<Button variant="contained" 
                     onClick={(event) => {
                         handleDelete(event, cellValues);
                     }}

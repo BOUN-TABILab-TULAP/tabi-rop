@@ -15,10 +15,10 @@ const useStyles = makeStyles({
         flexDirection: "column",
         width: "100%",
         border: "1px solid rgb(150,150,150)",
-        borderRadius:"1%",
+        borderRadius: "1%",
         padding: "10px",
-        marginBottom:"10px",
-        boxSizing:"border-box"
+        marginBottom: "10px",
+        boxSizing: "border-box"
 
     },
     header: {
@@ -33,7 +33,7 @@ const useStyles = makeStyles({
 export default function InputInfo({ inputcontroller }) {
 
     const { register, control, watch } = useFormContext();
-    
+
     const classes = useStyles()
     return (
         <div ><Typography variant="h6" align="center" className={classes.header}> Input Definitions</Typography>
@@ -45,15 +45,21 @@ export default function InputInfo({ inputcontroller }) {
                                 <CustomInput label="Json field" name={`input_fields_temp[${index}].json_field`} ></CustomInput>
                             </Grid>
                             <Grid item xs={4}>
-                                <CustomSelect  label="Input type" name={`input_fields_temp[${index}].type`} options={["sentence", "raw", "array"]} > </CustomSelect>
+                                <CustomSelect label="Input type" name={`input_fields_temp[${index}].type`} options={{
+                                    "TokenizedSentence": "Tokenized Sentence",
+                                    "ListOfListOfMorphFeatList": "List of MorphFeatList",
+                                    "RawSentence": "Raw Sentence",
+                                    "CoNLL": "CoNLL",
+                                    "JSON": "JSON"
+                                }} > </CustomSelect>
                             </Grid>
                             <Grid item xs={4}>
-                                <CustomInput  label="Name"  name={`input_fields_temp[${index}].title`}  > </CustomInput>
+                                <CustomInput label="Name" name={`input_fields_temp[${index}].title`}  > </CustomInput>
                             </Grid>
                         </Grid>
                         <NestedExampleArray nestIndex={index} />
-                        <Divider/>
-                        <Button type="button" disabled={inputcontroller.fields.length==1} onClick={() => inputcontroller.remove(index)}>
+                        <Divider />
+                        <Button type="button" disabled={inputcontroller.fields.length == 1} onClick={() => inputcontroller.remove(index)}>
                             Delete
                         </Button>
                     </Box>
@@ -62,7 +68,7 @@ export default function InputInfo({ inputcontroller }) {
 
             })}
             <Button type="button"
-                onClick={() => { inputcontroller.append({ type: "", title: "",json_field:"",example:[] }); }}>
+                onClick={() => { inputcontroller.append({ type: "", title: "", json_field: "", example: [] }); }}>
                 append
             </Button>
         </div>)

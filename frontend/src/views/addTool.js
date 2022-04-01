@@ -3,7 +3,7 @@ import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import { Divider, Typography, MenuItem, Select, TextField, FormControl, InputLabel, createStyles } from '@mui/material';
 import Container from '@mui/material/Container';
-
+import { ThemeProvider, useTheme, createTheme } from '@mui/material/styles';
 import { makeStyles } from '@mui/styles';
 import toolsApi from '../services/toolsApi.js';
 import Stepper from '@mui/material/Stepper';
@@ -16,6 +16,8 @@ import GeneralInfo from '../components/GeneralInfo.js';
 import InputInfo from '../components/InputInfo.js';
 import OutputInfo from '../components/OutputInfo.js';
 import GuideInfo from '../components/GuideInfo.js'
+import { Palette } from '@mui/icons-material';
+import GeneralButton from "../components/GeneralButton"
 const steps = [
   'General Information',
   'Define Input',
@@ -35,6 +37,7 @@ const useStyles = makeStyles({
 });
 export default function AddTool() {
   const classes = useStyles();
+  const theme=useTheme()
   const methods = useForm({
     defaultValues: {
       input_fields_temp: [{ title: "input", type: "sentence", examples: [], json_field: "" }],
@@ -90,7 +93,7 @@ export default function AddTool() {
 
   return (
     <Container className={classes.main} component="main" maxWidth="l" >
-      <Typography variant="h5">
+      <Typography  variant="h5">
         Add your tool to the system
       </Typography>
       <FormProvider {...methods} >
@@ -113,20 +116,19 @@ export default function AddTool() {
           <Box
             sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}
           >
-            <Button
-              color="inherit"
+            <GeneralButton
               disabled={activeStep === 0}
               onClick={() => setActiveStep((prevActiveStep) => prevActiveStep - 1)}
               sx={{ mr: 1 }} >
               Back
-            </Button>
+            </GeneralButton>
             <Box sx={{ flex: '1 1 auto' }} />
-            <Button disabled={activeStep === steps.length - 1} onClick={handleNext} sx={{ mr: 1 }}>
+            <GeneralButton  disabled={activeStep === steps.length - 1} onClick={handleNext} sx={{ mr: 1 }}>
               Next
-            </Button>
+            </GeneralButton>
 
             <div>
-              <Button disabled={activeStep !== steps.length - 1} type="submit" >Submit</Button>
+              <GeneralButton   disabled={activeStep !== steps.length - 1} type="submit" >Submit</GeneralButton>
             </div>
 
 

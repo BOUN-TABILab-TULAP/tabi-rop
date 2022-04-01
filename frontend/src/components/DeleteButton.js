@@ -7,7 +7,6 @@ import Typography from '@mui/material/Typography';
 const useStyles = makeStyles({
     button: {
         padding: "15px !important",
-        backgroundColor: "#3c7ba6 ",
         marginLeft: "auto !important",
         marginRight: "10px !important",
         position: "relative"

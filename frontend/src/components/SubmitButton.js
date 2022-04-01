@@ -7,7 +7,6 @@ import Typography from '@mui/material/Typography';
 const useStyles = makeStyles({
     button: {
         padding: "15px !important",
-        backgroundColor: "#3c7ba6 ",
         marginLeft: "auto !important",
         marginRight: "10px !important",
         position: "relative"
@@ -25,7 +24,7 @@ export default function SubmitButton(props) {
             <div></div>
             <div></div> <Button type="submit"
                 variant="contained"
-                sx={{ mt: 3, mb: 2 }} className={classes.button}>{props.children}</Button>
+                sx={{ mt: 3, mb: 2 }} color="primary" className={classes.button}>{props.children}</Button>
         </div>
     </>
 }

@@ -12,14 +12,13 @@ import DialogTitle from '@mui/material/DialogTitle';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import toolsApi from '../services/toolsApi';
+import GeneralButton from '../components/GeneralButton';
 export default function ToolManagement() {
     const [open, setOpen] = React.useState(false);
     const [rows, setRows] = React.useState([])
     const [tools, setTools] = React.useState([])
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
-
-
     const handleClickOpen = (params) => {
         console.log(params.cellValues)
         setOpen(true);
@@ -29,11 +28,8 @@ export default function ToolManagement() {
         setOpen(false);
     };
     const handleRestart=async (event,cellValues)=>{
-        console.log(cellValues)
         await toolsApi.restartTool({tool_enum:cellValues.row.enum})
-        console.log("")
     }
-
     const columns = [{ field: "id", headerName: "Id", width: 70 },
     { field: "name", headerName: "name", width: 130 },
     { field: "endpoint", headerName: "Endpoint", width: 130 },
@@ -44,7 +40,7 @@ export default function ToolManagement() {
           return (
             <Button
               variant="contained"
-              color="primary"
+              
               onClick={(event) => {
                 handleClickOpen(event, cellValues);
               }}
@@ -60,7 +56,7 @@ export default function ToolManagement() {
           return (
             <Button
               variant="contained"
-              color="primary"
+              
               onClick={(event) => {
                 handleRestart(event, cellValues);
               }}
@@ -116,12 +112,12 @@ export default function ToolManagement() {
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose} autoFocus>
+                    <GeneralButton onClick={handleClose} autoFocus>
                         Save
-                    </Button>
-                    <Button onClick={handleClose} autoFocus>
+                    </GeneralButton>
+                    <GeneralButton onClick={handleClose} autoFocus>
                        Exit
-                    </Button>
+                    </GeneralButton>
                 </DialogActions>
             </Dialog>
         </div>

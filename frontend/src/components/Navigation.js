@@ -52,10 +52,10 @@ export default function Navigation({ handleDrawerToggle }) {
     setOpen(false)
   };
   return <>
-    <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, display: "flex",flexDirection:"row", justifyContent: 'space-between', alignItems: "center", backgroundColor: "rgb(100,109,237)", border: "2px solid rgb(169,169,169,0.5)" }}>
+    <AppBar color="primary" position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, display: "flex",flexDirection:"row", justifyContent: 'space-between', alignItems: "center", border: "2px solid rgb(169,169,169,0.5)" }}>
         <Toolbar>
           <IconButton
-            color="inherit"
+           
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
@@ -101,32 +101,6 @@ export default function Navigation({ handleDrawerToggle }) {
             onClose={handleClose}
             onClick={handleClose}
             onMouseLeave={handleClose}
-            PaperProps={{
-              elevation: 0,
-              sx: {
-                overflow: 'visible',
-                filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
-                mt: 1.5,
-                '& .MuiAvatar-root': {
-                  width: 32,
-                  height: 32,
-                  ml: -0.5,
-                  mr: 1,
-                },
-                '&:before': {
-                  content: '""',
-                  display: 'block',
-                  position: 'absolute',
-                  top: 0,
-                  right: 14,
-                  width: 10,
-                  height: 10,
-                  bgcolor: 'background.paper',
-                  transform: 'translateY(-50%) rotate(45deg)',
-                  zIndex: 0,
-                },
-              },
-            }}
             transformOrigin={{ horizontal: 'right', vertical: 'top' }}
             anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
           >

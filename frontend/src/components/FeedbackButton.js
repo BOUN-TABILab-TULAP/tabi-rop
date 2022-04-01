@@ -26,7 +26,7 @@ export default function FeedbackButton(props) {
     const classes = useStyles()
     return <>
 
-        <Button {...props} disableElevation variant="contained" startIcon={<FeedbackIcon />} className={classes.floating_button}  sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>feedback</Button>
+        <Button {...props} disableElevation variant="contained"  startIcon={<FeedbackIcon />} className={classes.floating_button}  sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>feedback</Button>
     </>
 }
 
