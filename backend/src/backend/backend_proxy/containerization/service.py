@@ -59,7 +59,7 @@ class DockerService:
     # name_enum: Enum of the tool, for naming the image and container
     # version: version of the tool
 
-    def create_new_container(self, dockerfilePath: str, nameEnum: str, version: str) -> int:
+    def create_new_container(self, dockerfilePath: str, nameEnum: str) -> int:
         naming = f"{nameEnum}"
         imageTag = naming + "-image"
         containerTag = naming + "-container"

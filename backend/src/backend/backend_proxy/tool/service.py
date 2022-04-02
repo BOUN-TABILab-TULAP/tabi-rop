@@ -66,7 +66,7 @@ class ToolService:
         toolPath = util.get_specs_from_git(req_dict["git_address"])
         # Build docker image, run and return port
         req_dict['port'] = DockerService().create_new_container(
-            toolPath, req_dict['enum'], req_dict['version'])
+            toolPath, req_dict['enum'])
 
         # My main development machine is windows and I am using WSL(Windows Subsystem for Linux) for running docker.
         # In linux, default IP of docker host is 172.17.0.1; however, that ip constantly changes in WSL so you can reach to docker host by `host.docker.internal` domain.
