@@ -1,6 +1,8 @@
-from backend.backend_proxy.misc.uiSchema import createUiSchema
+from json import tool
+from backend.backend_proxy.tool.controller.abstract_controller import AbstractToolController
+from backend.backend_proxy.tool.controller.tool_controller import ToolController
 from backend.backend_proxy.tool.formats.supportedFormats import SupportedFormats
-from backend.backend_proxy.tool.toolClass import Tool
+from backend.backend_proxy.tool.tool_class import Tool
 from backend.backend_proxy.containerization.service import DockerService
 from backend.backend_proxy.db.mongoDB import MongoDB
 from backend.backend_proxy.api.exception import REST_Exception
@@ -8,9 +10,13 @@ from backend.backend_proxy.tool.schema import ToolSchema, dtime_format
 import backend.backend_proxy.misc.util as util
 import backend.backend_proxy.misc.conllXtostandoff as conllXtostandoff
 import datetime as dt
+from backend.backend_proxy.user.service import UserService
+from backend.backend_proxy.user.user_class import User
+from backend.backend_proxy.user.user_type import UserType
 import requests
 import json
 import sys
+from platform import uname
 
 
 def debugPrint(*args, **kwargs):
@@ -22,135 +28,137 @@ class ToolService:
 
     def __new__(cls, *args, **kwargs):
         if cls.__instance is None:
-            cls.__instance = object.__new__(cls, *args, **kwargs)
+            cls.__instance = object.__new__(cls)
             cls.__instance._initialized = False
         return cls.__instance
 
-    
-    def __init__(self):
+    def __init__(self, controller=None) -> None:
         if self._initialized:
             return
         self._initialized = True
+        if controller is None:
+            self.controller = ToolController()
+        else:
+            self.controller: AbstractToolController = controller
+        tools = self.controller.get_all_tools()
+        self.toolObjects: dict[str, Tool] = {tool.enum: tool for tool in tools}
 
-        # get tools from db
-        tools = MongoDB.getInstance().find_all("tools")
-        self.toolObjects = {}
+    def add_tool(self, req_dict: dict, token: str):
 
-        for tool in tools:
-            self.toolObjects[tool['enum']] = Tool(
-                enum=tool['enum'],
-                ip=tool['ip'],
-                port=tool['port'],
-                version=tool['version'],
-                inputFormats=tool['inputFormats'],
-                outputFormats=tool['outputFormats'],
-                endpoint=tool['endpoint']
-            )
-        debugPrint(self.toolObjects)
+        adding_user: User = UserService().get_user_query(
+            query={"token": token})
+        if adding_user is None:
+            raise REST_Exception(
+                "Could not find an user with the provided token")
 
-    def add_tool(self, req_dict):
+        req_dict['added_by'] = adding_user.username
+
         if 'enum' not in req_dict:
             raise REST_Exception("You have to provide an enum")
+
         enum = req_dict["enum"]
-        if self.enum_exists(enum):
-            raise REST_Exception("The enum: {} already exists, "
-                                 "enter a unique one".format(enum))
-        toolPath = util.get_specs_from_git(req_dict["git"])
-        req_dict['port'] = DockerService().create_new_container(
-            toolPath, req_dict['enum'], req_dict['version'])
-        req_dict['ip'] = "172.17.0.1"
-        req_dict['schema'], req_dict['uiSchema'] = createUiSchema(
-            req_dict['inputFormats'])
-        MongoDB.getInstance().create("tools", req_dict)
-        self.toolObjects[req_dict['enum']] = Tool(
-            enum=req_dict['enum'],
-            ip=req_dict['ip'],
-            port=req_dict['port'],
-            version=req_dict['version'],
-            inputFormats=req_dict['inputFormats'],
-            outputFormats=req_dict['outputFormats'],
-            endpoint=req_dict['endpoint']
 
-        )
-        return self.dump(req_dict)
-
-    def update_tool(self, req_dict, original_enum, access_tools):
-        #TODO Authentication
-        # if 'enum' not in req_dict:
-        #     raise REST_Exception("You must specify enum")
-        
-        enum = original_enum
-        if enum not in self.toolObjects:
-            raise REST_Exception("Could not find specified enum")
-        tool : Tool = self.toolObjects[enum]
-        is_successful = tool.update(req_dict)
-        return is_successful
-
-        
-        # if (access_tools is not None) and (original_enum not in access_tools):
-            # raise REST_Exception("You have no right to update this tool")
-
-        # if self.enum_exists(enum) and (enum != original_enum):
-        #     raise REST_Exception("The enum: {} already exists, "
-        #                          "enter a unique one".format(enum))
-        # # Reloads the git URL again since
-        # #   this might be the main motivation of the update
-        # (author_json, form_data_json, root_json), toolPath = util.get_specs_from_git(
-        #     req_dict["git"])
-        # if "author_json" not in req_dict or not req_dict["author_json"]:
-        #     req_dict["author_json"] = author_json
-        # req_dict["author_json"] = author_json
-        # req_dict["root_json"] = root_json
-        # req_dict["form_data_json"] = form_data_json
-        # req_dict["update_time"] = dt.datetime.now()
-        # # copy contact info to separate variable
-        # if "contact_info" in req_dict["author_json"]:
-        #     req_dict["contact_info"] = req_dict["author_json"]["contact_info"]
-        # MongoDB.getInstance().update(
-        #     "tools", {"enum": original_enum}, req_dict)
-        # return self.dump(req_dict)
-
-    def delete_tool(self, enum, access_tools):
-        if (access_tools is not None) and (enum not in access_tools):
-            raise REST_Exception("You have no right to update this tool")
-
-        tool_dict = MongoDB.getInstance().find("tools", {"enum": enum})
-        if tool_dict is None:
-            raise REST_Exception("Tool enum does not exist")
-        MongoDB.getInstance().delete("tools", tool_dict)
-        return self.dump(tool_dict)
-
-    def get_tool_ui_info(self, enum):
-        tool_dict = MongoDB.getInstance().find("tools", {"enum": enum})
-        if tool_dict is None:
+        if self.controller.get_tool_query(query={"enum": enum}) != None:
             raise REST_Exception(
-                "Tool with enum: {} does not exist".format(enum))
-        tool_dict = ToolSchema(only=(
-            "author_json", "root_json", "form_data_json")).dump(tool_dict)
-        return tool_dict
+                f"The enum: {enum} already exists, please provide another enum")
 
-    def run_tool(self, enum, input_dict: dict):
-        return self.toolObjects[enum].run(input_dict)
+        # Clone given repository
+        toolPath = util.get_specs_from_git(req_dict["git_address"])
+        # Build docker image, run and return port
+        req_dict['port'] = DockerService().create_new_container(
+            toolPath, req_dict['enum'])
 
-    def list_all_tools(self, access_tools):
-        tools = MongoDB.getInstance().find_all("tools",)
-        if access_tools is None:
-            return [self.dump(tool) for tool in tools]
+        # My main development machine is windows and I am using WSL(Windows Subsystem for Linux) for running docker.
+        # In linux, default IP of docker host is 172.17.0.1; however, that ip constantly changes in WSL so you can reach to docker host by `host.docker.internal` domain.
+        # As of Feb 10 2022, Docker in linux does not solve that domain without extra configurations.
+        # So, I have to make the following check to assign req_dict['ip'].
+        is_running_in_wsl = 'microsoft-standard' in uname().release
+
+        if is_running_in_wsl:
+            req_dict['ip'] = "host.docker.internal"
         else:
-            access_tools = set(access_tools)
-            return [self.dump(tool) for tool in tools if tool["enum"] in access_tools]
+            req_dict['ip'] = "172.17.0.1"
+        tool: Tool = self.controller.create_tool(tool_info=req_dict)
+        self.toolObjects[enum] = tool
 
-    def get_tool_names(self):
-        tools = MongoDB.getInstance().find_all("tools",)
-        return [ToolSchema(only=("enum", "name")).dump(tool) for tool in tools]
+        return self.controller.dump_tool(tool=tool)
 
-    def enum_exists(self, enum):
-        return (MongoDB.getInstance().find("tools", {"enum": enum}) is not None)
+    def update_tool(self, enum: str, req_dict: dict, token: str):
+        user: User = UserService().get_user_query({"token": token})
+        if user is None:
+            raise REST_Exception(
+                message="Could not find user with the provided token", status=400)
 
-    def dump(self, obj):
-        return ToolSchema(exclude=['_id','ip','port','version']).dump(obj)
+        tool: Tool = ToolService().get_tool_query({"enum": enum})
+        if tool is None:
+            raise REST_Exception(
+                message="Could not find tool with the provided enum", status=400)
+        # check authorization
+        is_authorized = False
+        if user.type_enum == UserType.administrator:
+            is_authorized = True
+        elif tool.added_by == user.username:
+            is_authorized = True
+        else:
+            raise REST_Exception(
+                message="You are not authorized to update this tool", status=401)
 
-    def run_request(self, ip, port, input_dict):
-        # all running programs must implement /evaluate endpoint
-        addr = "http://{}:{}/evaluate".format(ip, port)
-        return requests.post(addr, json=input_dict)
+        tool_dict: dict = self.controller.dump_tool(tool=tool)
+        tool_dict.update(req_dict)
+        if "_id" in tool_dict:
+            del tool_dict['_id']  # id cannot be updated
+        tool = self.controller.update_tool(tool._id, tool_info=tool_dict)
+        self.toolObjects[enum] = tool
+        return self.controller.dump_tool(tool=tool)
+
+    def delete_tool(self, enum: str, token: str):
+        user: User = UserService().get_user_query({"token": token})
+        if user is None:
+            raise REST_Exception(
+                message="Could not find user with the provided token", status=400)
+
+        tool: Tool = ToolService().get_tool_query({"enum": enum})
+        if tool is None:
+            raise REST_Exception(
+                message="Could not find tool with the provided enum", status=400)
+        # check authorization
+        is_authorized = False
+        if user.type_enum == UserType.administrator:
+            is_authorized = True
+        elif tool.added_by == user.username:
+            is_authorized = True
+        else:
+            raise REST_Exception(
+                message="You are not authorized to update this tool", status=401)
+        DockerService().remove_container(container_name=f"{enum}-container")
+        return self.controller.delete_tool(tool_id=tool._id)
+
+    def run_tool(self, enum: str, input_dict: dict):
+        if enum not in self.toolObjects:
+            raise REST_Exception(
+                f"The enum: {enum} could not be found in active tools.")
+        selected_tool: Tool = self.toolObjects[enum]
+        return selected_tool.run(input_dict)
+
+    def list_all_tools(self) -> list[Tool]:
+        return [self.controller.dump_tool(tool=tool) for tool in self.controller.get_all_tools()]
+
+    def get_tool_names(self) -> dict[str, str]:
+        return [{"name": tool.name, "enum": tool.enum} for tool in self.list_all_tools()]
+
+    def get_tool_query(self, query: dict) -> Tool:
+        return self.controller.get_tool_query(query=query)
+
+    def list_editable_tools(self, token: str) -> list[Tool]:
+        user: User = UserService().get_user_query({"token": token})
+        if user is None:
+            raise REST_Exception(message="Could not find user", status=400)
+        tools: list[Tool] = self.controller.get_all_tools()
+        editable_tools = []
+        if user.type_enum == UserType.administrator:
+            editable_tools = tools
+        else:
+            for tool in tools:
+                if tool.added_by == user.username:
+                    editable_tools.append(tool)
+        return [self.controller.dump_tool(tool=tool) for tool in editable_tools]

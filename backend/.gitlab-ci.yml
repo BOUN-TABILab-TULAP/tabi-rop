@@ -1,0 +1,15 @@
+image: "python:3.9.5"
+
+before_script:
+  - python --version
+  - cp backend/src/backend/backend_proxy/config_example.py backend/src/backend/backend_proxy/config.py # credentials are not important
+  - pip install -r backend/requirements.txt
+  - pip install -e backend
+
+stages:
+  - test
+
+unit_test:
+  stage: test
+  script:
+  - pytest -p no:cacheprovider backend/

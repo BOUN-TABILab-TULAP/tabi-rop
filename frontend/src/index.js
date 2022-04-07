@@ -1,20 +1,35 @@
 import React, { Suspense } from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
-import "antd/dist/antd.css";
-import reportWebVitals from "./reportWebVitals";
-import "./i18n";
+import { BrowserRouter as Router } from "react-router-dom";
+import { UserProvider } from "./userContext.js"
+import "./index.css"
+import { ThemeProvider } from '@mui/styles';
+import { createTheme } from '@mui/material/styles';
+const theme = createTheme({
+  mainBackgroundColor:"#E6E9EB",
+  
+
+});
+const darkTheme = createTheme({
+  palette: {
+    mode: 'light',
+  },
+});
 
 ReactDOM.render(
   <React.StrictMode>
-    <Suspense fallback="Loading...">
-      <App />
-    </Suspense>
+    <UserProvider>
+      <ThemeProvider theme={darkTheme}>
+        <Suspense fallback="Loading...">
+          <Router basename={'/demo'} forceRefresh={true}>
+
+            <App />
+          </Router>
+        </Suspense>
+      </ThemeProvider>
+    </UserProvider>
+
   </React.StrictMode>,
   document.getElementById("root")
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();

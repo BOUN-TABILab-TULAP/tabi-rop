@@ -1,0 +1,16 @@
+.toolbar{
+    display:flex;
+    justify-content:space-between;
+}
+.sidebar{
+    display:block;
+    box-sizing: 'border-box';
+    width: 240;
+
+}
+.drawer{
+    padding: 5%;
+    margin: 5%;
+    box-sizing: 'border-box';
+    width: 240;
+}

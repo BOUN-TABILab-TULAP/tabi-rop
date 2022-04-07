@@ -1,30 +1,64 @@
+from backend.backend_proxy.tool.tool_class import Tool
 from marshmallow import Schema, fields
 
 dtime_format = "%d-%m-%Y | %H:%M:%S"
 
+class NotFoundException(Exception):
+    def __init__(self, field):
+        self.message = f"{field} is not in provided data"
+        super().__init__(self.message)
 
-class ToolSchema(Schema):
-    _id = fields.Int(required=True)
-    ip = fields.Str(required=True)
-    port = fields.Int(required=True)
-    git = fields.Str(required=True)
-    name = fields.Str(required=True)
-    # enum needs to be unique
-    enum = fields.Str(required=True)
-    update_time = fields.Str()
-    contact_info = fields.Str()
-    languages = fields.List(fields.String)
-    domains = fields.List(fields.String)
-    links = fields.List(fields.String)
-    version = fields.Str(required=True)
-    bibtex = fields.Str(required=True)
-    doi = fields.Str(required=True)
-    schema =fields.Dict(required=True)
-    uiSchema =fields.Dict(required=True)
-    description = fields.Str(required=True)
-    usageInformation = fields.Str()
-    funding = fields.Str()
-    citing = fields.Str()
-    inputFormats = fields.List(fields.Dict)
-    outputFormats = fields.List(fields.Dict)
-    endpoint = fields.Str(required=True)
+
+class IncorrectTypeException(Exception):
+    def __init__(self, field, expected_type, given_type):
+        self.message = f"Expected type for {field} is {expected_type}; however, given type is {given_type}"
+        super().__init__(self.message)
+
+
+class ToolSchema():
+    fields = {
+        "enum": str,
+        "name": str,
+        "added_by": str,
+        "registered_at": str,
+        "ip": str,
+        "port": int,
+        "endpoint": str,
+        "description": str,
+        "usage_information": str,
+        "input_fields": dict,
+        "output_fields": dict,
+        "contact_mail":str,
+    }
+
+    @staticmethod
+    def create_object(data, **kwargs):
+        for field, field_type in ToolSchema.fields.items():
+            if field not in data:
+                raise NotFoundException(field=field)
+            given_type = type(data[field])
+            if field_type != given_type:
+                raise IncorrectTypeException(
+                    field=field, expected_type=field_type, given_type=given_type)
+        return Tool(data)
+
+    @staticmethod
+    def dump(tool: Tool) -> dict:
+        d = {
+            "enum": tool.enum,
+            "name": tool.name,
+            "added_by": tool.added_by,
+            "registered_at": tool.registered_at,
+            "ip": tool.ip,
+            "port": tool.port,
+            "endpoint": tool.endpoint,
+            "description": tool.description,
+            "usage_information": tool.usage_information,
+            "contact_mail": tool.contact_mail,
+            "input_fields": tool.input_fields,
+            "output_fields": tool.output_fields,
+        }
+
+        if hasattr(tool, "_id"):
+            d["_id"] = str(tool._id)
+        return d

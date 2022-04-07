@@ -35,7 +35,7 @@ class ListOfListOfMorphFeatList(Format):
     def raw(self, text) -> str:
         return text
 
-    def getTypesAsJson(self, text) -> dict:
+    def getTypesAsJson(self, text, input="") -> dict:
         d = {}
 
         for t in self.supportedTypes:
