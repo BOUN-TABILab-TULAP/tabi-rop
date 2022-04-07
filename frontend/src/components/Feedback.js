@@ -41,7 +41,7 @@ export default function Feedback({ setOpen, open }) {
        const response= await UserApi.give_feedback({feedback:data})
        console.log(response)
        if (response.success) {
-        window.alert("user has been added successfully")
+        window.alert("Thanks for the feedback!")
 
       }
       else {
