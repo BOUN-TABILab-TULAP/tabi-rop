@@ -26,7 +26,7 @@ export default function UserManagement() {
         if(response.success){
           await getUsers()
           setWait(false)
-          window.alert("user has been deleted successfull")
+          window.alert("User has been deleted successfull")
         }
         else{
             setWait(false)

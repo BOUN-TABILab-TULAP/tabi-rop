@@ -10,7 +10,7 @@ export default function App({setOpen}) {
   const onSubmit = async data => {
     const response = await UserApi.add({ user: data })
     if (response.success) {
-      window.alert("User has been added successfully.)
+      window.alert("User has been added successfully.")
 
     }
     else {
