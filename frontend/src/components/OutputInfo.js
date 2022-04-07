@@ -41,7 +41,13 @@ export default function InputInfo({ outputcontroller }) {
                 <CustomInput label="json field" name={`output.${index}.name`} ></CustomInput>
               </Grid>
               <Grid item xs={6}>
-                <CustomSelect label="output type" name={`output.${index}.output_type`} options={["sentence", "raw", "array"]} > </CustomSelect>
+                <CustomSelect label="output type" name={`output.${index}.output_type`} options={{
+                                    "TokenizedSentence": "Tokenized Sentence",
+                                    "ListOfListOfMorphFeatList": "List of MorphFeatList",
+                                    "RawSentence": "Raw Sentence",
+                                    "CoNLL": "CoNLL",
+                                    "JSON": "JSON"
+                                }}  > </CustomSelect>
               </Grid>
             </Grid>
          
