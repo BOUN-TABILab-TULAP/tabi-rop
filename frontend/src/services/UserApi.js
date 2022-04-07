@@ -102,5 +102,27 @@ static async login(username, password) {
       return {message:e,success:false};
     }
   }
+  static async give_feedback({feedback}) {
+  
+    const requestOptions = {
+      method: "POST",
+      credentials: 'include',
+      headers: { "Content-Type": "application/json"},
+      body:JSON.stringify(feedback)
+    
+    }
+    try{
+
+      const response = await fetch(process.env.REACT_APP_BACKEND + `/api/feedback`, requestOptions);
+      const data = await response.json();
+      if (response.status == 200) {
+        return {data,success:true}
+      }
+      return {message:data.message,success:false};
+    }catch(e){
+      return {message:e,success:false};
+    }
+  }
+
 
 }

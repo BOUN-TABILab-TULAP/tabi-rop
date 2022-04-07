@@ -8,6 +8,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { FormControl, Typography, Select, InputLabel, MenuItem,Box } from '@mui/material';
 import { useForm } from "react-hook-form";
+import UserApi from '../services/UserApi';
 
 import { makeStyles } from '@mui/styles';
 const useStyles = makeStyles({
@@ -35,7 +36,18 @@ wrapper:{
 export default function Feedback({ setOpen, open }) {
     const classes=useStyles()
     const { register, handleSubmit,formState: { errors } } = useForm();
-    const onSubmit = data => console.log(data);
+    const onSubmit = async data => {
+        console.log(data)
+       const response= await UserApi.give_feedback({feedback:data})
+       console.log(response)
+       if (response.success) {
+        window.alert("user has been added successfully")
+
+      }
+      else {
+        window.alert(response.message)
+      }
+    };
 
 
     const handleClose = () => {
@@ -56,12 +68,14 @@ export default function Feedback({ setOpen, open }) {
                 </DialogContentText>
 
 
+
                 <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
                 <FormControl sx={{ width: "100%" }}   >
                         <InputLabel >select type of feedback</InputLabel>
                         <Select fullWidth
                             label="select type of feedback"
                             {...register("type")}
+                            defaultValue={"comment"}
                         >
                             <MenuItem value="">
                                 <em>{"Select"}</em>
@@ -71,8 +85,6 @@ export default function Feedback({ setOpen, open }) {
                             })}
                         </Select>
                     </FormControl>
-
-
                     <FormControl sx={{ width: "100%" }}  >
                         <TextField
 
@@ -83,19 +95,20 @@ export default function Feedback({ setOpen, open }) {
                             fullWidth
                             multiline
                             rows={4}   
-                         {...register("feedback_text",
+                         {...register("message",
                                 { required: true }
                             )} />
                         <Typography >
                             {errors.feedback_text?.type === 'required' && "feedback  is required"}
                         </Typography>
                     </FormControl>
+                   
                 </form>
 
             </DialogContent>
             <DialogActions>
                 <Button variant="contained" onClick={handleClose}>Cancel</Button>
-                <Button variant="contained" onClick={handleClose}>Send</Button>
+                <Button variant="contained" type="submit" onClick={handleSubmit(onSubmit)} >Send</Button>
             </DialogActions>
             </Box>
         </Dialog>
