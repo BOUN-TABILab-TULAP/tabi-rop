@@ -5,16 +5,18 @@ import { makeStyles } from '@mui/styles';
 import UserApi from "../services/UserApi";
 import SubmitButton from "./SubmitButton";
 
-export default function App() {
+export default function App({setOpen}) {
   const methods = useForm();
   const onSubmit = async data => {
     const response = await UserApi.add({ user: data })
     if (response.success) {
-      window.alert("success")
+      window.alert("user has been added successfully")
+
     }
     else {
       window.alert(response.message)
     }
+    setOpen(false)
   };
 
   const useStyles = makeStyles({

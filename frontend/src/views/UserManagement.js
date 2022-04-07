@@ -1,16 +1,10 @@
 import * as React from 'react';
-import { makeStyles } from '@mui/styles';
 import UserApi from '../services/UserApi';
-import { ThemeContext } from '@emotion/react';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
+import {Dialog,DialogActions,DialogContent,DialogContentText ,DialogTitle} from '@mui/material/';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import {Button,Box } from '@mui/material'
-import { DataGrid, GridColDef, GridApi, GridCellValue } from '@mui/x-data-grid';
+import { DataGrid, GridCellValue } from '@mui/x-data-grid';
 import { useNavigate } from "react-router-dom";
 import Add from "../components/Add"
 import Update from "../components/Update"
@@ -23,19 +17,22 @@ export default function UserManagement() {
     const [chosen,setChosen]=React.useState("")
     const theme = useTheme();
     const [wait,setWait]=React.useState(false)
+   
     const handleDelete = async (event, cellValues) => {
-        setWait(true)
-        
-        const response=await UserApi.delete({ id: cellValues.row.id })
-        console.log(response)
+        setWait(true) 
+       if( window.confirm(`are you sure about deleting ${cellValues.username}?`))
+       { const response=await UserApi.delete({ id: cellValues.row.id })
+       
         if(response.success){
           await getUsers()
           setWait(false)
+          window.alert("user has been deleted successfull")
         }
         else{
             setWait(false)
             window.alert(response.message)
-        }
+        }}
+        setWait(false)
 
     }
     const handleEdit = (event, cellValues) => { 
@@ -49,11 +46,12 @@ export default function UserManagement() {
         setOpen(false);
         setUpdate(true);
     };
-    const addUser = () => {
+    const addUser = async () => {
         setOpen(true);
         setUpdate(false);
         UserApi.add()
         setRows((prevRows) => [...prevRows, ]);
+        await UserApi.getUsers()   
     }
     const getUsers = async () => {
         let response = await UserApi.getUsers()
@@ -71,11 +69,11 @@ export default function UserManagement() {
             getUsers()
     }, []);
     const columns = [
-        { field: "email", headerName: "Email", width: 130 },
-        { field: "type", headerName: "Type", width: 130 },
-        { field: "username", headerName: "Username", width: 130 },
+        { field: "email", headerName: "Email",flex: 0.4,maxWidth:300,minWidth:100},
+        { field: "type", headerName: "Type", flex: 0.3,minWidth:80 },
+        { field: "username", headerName: "Username",flex: 0.3,minWidth:80  },
         {
-            field: "Edit", renderCell: (cellValues) => {
+            field: "Edit",width: 150, renderCell: (cellValues) => {
                 return (<Button variant="contained" 
                     onClick={(event) => {
                         handleEdit(event, cellValues);
@@ -84,7 +82,7 @@ export default function UserManagement() {
             }
         },
         {
-            field: "Delete", renderCell: (cellValues) => {
+            field: "Delete",width: 150, renderCell: (cellValues) => {
                 return (<Button variant="contained" 
                     onClick={(event) => {
                         handleDelete(event, cellValues);
@@ -98,12 +96,12 @@ export default function UserManagement() {
    
     return <>
         {rows.length == 0 ? <Box sx={{ display: 'flex' }}><CircularProgress/></Box> :
-            <div style={{ height: 400, width: '100%' }}>
+            <div style={{ height:"700px" }}>
                 <DataGrid
                     rows={rows}
                     columns={columns}
-                    pageSize={6}
-                    rowsPerPageOptions={[6]}
+                    
+                    rowsPerPageOptions={[20]}
                 />
             </div>}
         <Button onClick={(event)=>{addUser()}}>Add User</Button>
@@ -119,7 +117,7 @@ export default function UserManagement() {
                 </DialogTitle>
                 <DialogContent sx={{width:"500px"}} >
                     <DialogContentText>
-                       {update? <Update user={chosen}></Update>:<Add></Add>}
+                       {update? <Update user={chosen}></Update>:<Add setOpen={setOpen}></Add>}
                       
                     </DialogContentText>
                 </DialogContent>

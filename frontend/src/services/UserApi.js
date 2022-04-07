@@ -1,3 +1,4 @@
+import React from "react"
 export default class UserApi {
   
 
@@ -60,6 +61,7 @@ static async login(username, password) {
   }
 
   static async add({user}) {
+   
     let localuser=JSON.parse(localStorage.getItem("user"))??{ username: '',user_type:"",token:"",auth: false }
     const requestOptions = {
       method: "POST",
@@ -68,7 +70,7 @@ static async login(username, password) {
       body:JSON.stringify(user)
     };
     try{
-      const response = await fetch(process.env.REACT_APP_BACKEND + `/api/user/`, requestOptions);
+      const response = await fetch(process.env.REACT_APP_BACKEND + `/api/user/register`, requestOptions);
       
       const data = await response.json();
       if (response.status == 200) {

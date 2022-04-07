@@ -18,7 +18,7 @@ import FeedbackButton from './components/FeedbackButton.js';
 import Feedback from './components/Feedback.js';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { amber, deepOrange, grey } from '@mui/material/colors';
-
+import Footer from './components/Footer.js';
 const getDesignTokens = (mode) => ({
   palette: {
     mode,
@@ -27,12 +27,13 @@ const getDesignTokens = (mode) => ({
   );
 const useStyles = makeStyles({
   MainContainer: (theme) => ({
-    marginLeft: "310px",
+    marginLeft: "300px",
     backgroundColor: "white",
-    marginRight: "60px",
+    marginRight: "40px",
     marginTop: "80px",
     padding: "20px",
   }),
+
   mobileContainer: {
     marginLeft: "0px",
     backgroundColor: "white",
@@ -44,15 +45,22 @@ const useStyles = makeStyles({
     position: "fixed !important",
     right: "40px",
     bottom: "40px"
-
-
-
+  },
+  footer:{
+    backgroundColor:"white",  
+    marginLeft: "290px"
+   
+  },
+  layout:{
+    display:"flex",
+    flexDirection:"column",
+    
   }
 })
 const drawerWidth = 290;
 function App(props) {
   const ColorModeContext = React.createContext({ toggleColorMode: () => { } });
-  const [mode, setMode] = React.useState('dark');
+  const [mode, setMode] = React.useState('light');
   const colorMode = React.useMemo(
     () => ({
       // The dark mode switch would invoke this method
@@ -86,7 +94,6 @@ function App(props) {
     getTools()
   }, []);
   const handleFeedback = () => {
-    console.log("am here")
     setOpenFeedback(true)
     console.log(openFeedback)
 
@@ -94,7 +101,10 @@ function App(props) {
   return (
     <>
       <ColorModeContext.Provider value={colorMode}>
-        <ThemeProvider theme={theme}>
+        <ThemeProvider theme={theme} >
+          <Box className={classes.layout}>
+
+        
 
           <Box >
             <Navigation sx={{ width: "100%" }} handleDrawerToggle={handleDrawerToggle} />
@@ -102,7 +112,7 @@ function App(props) {
           </Box>
          
           <Box elevation="3"
-            className={!fullScreen ? classes.MainContainer : classes.mobileContainer}
+            className={!fullScreen ? classes.MainContainer : classes.mobileContainer} 
           >
             <Routes >
 
@@ -124,9 +134,11 @@ function App(props) {
             </Routes>
 
           </Box>
-
+          {/* <Footer className={classes.footer}/> */}
+          
           <FeedbackButton onClick={handleFeedback} />
           <Feedback open={openFeedback} setOpen={setOpenFeedback} />
+          </Box>
         </ThemeProvider>
       </ColorModeContext.Provider>
     </>
