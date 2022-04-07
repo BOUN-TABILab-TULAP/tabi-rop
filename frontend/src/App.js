@@ -17,8 +17,8 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import FeedbackButton from './components/FeedbackButton.js';
 import Feedback from './components/Feedback.js';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { amber, deepOrange, grey } from '@mui/material/colors';
-import Footer from './components/Footer.js';
+
+import { useTranslation } from "react-i18next";
 const getDesignTokens = (mode) => ({
   palette: {
     mode,
@@ -59,6 +59,9 @@ const useStyles = makeStyles({
 })
 const drawerWidth = 290;
 function App(props) {
+  const { t, i18n} = useTranslation();
+ 
+  
   const ColorModeContext = React.createContext({ toggleColorMode: () => { } });
   const [mode, setMode] = React.useState('light');
   const colorMode = React.useMemo(
@@ -91,6 +94,7 @@ function App(props) {
     setTools(tool)
   };
   useEffect(() => {
+    i18n.changeLanguage("tr")
     getTools()
   }, []);
   const handleFeedback = () => {

@@ -7,8 +7,8 @@ import { makeStyles } from '@mui/styles';
 import CustomInput from './CustomInput.js';
 import CustomSelect from './CustomSelect.js';
 import { useFormContext, useFieldArray } from 'react-hook-form';
-import nestedExampleArray from './nestedExampleArray.js';
 import NestedExampleArray from './nestedExampleArray.js';
+import { useTranslation } from "react-i18next"
 const useStyles = makeStyles({
     step: {
         display: "flex",
@@ -31,21 +31,21 @@ const useStyles = makeStyles({
 });
 
 export default function InputInfo({ inputcontroller }) {
-
+    const { t, i18n } = useTranslation()
     const { register, control, watch } = useFormContext();
 
     const classes = useStyles()
     return (
-        <div ><Typography variant="h6" align="center" className={classes.header}> Input Definitions</Typography>
+        <div ><Typography variant="h6" align="center" className={classes.header}> {t("input.header")}</Typography>
             {inputcontroller.fields.map((item, index) => {
                 return (
                     <Box className={classes.step}>
                         <Grid container spacing={2}>
                             <Grid item xs={4}>
-                                <CustomInput label="Json field" name={`input_fields_temp[${index}].json_field`} ></CustomInput>
+                                <CustomInput label={t("json.label")} name={`input_fields_temp[${index}].json_field`} ></CustomInput>
                             </Grid>
                             <Grid item xs={4}>
-                                <CustomSelect label="Input type" name={`input_fields_temp[${index}].type`} options={{
+                                <CustomSelect label={t("type.label")} name={`input_fields_temp[${index}].type`} options={{
                                     "TokenizedSentence": "Tokenized Sentence",
                                     "ListOfListOfMorphFeatList": "List of MorphFeatList",
                                     "RawSentence": "Raw Sentence",
@@ -54,13 +54,13 @@ export default function InputInfo({ inputcontroller }) {
                                 }} > </CustomSelect>
                             </Grid>
                             <Grid item xs={4}>
-                                <CustomInput label="Name" name={`input_fields_temp[${index}].title`}  > </CustomInput>
+                                <CustomInput label={t("name.label")} name={`input_fields_temp[${index}].title`}  > </CustomInput>
                             </Grid>
                         </Grid>
                         <NestedExampleArray nestIndex={index} />
                         <Divider />
                         <Button type="button" disabled={inputcontroller.fields.length == 1} onClick={() => inputcontroller.remove(index)}>
-                            Delete
+                            {t("deletebutton")}
                         </Button>
                     </Box>
 
@@ -69,7 +69,7 @@ export default function InputInfo({ inputcontroller }) {
             })}
             <Button type="button"
                 onClick={() => { inputcontroller.append({ type: "", title: "", json_field: "", example: [] }); }}>
-                append
+                {t("addbutton")}
             </Button>
         </div>)
 

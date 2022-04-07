@@ -5,10 +5,11 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import img from "../nlp.jpeg"
+import { useTranslation } from "react-i18next";
 const url = process.env.REACT_APP_BACKEND+"/api/user/login";
 const theme = createTheme();
 export default function MainPage() {
-  
+  const {t,i18n}=useTranslation()
 
   return (
    <>
@@ -17,6 +18,7 @@ export default function MainPage() {
     
         <Typography variant="h3"><b>What is Natural Language Programming</b></Typography>  
         <Typography>
+         
         Natural language processing (NLP) refers to the branch of computer science—and more specifically, the branch of artificial intelligence or AI—concerned with giving computers the ability to understand text and spoken words in much the same way human beings can.
 
 NLP combines computational linguistics—rule-based modeling of human language—with statistical, machine learning, and deep learning models. Together, these technologies enable computers to process human language in the form of text or voice data and to ‘understand’ its full meaning, complete with the speaker or writer’s intent and sentiment.

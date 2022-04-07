@@ -6,6 +6,7 @@ import { Divider, Typography, Grid } from '@mui/material';
 import CustomInput from './CustomInput.js';
 import CustomSelect from './CustomSelect.js';
 import { makeStyles } from '@mui/styles';
+import {useTranslation} from "react-i18next"
 const useStyles = makeStyles({
   step: {
     display: "flex",
@@ -29,25 +30,35 @@ const useStyles = makeStyles({
 
 export default function InputInfo({ outputcontroller }) {
   const classes = useStyles()
+  const t= useTranslation()
   return (
     <div >
-      <Typography variant="h6" align="center" className={classes.header}> Output Definitions</Typography>
+      <Typography variant="h6" align="center" className={classes.header}> {t("output.header")}</Typography>
       {outputcontroller.fields.map((item, index) => {
         return (<>
           <Box className={classes.step}>
             <Grid container spacing={2}>
-              <Grid item xs={6}>
+              <Grid item xs={4}>
 
-                <CustomInput label="json field" name={`output.${index}.name`} ></CustomInput>
+                <CustomInput label={t("name.label")} name={`output_fields_temp.${index}.name`} ></CustomInput>
               </Grid>
-              <Grid item xs={6}>
-                <CustomSelect label="output type" name={`output.${index}.output_type`} options={["sentence", "raw", "array"]} > </CustomSelect>
+              <Grid item xs={4}>
+
+                <CustomInput label={t("json.label")} name={`output_fields_temp[${index}].json_field`} ></CustomInput>
               </Grid>
+              <Grid item xs={4}>
+                <CustomSelect label={t("output.type")} name={`output_fields_temp.${index}.output_type`} options={{ "TokenizedSentence": "Tokenized Sentence",
+                                    "ListOfListOfMorphFeatList": "List of MorphFeatList",
+                                    "RawSentence": "Raw Sentence",
+                                    "CoNLL": "CoNLL",
+                                    "JSON": "JSON"}} > </CustomSelect>
+              </Grid>
+              
             </Grid>
          
             <Divider />
             <Button type="button" disabled={outputcontroller.fields.length == 1} onClick={() => outputcontroller.remove(index)}>
-              Delete
+             { t("deletebutton")}
             </Button>
           </Box>
         </>
@@ -56,7 +67,7 @@ export default function InputInfo({ outputcontroller }) {
       <Button className={classes.delete} type="button" onClick={() => {
         outputcontroller.append({ output_type: "sentence", example: "bugun seker yedim" });
       }}>
-        append
+        {t("addbutton")}
       </Button>
     </div>)
 

@@ -56,8 +56,14 @@ export default function ToolUse({ tool }) {
     const [loading,setLoading]=React.useState(false)
     const onSubmit = async (data) => {
         setLoading(true)
-        let runresult = await toolsApi.runTool(data, tool.enum)
-        setResult(runresult)
+        let response = await toolsApi.runTool(data, tool.enum)
+        if(response.success){
+            setResult(response.result)
+        }
+        else{
+            window.alert(response.message)
+
+        }
         setLoading(false)
 
     }

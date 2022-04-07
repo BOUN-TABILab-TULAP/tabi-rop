@@ -6,6 +6,7 @@ import { UserProvider } from "./userContext.js"
 import "./index.css"
 import { ThemeProvider } from '@mui/styles';
 import { createTheme } from '@mui/material/styles';
+import './i18n';
 const theme = createTheme({
   mainBackgroundColor:"#E6E9EB",
   

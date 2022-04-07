@@ -1,0 +1,8 @@
+{
+    "useradd.success":"kullanıcı başarılı ile sisteme eklendi",
+    "useradd.email.label": "Email",
+    "useradd.email.placeholder": "dip@boun.edu.tr",
+    "useradd.password.label": "Şifre",
+    "useradd.username.label": "Kullanıcı adı",
+    "submitbutton":"Gönder"
+}

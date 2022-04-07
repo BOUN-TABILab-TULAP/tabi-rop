@@ -9,7 +9,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { FormControl, Typography, Select, InputLabel, MenuItem,Box } from '@mui/material';
 import { useForm } from "react-hook-form";
 import UserApi from '../services/UserApi';
-
+import { useTranslation } from "react-i18next";
 import { makeStyles } from '@mui/styles';
 const useStyles = makeStyles({
   feedbackWrap: {
@@ -35,13 +35,14 @@ wrapper:{
 });
 export default function Feedback({ setOpen, open }) {
     const classes=useStyles()
+    const {t,i18n}= useTranslation()
     const { register, handleSubmit,formState: { errors } } = useForm();
     const onSubmit = async data => {
-        console.log(data)
+      
        const response= await UserApi.give_feedback({feedback:data})
-       console.log(response)
+      
        if (response.success) {
-        window.alert("user has been added successfully")
+        window.alert(t("feedback.success"))
 
       }
       else {
@@ -61,26 +62,26 @@ export default function Feedback({ setOpen, open }) {
             <Box className={classes.wrapper}>
 
            
-            <DialogTitle sx={{margin:"auto"}}>Give us Feedback</DialogTitle>
+            <DialogTitle sx={{margin:"auto"}}>{t("feedback.header")}</DialogTitle>
             <DialogContent className={classes.feedbackWrap}>
                 <DialogContentText>
-                    You can send us your comments, any bug reports or improvment ideas.
+                   { t("feedback.description")}
                 </DialogContentText>
 
 
 
                 <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
                 <FormControl sx={{ width: "100%" }}   >
-                        <InputLabel >select type of feedback</InputLabel>
+                        <InputLabel >{t("feedback.type.desc")}</InputLabel>
                         <Select fullWidth
-                            label="select type of feedback"
+                            label={t("feedback.type.desc")}
                             {...register("type")}
-                            defaultValue={"comment"}
+                            defaultValue={t("feedback.select.comment")}
                         >
                             <MenuItem value="">
                                 <em>{"Select"}</em>
                             </MenuItem>
-                            {["bug", "comment", "improvement"].map((key, index) => {
+                            {[t("feedback.select.bug"),t("feedback.select.comment"), t("feedback.select.improvements")].map((key, index) => {
                                 return <MenuItem key={index} value={key}>{key}</MenuItem>
                             })}
                         </Select>
@@ -89,8 +90,8 @@ export default function Feedback({ setOpen, open }) {
                         <TextField
 
                             type="text"
-                            label="feedback"
-                            placeholder="you can write your comment/ bug reports here"
+                            label={t( "feedback.text.label")}
+                            placeholder={t("feedback.text.desc")}
                             defaultValue=""
                             fullWidth
                             multiline
@@ -99,7 +100,7 @@ export default function Feedback({ setOpen, open }) {
                                 { required: true }
                             )} />
                         <Typography >
-                            {errors.feedback_text?.type === 'required' && "feedback  is required"}
+                            {errors.feedback_text?.type === 'required' && t("feedback.text.error")}
                         </Typography>
                     </FormControl>
                    
@@ -108,7 +109,7 @@ export default function Feedback({ setOpen, open }) {
             </DialogContent>
             <DialogActions>
                 <Button variant="contained" onClick={handleClose}>Cancel</Button>
-                <Button variant="contained" type="submit" onClick={handleSubmit(onSubmit)} >Send</Button>
+                <Button variant="contained" type="submit" onClick={handleSubmit(onSubmit)} >{t("submitbutton")}</Button>
             </DialogActions>
             </Box>
         </Dialog>

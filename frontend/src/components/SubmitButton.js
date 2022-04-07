@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@mui/styles';
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography';
-
+import { useTranslation } from "react-i18next";
 const useStyles = makeStyles({
     button: {
         padding: "15px !important",
@@ -19,12 +19,13 @@ const useStyles = makeStyles({
 
 export default function SubmitButton(props) {
     const classes = useStyles()
+    const { t,i18n} = useTranslation();
     return <>
         <div className={classes.wrapper}>
             <div></div>
-            <div></div> <Button type="submit"
+            <div></div> <Button 
                 variant="contained"
-                sx={{ mt: 3, mb: 2 }} color="primary" className={classes.button}>{props.children}</Button>
+                sx={{ mt: 3, mb: 2 }} color="primary" className={classes.button}>{t("submitbutton")}</Button>
         </div>
     </>
 }

@@ -18,6 +18,7 @@ import Logout from '@mui/icons-material/Logout';
 import { UserContext } from '../userContext';
 import { useNavigate } from 'react-router-dom';
 import ConstructionIcon from '@mui/icons-material/Construction';
+import {useTranslation} from "react-i18next"
 const useStyles = makeStyles({
   svg: {
     textDecoration: "none !important",
@@ -31,6 +32,7 @@ const useStyles = makeStyles({
   }
 })
 export default function Navigation({ handleDrawerToggle }) {
+  const {t}=useTranslation()
   const classes = useStyles()
   const { user, logout } = useContext(UserContext);
   const navigate = useNavigate()
@@ -38,7 +40,6 @@ export default function Navigation({ handleDrawerToggle }) {
 
   const [open, setOpen] = React.useState(Boolean(anchorEl));
   const Log = () => {
-    console.log("logged out")
     logout()
     navigate("./main")
 
@@ -111,17 +112,15 @@ export default function Navigation({ handleDrawerToggle }) {
                     <ListItemIcon>
                       <ConstructionIcon fontSize="small" />
                     </ListItemIcon>
-                    Manage Tools
-
+                   {t("managetools")}
                   </Link>
                 </MenuItem>
-
                 <MenuItem>
                   <Link className={classes.link} to='/manageUsers'>
                     <ListItemIcon>
                       <PersonAdd fontSize="small" />
                     </ListItemIcon>
-                    Manage Users
+                   {t("manageusers")}
                   </Link>
                 </MenuItem>
                 <MenuItem>
@@ -129,7 +128,7 @@ export default function Navigation({ handleDrawerToggle }) {
                     <ListItemIcon>
                       <Build fontSize="small" />
                     </ListItemIcon>
-                    Add Tool
+                    {t("addtool")}
                   </Link>
                 </MenuItem>
               </div> :
@@ -139,7 +138,7 @@ export default function Navigation({ handleDrawerToggle }) {
                     <ListItemIcon>
                       <Build fontSize="small" />
                     </ListItemIcon>
-                    Add Tool
+                    {t("addtool")}
                   </Link>
                 </MenuItem>
 
@@ -147,7 +146,7 @@ export default function Navigation({ handleDrawerToggle }) {
                   <ListItemIcon>
                     <Build fontSize="small" />
                   </ListItemIcon>
-                  My Tools
+                  {t("mytools")}
                   <Link className={classes.link} to='/manageUsers'>
                   </Link>
                 </MenuItem>
@@ -158,7 +157,7 @@ export default function Navigation({ handleDrawerToggle }) {
               <ListItemIcon >
                 <Logout fontSize="small" />
               </ListItemIcon>
-              Logout
+             {t("logout")}
             </MenuItem>
           </Menu> :
           <div></div>}
