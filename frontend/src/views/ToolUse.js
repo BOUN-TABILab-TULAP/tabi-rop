@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useLocation } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
@@ -11,6 +12,8 @@ import toolsApi from '../services/toolsApi';
 import SubmitButton from '../components/SubmitButton';
 import Output from "../components/Output"
 import { useNavigate } from "react-router-dom";
+import {CircularProgress,LinearProgress} from "@mui/material"
+import  CustomLoadingButton from '../components/LoadingButton';
 const useStyles = makeStyles({
     Tabs: {
         flexDirection: "column",
@@ -36,19 +39,30 @@ const useStyles = makeStyles({
     }
 });
 export default function ToolUse({ tool }) {
+    const location = useLocation();
+    const { register, handleSubmit, watch, control, setValue, formState: { errors },reset } = useForm({});
+  
+    React.useEffect(() => {
+       setResult(undefined)
+       setLoading(false)
+       reset()
+      }, [location]);
     const classes = useStyles();
     const [value, set_value] = React.useState('1');
     const handleChange = (event, newValue) => {
         set_value(newValue);
     };
     const [result, setResult] = React.useState()
+    const [loading,setLoading]=React.useState(false)
     const onSubmit = async (data) => {
+        setLoading(true)
         let runresult = await toolsApi.runTool(data, tool.enum)
         setResult(runresult)
-    }
+        setLoading(false)
 
-    const { register, handleSubmit, watch, control, setValue, formState: { errors } } = useForm({});
+    }
     React.useEffect(async () => {
+        
         const head_script = document.createElement("script");
         head_script.type = "text/javascript";
         head_script.src = "../demo/brat/head.js";
@@ -62,7 +76,6 @@ export default function ToolUse({ tool }) {
         head_script.onload = () => {
             document.body.appendChild(loader_script);
             console.log("Brat header script is loaded");
-
         };
 
         loader_script.onload = () => {
@@ -70,11 +83,8 @@ export default function ToolUse({ tool }) {
         }
         if (document.getElementById("headjs") === null) {
             console.log("headjs loading");
-            // keep the scripts loaded all the time, and don't reload
             document.head.appendChild(head_script);
-
         }
-
 
     }, [])
     return <>
@@ -118,6 +128,7 @@ export default function ToolUse({ tool }) {
                                         InputLabelProps={{
                                             shrink: true,
                                         }}
+                                        defaultValue={""}
                                         rows={4}
                                         type={value.type}
                                         label={value.title}
@@ -134,8 +145,12 @@ export default function ToolUse({ tool }) {
                                 <Divider className={classes.divider} />
                             </div>
                         })}
-                        <SubmitButton >Submit</SubmitButton>
+
+                        {!loading?<SubmitButton>Submit</SubmitButton>:<CustomLoadingButton />}
                     </form>
+                    <Box>
+                    {result !== undefined ? <Output result={result} ></Output> : <></>}
+                    </Box>
                 </TabPanel>
                 <TabPanel className={classes.Tabs} value="2">
                     <Box>
@@ -148,7 +163,7 @@ export default function ToolUse({ tool }) {
                 </TabPanel>
 
             </TabContext>
-            {result !== undefined ? <Output result={result} ></Output> : <></>}
+           
         </Box>
     </>
 

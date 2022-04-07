@@ -24,7 +24,7 @@ const formList = [
         label: "Git address",
         placeholder: "https://github.com/boun-tabi/BoAT.git",
         helper: "please give us the address git repository",
-        name: "gitAddress",
+        name: "git_address",
         required: true
     },
     {
@@ -48,6 +48,13 @@ const formList = [
         name: "description",
         required: true
     },
+    {
+        label: "Endpoint",
+        placeholder: "endpoint",
+        helper: "please write endpoint of your API",
+        name: "endpoint",
+        required: true
+    }
 
 ]
 
@@ -64,6 +71,7 @@ export default function GeneralInfo(inputcontroller, outputcontroller) {
             <CustomInput {...formList[1]}></CustomInput>
             <CustomInput {...formList[2]}></CustomInput>
             <CustomTextArea {...formList[3]}></CustomTextArea>
+            <CustomInput {...formList[4]}></CustomInput>
             </Box>
       
     </div>

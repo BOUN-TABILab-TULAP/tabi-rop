@@ -31,12 +31,12 @@ export default function Login() {
     const data = new FormData(event.currentTarget);
     let username = data.get('username')
     let password = data.get('password')
-    console.log(data)
+    
 
     let response = await UserApi.login(username, password);
     console.log(response)
     if (response.success) {
-      console.log(response)
+      
       login(response)
       setError({error:false,message:"successfully logged in"})
       setTimeout(()=>navigate("/main"), 1000);

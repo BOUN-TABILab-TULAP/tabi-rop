@@ -26,8 +26,8 @@ export default function CustomSelect({label,placeholder,helper,name,options,defa
                 <MenuItem value="">
                   <em>{placeholder}</em>
                 </MenuItem>
-                {options.map((key,index)=>{
-                  return <MenuItem value={key}>{key}</MenuItem>
+                {Object.keys(options).map((key,index)=>{
+                  return <MenuItem  key={index} value={key}>{key}</MenuItem>
                 })} 
               </Select>
             </FormControl>
