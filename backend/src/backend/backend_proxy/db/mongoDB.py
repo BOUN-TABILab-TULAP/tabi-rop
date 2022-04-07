@@ -1,5 +1,6 @@
 from pymongo import MongoClient
 import pymongo
+import urllib 
 
 from backend.backend_proxy.config import Config
 
@@ -21,7 +22,7 @@ class MongoDB(object):
         if MongoDB.__instance == None:
             if username is None or password is None:
                 username, password = get_authentication_for_db()
-            db_url = f"mongodb://{username}:{password}@{address}:{port}/"
+            db_url = f"mongodb://{username}:{urllib.parse.quote(password)}@{address}:{port}/"
             MongoDB.__instance = MongoDB(db_url)
         return MongoDB.__instance
 
