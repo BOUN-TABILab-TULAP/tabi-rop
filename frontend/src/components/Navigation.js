@@ -8,7 +8,7 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import Settings from '@mui/icons-material/Settings';
 import { Link } from "react-router-dom";
 import { makeStyles } from "@mui/styles/";
-import {Menu,AppBar} from '@mui/material/';
+import { Menu, AppBar,Box } from '@mui/material/';
 import MenuItem from '@mui/material/MenuItem';
 import Avatar from '@mui/material/Avatar';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -18,7 +18,10 @@ import Logout from '@mui/icons-material/Logout';
 import { UserContext } from '../userContext';
 import { useNavigate } from 'react-router-dom';
 import ConstructionIcon from '@mui/icons-material/Construction';
-import {useTranslation} from "react-i18next"
+import { useTranslation } from "react-i18next"
+import TRFLAG from "../locales/tr.svg"
+import ENFLAG from "../locales/en.svg"
+import { changeLanguage } from 'i18next';
 const useStyles = makeStyles({
   svg: {
     textDecoration: "none !important",
@@ -29,10 +32,20 @@ const useStyles = makeStyles({
     textDecoration: "none !important",
     color: "black",
 
+  },
+  wrap: {
+    display: 'flex',
+    marginRight: "5px",
+
+
+  },
+  img:{
+    width:"40px",
+    marginLeft:"5px"
   }
 })
 export default function Navigation({ handleDrawerToggle }) {
-  const {t}=useTranslation()
+  const { t,i18n } = useTranslation()
   const classes = useStyles()
   const { user, logout } = useContext(UserContext);
   const navigate = useNavigate()
@@ -52,27 +65,39 @@ export default function Navigation({ handleDrawerToggle }) {
     setAnchorEl(null);
     setOpen(false)
   };
+  const changeLanguage=(e)=>{
+    console.log(e)
+i18n.changeLanguage(e.target.alt)
+
+  }
   return <>
-    <AppBar color="primary" position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, display: "flex",flexDirection:"row", justifyContent: 'space-between', alignItems: "center", border: "2px solid rgb(169,169,169,0.5)" }}>
-        <Toolbar>
-          <IconButton
-           
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: 'none' } }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Link className={classes.link} to='/'>
-            <Typography variant="h4" sx={{ mt: "5px" }} noWrap component="div">
-              Tabilab
-            </Typography>
-          </Link>
-        </Toolbar>
-      
+    <AppBar color="primary" position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, display: "flex", flexDirection: "row", justifyContent: 'space-between', alignItems: "center", border: "2px solid rgb(169,169,169,0.5)" }}>
       <div>
 
+     
+      <Toolbar>
+
+        <IconButton
+
+          aria-label="open drawer"
+          edge="start"
+          onClick={handleDrawerToggle}
+          sx={{ mr: 2, display: { sm: 'none' } }}
+        >
+          <MenuIcon />
+        </IconButton>
+        <Link className={classes.link} to='/'>
+          <Typography variant="h4" sx={{ mt: "5px" }} noWrap component="div">
+            Tabilab
+          </Typography>
+        </Link>
+      </Toolbar>
+      </div>
+      <div className={classes.wrap}>
+        <img className={classes.img} src={TRFLAG} alt="tr" value="tr" onClick={changeLanguage}/>
+        <img className={classes.img} src={ENFLAG} alt="en" value="tr" onClick={changeLanguage}/>
+ 
+<div>
         <IconButton
           size="large"
           aria-label="account of current user"
@@ -112,7 +137,7 @@ export default function Navigation({ handleDrawerToggle }) {
                     <ListItemIcon>
                       <ConstructionIcon fontSize="small" />
                     </ListItemIcon>
-                   {t("managetools")}
+                    {t("managetools")}
                   </Link>
                 </MenuItem>
                 <MenuItem>
@@ -120,7 +145,7 @@ export default function Navigation({ handleDrawerToggle }) {
                     <ListItemIcon>
                       <PersonAdd fontSize="small" />
                     </ListItemIcon>
-                   {t("manageusers")}
+                    {t("manageusers")}
                   </Link>
                 </MenuItem>
                 <MenuItem>
@@ -157,12 +182,13 @@ export default function Navigation({ handleDrawerToggle }) {
               <ListItemIcon >
                 <Logout fontSize="small" />
               </ListItemIcon>
-             {t("logout")}
+              {t("logout")}
             </MenuItem>
           </Menu> :
           <div></div>}
-
+</div>
       </div>
+
     </AppBar>
   </>
 }

@@ -49,15 +49,11 @@ export default function Feedback({ setOpen, open }) {
         window.alert(response.message)
       }
     };
-
-
     const handleClose = () => {
         setOpen(false);
     };
 
     return (
-
-
         <Dialog  open={open} onClose={handleClose}>
             <Box className={classes.wrapper}>
 

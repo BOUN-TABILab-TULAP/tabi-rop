@@ -138,13 +138,14 @@ function App(props) {
             </Routes>
 
           </Box>
-          {/* <Footer className={classes.footer}/> */}
           
-          <FeedbackButton onClick={handleFeedback} />
+          
+          
           <Feedback open={openFeedback} setOpen={setOpenFeedback} />
           </Box>
         </ThemeProvider>
       </ColorModeContext.Provider>
+      <FeedbackButton onClick={handleFeedback} />
     </>
   )
 

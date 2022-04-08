@@ -8,8 +8,11 @@ import {useTranslation} from "react-i18next"
 const useStyles = makeStyles({
     floating_button: {
         position: "fixed !important",
-        right:"-50px",
+        right:"-62px",
         margin:"0px",
+       
+        width:"160px",
+       
         bottom: "50%",
         verticalAlign: "top",
         transform: "rotate(-90deg)",
