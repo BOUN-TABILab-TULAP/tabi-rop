@@ -14,7 +14,7 @@ export default function MainPage() {
   return (
    <>
        
-       
+  
     
         <Typography variant="h3"><b>What is Natural Language Programming</b></Typography>  
         <Typography>

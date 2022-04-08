@@ -60,7 +60,12 @@
     "logout":"Çıkış yap",
     "addexample":"Örnek ekle",
     "output.header":"Output Tanımları",
-    "output.type":"Output türü"
+    "output.type":"Output türü",
+    "demo.label":"Demo",
+    "usage.label":"Kullanım",
+    "use.example":"Örnek input seçiniz",
+    "required":"gerekli",
+    "usage.header":"Kullanım Bilgisi"
 
 
    

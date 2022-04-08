@@ -25,7 +25,7 @@ export default function SubmitButton(props) {
             <div></div>
             <div></div> <Button 
                 variant="contained"
-                sx={{ mt: 3, mb: 2 }} color="primary" className={classes.button}>{t("submitbutton")}</Button>
+                sx={{ mt: 3, mb: 2 }} color="primary" className={classes.button} {...props}>{t("submitbutton")}</Button>
         </div>
     </>
 }

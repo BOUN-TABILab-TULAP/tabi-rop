@@ -7,12 +7,12 @@ export default class toolsApi {
 
         };
         const response = await fetch(process.env.REACT_APP_BACKEND + "/api/tools", requestOptions);
-        ;
         let data = await response.json();
+        console.log(data)
         if (response.status != 200) {
             return []
         }
-        console.log(data)
+    
         return data;
     }
     static async addtool(query) {
