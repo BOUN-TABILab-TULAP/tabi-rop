@@ -90,7 +90,7 @@ function App(props) {
   };
   const getTools = async () => {
     let tool = await toolsApi.getTools()
-    console.log(tool)
+    
     setTools(tool)
   };
   useEffect(() => {

@@ -8,7 +8,7 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import Settings from '@mui/icons-material/Settings';
 import { Link } from "react-router-dom";
 import { makeStyles } from "@mui/styles/";
-import { Menu, AppBar,Box } from '@mui/material/';
+import { Menu, AppBar,Button} from '@mui/material/';
 import MenuItem from '@mui/material/MenuItem';
 import Avatar from '@mui/material/Avatar';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -19,8 +19,7 @@ import { UserContext } from '../userContext';
 import { useNavigate } from 'react-router-dom';
 import ConstructionIcon from '@mui/icons-material/Construction';
 import { useTranslation } from "react-i18next"
-import TRFLAG from "../locales/tr.svg"
-import ENFLAG from "../locales/en.svg"
+
 import { changeLanguage } from 'i18next';
 const useStyles = makeStyles({
   svg: {
@@ -36,12 +35,15 @@ const useStyles = makeStyles({
   wrap: {
     display: 'flex',
     marginRight: "5px",
+    alignItems:"baseline",
+    color:"white !important"
 
 
   },
   img:{
-    width:"40px",
-    marginLeft:"5px"
+   
+    
+    color:"white !important"
   }
 })
 export default function Navigation({ handleDrawerToggle }) {
@@ -67,7 +69,7 @@ export default function Navigation({ handleDrawerToggle }) {
   };
   const changeLanguage=(e)=>{
     console.log(e)
-i18n.changeLanguage(e.target.alt)
+  i18n.changeLanguage(e.target.value)
 
   }
   return <>
@@ -94,8 +96,9 @@ i18n.changeLanguage(e.target.alt)
       </Toolbar>
       </div>
       <div className={classes.wrap}>
-        <img className={classes.img} src={TRFLAG} alt="tr" value="tr" onClick={changeLanguage}/>
-        <img className={classes.img} src={ENFLAG} alt="en" value="tr" onClick={changeLanguage}/>
+        <Button className={classes.img}  value="tr" onClick={(e)=>changeLanguage(e,"tr")}>TR</Button>
+        <span>|</span>
+        <Button className={classes.img}  value="en" onClick={(e)=>changeLanguage(e,"en")}>EN</Button>
  
 <div>
         <IconButton

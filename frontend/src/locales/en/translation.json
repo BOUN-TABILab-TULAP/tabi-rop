@@ -1,11 +1,11 @@
 {
-    "useradd.success": "user has been added successfully",
+    "useradd.success": "User has been added successfully",
     "feedback.success": "Thanks for your feedback",
     "useradd.email.label": "Email",
     "useradd.email.placeholder": "dip@boun.edu.tr",
-    "useradd.password.label": "Şifre",
-    "useradd.username.label": "Kullanıcı adı",
-    "submitbutton": "Gönder",
+    "useradd.password.label": "Password",
+    "useradd.username.label": "Usename",
+    "submitbutton": "Submit",
     "feedback.header": "Give us Feedback",
     "feedback.description": "You can send us your comments, any bug reports or improvment ideas.",
     "feedback.type.desc": "Select type of feedback",
@@ -60,9 +60,11 @@
     "logout":"Log out",
     "addexample":"Add example",
     "output.header":"Output Definitions",
-    "output.type":"Output type"
-
-
-   
+    "output.type":"Output type",
+    "demo.label":"Demo",
+    "usage.label":"Usage",
+    "use.example":"Select an example",
+    "required":"is required",
+    "usage.header":"Usage Information"
 
 }
