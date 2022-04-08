@@ -18,6 +18,7 @@ export default class toolsApi {
     static async addtool(query) {
         console.log((query))
         
+        
         let localuser = JSON.parse(localStorage.getItem("user")) ?? { username: '', user_type: "", token: "", auth: false }
         const requestOptions = {
             method: "POST",
@@ -25,12 +26,14 @@ export default class toolsApi {
             headers: { "Content-Type": "application/json", "token": localuser.token },
             body: JSON.stringify(query),
         };
+        console.log(requestOptions)
         const response = await fetch(process.env.REACT_APP_BACKEND + "/api/tool", requestOptions);
+        console.log(response)
         const data = await response.json();
         if (response.status == 200) {
-            return data
+            return {data,success:true}
         }
-        return { msg: "error on request" }
+        return { message:data.message,success:false }
 
     }
     static async runTool(data, tool_enum) {
@@ -44,9 +47,9 @@ export default class toolsApi {
         const response = await fetch(process.env.REACT_APP_BACKEND + `/api/tool/run/${tool_enum}`, requestOptions);
         let res = await response.json();
         if (response.status == 200) {
-            return res
+            return {result:res,success:true}
         }
-        return { msg: "error on request" }
+        return { message: "error on request",success:false }
     }
     static async restartTool({ tool_enum }) {
         let localuser = JSON.parse(localStorage.getItem("user")) ?? { username: '', user_type: "", token: "", auth: false }

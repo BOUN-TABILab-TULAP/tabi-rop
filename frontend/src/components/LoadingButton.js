@@ -5,6 +5,7 @@ import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography';
 import {CircularProgress} from "@mui/material"
 import { LoadingButton } from '@mui/lab';
+import {useTranslation} from "react-i18next"
 const useStyles = makeStyles({
     button: {
         padding: "15px !important",
@@ -19,6 +20,7 @@ const useStyles = makeStyles({
     }
 })
 export default function CustomLoadingButton(props) {
+    const {t}=useTranslation()
     const classes = useStyles()
     return <>
         <div className={classes.wrapper}>
@@ -29,7 +31,7 @@ export default function CustomLoadingButton(props) {
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
                 disabled
-                size="medium" > Wait...</Button>
+                size="medium" > {t("waitbutton")}...</Button>
         </div>
     </>
 }

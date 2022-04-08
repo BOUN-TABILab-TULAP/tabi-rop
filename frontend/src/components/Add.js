@@ -4,14 +4,15 @@ import CustomInput from "./CustomInput"
 import { makeStyles } from '@mui/styles';
 import UserApi from "../services/UserApi";
 import SubmitButton from "./SubmitButton";
-
+import { useTranslation } from "react-i18next";
 export default function App({setOpen}) {
+
+  const { t} = useTranslation();
   const methods = useForm();
   const onSubmit = async data => {
     const response = await UserApi.add({ user: data })
     if (response.success) {
-      window.alert("User has been added successfully.")
-
+      window.alert(t("useradd.success"))
     }
     else {
       window.alert(response.message)
@@ -47,10 +48,10 @@ export default function App({setOpen}) {
         <div className={classes.form}>
 
           <form onSubmit={methods.handleSubmit(onSubmit)}>
-            <CustomInput label="Email" placeholder="" helper="please write a valid email" name="email" />
-            <CustomInput type="password" label="Password" placeholder="" helper="please define a password to user" name="password" />
-            <CustomInput label="username" placeholder="" helper="please give a unique username" name="username" />
-            <SubmitButton type="submit" >Submit</SubmitButton>
+            <CustomInput label={t("useradd.email.label")} placeholder="" helper="please write a valid email" name="email" />
+            <CustomInput type="password" label={t("useradd.password.label")} placeholder="" helper="please define a password to user" name="password" />
+            <CustomInput label={t("useradd.username.label")} placeholder="" helper="please give a unique username" name="username" />
+            <SubmitButton type="submit" >{t("submitbutton")}</SubmitButton>
 
           </form>
         </div>
