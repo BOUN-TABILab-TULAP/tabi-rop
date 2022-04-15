@@ -65,6 +65,8 @@
     "usage.label":"Usage",
     "use.example":"Select an example",
     "required":"is required",
-    "usage.header":"Usage Information"
+    "usage.header":"Usage Information",
+    "trydemo":"Try Demo",
+    "learnmore":"Learn more"
 
 }

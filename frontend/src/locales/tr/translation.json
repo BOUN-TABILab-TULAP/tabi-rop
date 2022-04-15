@@ -65,7 +65,9 @@
     "usage.label":"Kullanım",
     "use.example":"Örnek input seçiniz",
     "required":"gerekli",
-    "usage.header":"Kullanım Bilgisi"
+    "usage.header":"Kullanım Bilgisi",
+    "trydemo":"Demoyu dene",
+    "learnmore":"Daha fazla"
 
 
    
