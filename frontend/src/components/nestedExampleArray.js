@@ -6,6 +6,7 @@ import { Button, Grid, Box } from "@mui/material";
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { makeStyles } from '@mui/styles';
+import {useTranslation} from "react-i18next"
 const useStyles = makeStyles({
     example: {
         display: "flex",
@@ -16,6 +17,7 @@ const useStyles = makeStyles({
 
 export default ({ nestIndex }) => {
     const classes = useStyles()
+    const {t}=useTranslation()
     const { register, control, watch } = useFormContext();
     const { fields, remove, append } = useFieldArray({
         control,
@@ -49,7 +51,7 @@ export default ({ nestIndex }) => {
                     append()
                 }
             >
-                Add example<AddCircleOutlineIcon fontSize="large" />
+                {t("addexample")}<AddCircleOutlineIcon fontSize="large" />
             </Button>
 
 

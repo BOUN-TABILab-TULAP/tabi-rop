@@ -2,8 +2,6 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@mui/styles';
 import Button from '@mui/material/Button'
-import Typography from '@mui/material/Typography';
-
 const useStyles = makeStyles({
     button: {
         padding: "15px !important",
@@ -17,7 +15,7 @@ const useStyles = makeStyles({
     }
 })
 
-export default function SubmitButton(props) {
+export default function DeleteButton(props) {
     const classes = useStyles()
     return <>
         <div className={classes.wrapper}>
