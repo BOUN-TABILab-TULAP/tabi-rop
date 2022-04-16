@@ -70,9 +70,10 @@ export default function Navigation({ handleDrawerToggle }) {
     setOpen(false)
   };
   const changeLanguage=(e)=>{
-    console.log(e)
+   
   i18n.changeLanguage(e.target.value)
-
+  localStorage.setItem("language",(e.target.value) )
+    
   }
   return <>
     <AppBar color="primary" position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, display: "flex", flexDirection: "row", justifyContent: 'space-between', alignItems: "center", border: "2px solid rgb(169,169,169,0.5)" }}>

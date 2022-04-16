@@ -35,7 +35,7 @@ export default function CustomInput({ type = "text", label, placeholder, helper,
 
         )} />
 
-      {console.log(constraint)}
+     
       {errors[name] ? <p style={{ color: "red", }}>{errors[name].message}</p> : null}
 
 

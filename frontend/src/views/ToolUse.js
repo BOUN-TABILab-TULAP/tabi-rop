@@ -40,7 +40,8 @@ const useStyles = makeStyles({
 export default function ToolUse({ tool }) {
     const location = useLocation();
     const { register, handleSubmit, watch, control, setValue, formState: { errors }, reset } = useForm({});
-    const {t} = useTranslation()
+    const {t,i18n} = useTranslation()
+    const lang=i18n.language
     React.useEffect(() => {
         setResult(undefined)
         setLoading(false)
@@ -97,7 +98,7 @@ export default function ToolUse({ tool }) {
         <Box>
             <Typography variant="h4" className={classes.header}> {tool.name} </Typography>
             <Divider />
-            <Typography className={classes.explanation} >{tool.description}</Typography>
+            <Typography className={classes.explanation} >{tool.general_info[lang].description}</Typography>
 
             <TabContext value={value}>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -162,7 +163,7 @@ export default function ToolUse({ tool }) {
                     <Box>
                         <Typography variant="h4">{t("usage.header")}</Typography>
                         <Typography>
-                            {tool.usage_information}
+                            {tool.general_info[lang].usage_information}
 
                         </Typography>
                     </Box>
