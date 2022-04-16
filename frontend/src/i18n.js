@@ -29,7 +29,7 @@ i18n
       resources,
     fallbackLng: 'en',
     debug: true,
-   lng:"en",
+   lng:localStorage.getItem("lang"??"en"),
 
 
     interpolation: {

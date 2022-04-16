@@ -72,7 +72,7 @@ export default function Navigation({ handleDrawerToggle }) {
   const changeLanguage=(e)=>{
    
   i18n.changeLanguage(e.target.value)
-  localStorage.setItem("language",(e.target.value) )
+  localStorage.setItem("lang",(e.target.value) )
     
   }
   return <>

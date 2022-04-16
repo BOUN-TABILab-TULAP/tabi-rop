@@ -17,6 +17,7 @@ const useStyles = makeStyles({
 export default function ToolCard({tool}) {
  const classes=useStyles()
  const {t, i18n}=useTranslation()
+ let lang=i18n.language
   return (
    <>
        <Card className={classes.card}> 
@@ -28,7 +29,7 @@ export default function ToolCard({tool}) {
       <Divider/>
      
       <Box sx={{height:"160px",overflow:"scroll", marginTop:"10px",padding:"5px"}} >
-        {tool.description}
+        {tool.general_info[lang].description}
       </Box>
       
     </CardContent>
