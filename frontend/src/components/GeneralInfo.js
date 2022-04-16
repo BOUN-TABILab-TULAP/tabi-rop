@@ -25,7 +25,7 @@ export default function GeneralInfo(inputcontroller, outputcontroller) {
     const { t, i18n } = useTranslation()
     return <div align="center">
 
-        <Typography variant="h5" className={classes.header}>General Details</Typography>
+        <Typography variant="h5" className={classes.header}>{t("general.info")}</Typography>
         <Box className={classes.step}>
 
 
@@ -41,29 +41,34 @@ export default function GeneralInfo(inputcontroller, outputcontroller) {
                 helper={t("git.helper")}
                 name={t("git.name")}
                 required={t("git.required")}
+                
             ></CustomInput>
             <CustomInput label={t("enum.label")}
                 placeholder={t("enum.placeholder")}
                 helper={t("enum.helper")}
                 name={t("enum.name")}
-                required={t("enum.required")}>
+                required={t("enum.required")}
+                constraint={"/[A-Za-z0-9]/"}
+                >
 
             </CustomInput>
-            <CustomInput label={t("desc.label")}
-                placeholder={t("desc.placeholder")}
-                helper={t("desc.helper")}
-                name={t("desc.name")}
-                required={t("desc.required")}></CustomInput>
-            <CustomTextArea label={t("endpoint.label")}
+            <CustomInput label={t("endpoint.label")}
                 placeholder={t("endpoint.placeholder")}
                 helper={t("endpoint.helper")}
                 name={t("endpoint.name")}
-                required={t("endpoint.required")}></CustomTextArea>
+                required={t("endpoint.required")}></CustomInput>
             <CustomInput label={t("contact.label")}
                 placeholder={t("contact.placeholder")}
                 helper={t("contact.helper")}
                 name={t("contact.name")}
-                required={t("contact.required")}></CustomInput>
+                required={t("contact.required")}
+                type="email"
+                ></CustomInput>
+            <CustomTextArea label={t("desc.label")}
+                placeholder={t("desc.placeholder")}
+                helper={t("desc.helper")}
+                name={t("desc.name")}
+                required={t("desc.required")}></CustomTextArea>
 
         </Box>
 

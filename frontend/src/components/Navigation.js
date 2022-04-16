@@ -19,7 +19,8 @@ import { UserContext } from '../userContext';
 import { useNavigate } from 'react-router-dom';
 import ConstructionIcon from '@mui/icons-material/Construction';
 import { useTranslation } from "react-i18next"
-
+import bounLogo from "../boun_logo.png"
+import tabiLogo from "../tabi2.jpg"
 import { changeLanguage } from 'i18next';
 const useStyles = makeStyles({
   svg: {
@@ -29,7 +30,7 @@ const useStyles = makeStyles({
   },
   link: {
     textDecoration: "none !important",
-    color: "black",
+    color: "black ",
 
   },
   wrap: {
@@ -37,14 +38,15 @@ const useStyles = makeStyles({
     marginRight: "5px",
     alignItems:"baseline",
     color:"white !important"
-
-
   },
   img:{
-   
-    
     color:"white !important"
+  },
+  bounLogo:{
+    marginRight:"10px",
+    color:"black"
   }
+
 })
 export default function Navigation({ handleDrawerToggle }) {
   const { t,i18n } = useTranslation()
@@ -88,11 +90,20 @@ export default function Navigation({ handleDrawerToggle }) {
         >
           <MenuIcon />
         </IconButton>
-        <Link className={classes.link} to='/'>
-          <Typography variant="h4" sx={{ mt: "5px" }} noWrap component="div">
-            Tabilab
-          </Typography>
-        </Link>
+        <a className={classes.link} href={`https://www.cmpe.boun.edu.tr/${i18n.language}`} >
+          
+          <Button>
+          <img src={bounLogo} width={"50px"} className={classes.bounLogo}></img>
+          </Button>
+          </a>
+          <a className={classes.link} href={"https://tabilab.cmpe.boun.edu.tr/"}>
+         
+          <Button  className={classes.bounLogo}>
+          <img src={tabiLogo} width={"60px"} ></img> <p style={{color:"black"}}>
+            </p>
+          </Button>
+          </a>
+       
       </Toolbar>
       </div>
       <div className={classes.wrap}>
