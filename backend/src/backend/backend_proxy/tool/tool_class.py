@@ -20,11 +20,10 @@ class Tool(AbstractToolClass):
         self.ip = tool_dict["ip"]
         self.port = tool_dict["port"]
         self.endpoint = tool_dict["endpoint"]
-        self.description = tool_dict["description"]
         self.contact_mail = tool_dict["contact_mail"]
         self.input_fields = tool_dict["input_fields"]
         self.output_fields = tool_dict["output_fields"]
-        self.usage_information = tool_dict["usage_information"]
+        self.general_info = tool_dict["general_info"]
         if '_id' in tool_dict: self._id = tool_dict['_id']
 
     def run(self, parameters: dict) -> dict:

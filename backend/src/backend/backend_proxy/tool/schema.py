@@ -24,11 +24,10 @@ class ToolSchema():
         "ip": str,
         "port": int,
         "endpoint": str,
-        "description": str,
-        "usage_information": str,
         "input_fields": dict,
         "output_fields": dict,
         "contact_mail":str,
+        "general_info":dict
     }
 
     @staticmethod
@@ -44,7 +43,7 @@ class ToolSchema():
 
     @staticmethod
     def dump(tool: Tool) -> dict:
-        d = {
+        d = { 
             "enum": tool.enum,
             "name": tool.name,
             "added_by": tool.added_by,
@@ -52,11 +51,10 @@ class ToolSchema():
             "ip": tool.ip,
             "port": tool.port,
             "endpoint": tool.endpoint,
-            "description": tool.description,
-            "usage_information": tool.usage_information,
             "contact_mail": tool.contact_mail,
             "input_fields": tool.input_fields,
             "output_fields": tool.output_fields,
+            "general_info":tool.general_info
         }
 
         if hasattr(tool, "_id"):
