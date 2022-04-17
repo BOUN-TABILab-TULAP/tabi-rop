@@ -15,7 +15,7 @@
     "feedback.text.desc": "Buraya fikirlerinizi yazabilirsiniz",
     "feedback.text.label": "Geri bildirim",
     "feedback.text.error": "Bu alan boş bırakılamaz",
-    "git.label": "Git addresi",
+    "git.label": "Git adresi",
     "git.placeholder": "https://github.com/boun-tabi/BoAT.git",
     "git.helper": "git deposunun adresini giriniz",
     "git.name": "git_address",
@@ -27,7 +27,7 @@
     "name.required": true,
     "enum.label": "enum",
     "enum.placeholder": "Boun-Pars",
-    "enum.helper": "Araç için özgğn bir isim giriniz",
+    "enum.helper": "Araç için özgün bir isim giriniz",
     "enum.name": "enum",
     "enum.required": true,
     "desc.label": "Tanım",
@@ -37,15 +37,15 @@
     "desc.required": true,
     "endpoint.label": "Endpoint",
     "endpoint.placeholder": "endpoint",
-    "endpoint.helper": "please write endpoint of your API",
+    "endpoint.helper": "API'ın endpointini yazınız. ",
     "endpoint.name": "endpoint",
     "endpoint.required": true,
-    "contact.label": "Contact mail",
+    "contact.label": "İletişim maili",
     "contact.placeholder": "tabilab@boun.edu.tr",
     "contact.helper": "API endpointini giriniz",
     "contact.name": "contact_mail",
     "contact.required": true,
-    "guide.header":"KUllanma klavuzu",
+    "guide.header":"Kullanma klavuzu",
     "guide.label":"Adımları buraya yazınız",
     "input.header":"Input Tanımları",
     "json.label":"Json alanları",
@@ -67,7 +67,25 @@
     "required":"gerekli",
     "usage.header":"Kullanım Bilgisi",
     "trydemo":"Demoyu dene",
-    "learnmore":"Daha fazla"
+    "learnmore":"Daha fazla",
+    "signin":"Giriş yap",
+    "specialchar":"Özel karakter kullanmayınız",
+    "name":"name",
+    "endpoint":"Endpoint",
+    "enum":"Enum",
+    "edit":"Düzenle",
+    "restart":"Yeniden başlat",
+    "save":"Kaydet",
+    "exit":"Çık",
+    "general.info":"Genel Bilgiler",
+    "define.input":"Girdi bilgileri",
+    "define.output":"Çıktı bilgileri",
+    "usage.info":"Kullanım kılavuzu",
+    "addtool.header": "Araç bilgilerini giriniz",
+    "notfound":"Sayfa Bulunamadı"
+    
+
+   
 
 
    

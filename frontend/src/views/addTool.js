@@ -18,12 +18,8 @@ import OutputInfo from '../components/OutputInfo.js';
 import GuideInfo from '../components/GuideInfo.js'
 import { Palette } from '@mui/icons-material';
 import GeneralButton from "../components/GeneralButton"
-const steps = [
-  'General Information',
-  'Define Input',
-  'Define Output',
-  'Usage Information'
-];
+import {useTranslation} from "react-i18next"
+
 const useStyles = makeStyles({
   steps: {
     display: "flex",
@@ -36,6 +32,13 @@ const useStyles = makeStyles({
 
 });
 export default function AddTool() {
+  const {t} = useTranslation()
+  const steps = [
+    t('general.info'),
+    t('define.input'),
+    t('define.output'),
+    t('usage.info')
+  ];
   const classes = useStyles();
   const theme=useTheme()
   const methods = useForm({
@@ -103,8 +106,7 @@ delete data["input_fields_temp"]
   return (
     <Container className={classes.main} component="main" maxWidth="l" >
       <Typography  variant="h5">
-        Add your tool to the system
-      </Typography>
+       {t("addtool.header")}      </Typography>
       <FormProvider {...methods} >
         <form
           onSubmit={methods.handleSubmit(onSubmit)}>

@@ -20,7 +20,7 @@ import { useNavigate } from 'react-router-dom';
 import ConstructionIcon from '@mui/icons-material/Construction';
 import { useTranslation } from "react-i18next"
 import bounLogo from "../boun_logo.png"
-import tabiLogo from "../tabi.jpg"
+import tabiLogo from "../tabi2.jpg"
 import { changeLanguage } from 'i18next';
 const useStyles = makeStyles({
   svg: {
@@ -70,9 +70,10 @@ export default function Navigation({ handleDrawerToggle }) {
     setOpen(false)
   };
   const changeLanguage=(e)=>{
-    console.log(e)
+   
   i18n.changeLanguage(e.target.value)
-
+  localStorage.setItem("lang",(e.target.value) )
+    
   }
   return <>
     <AppBar color="primary" position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, display: "flex", flexDirection: "row", justifyContent: 'space-between', alignItems: "center", border: "2px solid rgb(169,169,169,0.5)" }}>
@@ -93,13 +94,13 @@ export default function Navigation({ handleDrawerToggle }) {
         <a className={classes.link} href={`https://www.cmpe.boun.edu.tr/${i18n.language}`} >
           
           <Button>
-          <img src={bounLogo} width={"40px"} className={classes.bounLogo}></img>
+          <img src={bounLogo} width={"50px"} className={classes.bounLogo}></img>
           </Button>
           </a>
           <a className={classes.link} href={"https://tabilab.cmpe.boun.edu.tr/"}>
          
           <Button  className={classes.bounLogo}>
-          <img src={tabiLogo} width={"40px"} ></img> <p style={{color:"black"}}>
+          <img src={tabiLogo} width={"60px"} ></img> <p style={{color:"black"}}>
             </p>
           </Button>
           </a>

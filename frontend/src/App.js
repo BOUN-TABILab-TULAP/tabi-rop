@@ -19,7 +19,7 @@ import Feedback from './components/Feedback.js';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useLocation } from 'react-router-dom';
 import { useTranslation } from "react-i18next";
-
+import NotFound from "./components/NotFound"
 const getDesignTokens = (mode) => ({
   palette: {
     mode,
@@ -104,7 +104,7 @@ function App(props) {
     setTools(tool)
   };
   useEffect(() => {
-    i18n.changeLanguage("tr")
+  
     getTools()
   }, []);
   const handleFeedback = () => {
@@ -146,7 +146,8 @@ function App(props) {
                     );
                   })}
 
-                <Route path="/" element={<MainPage tools={tools} />} />
+                <Route path="/" exact element={<MainPage tools={tools} />} />
+                <Route  path="*" element={<NotFound></NotFound>} />
               </Routes>
 
             </Box>

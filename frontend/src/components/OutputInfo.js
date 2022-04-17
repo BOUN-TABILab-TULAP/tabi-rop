@@ -30,7 +30,7 @@ const useStyles = makeStyles({
 
 export default function InputInfo({ outputcontroller }) {
   const classes = useStyles()
-  const t= useTranslation()
+  const {t}= useTranslation()
   return (
     <div >
       <Typography variant="h6" align="center" className={classes.header}> {t("output.header")}</Typography>
