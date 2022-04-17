@@ -104,7 +104,7 @@ function App(props) {
     setTools(tool)
   };
   useEffect(() => {
-    i18n.changeLanguage("tr")
+  
     getTools()
   }, []);
   const handleFeedback = () => {

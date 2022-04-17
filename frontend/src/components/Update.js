@@ -57,7 +57,7 @@ export default function Update({user}) {
       <form onSubmit={methods.handleSubmit(onSubmit)}>
         <CustomInput label="Email" defaultValue={user.email}   helper="please write a valid email" name="email"/>
         <CustomInput type="password"  label="Password"  helper="please define a password to user" name="password"/>
-        <CustomSelect label="type" defaultValue={user.type} helper="please choose the type" name="type_enum" options={["administrator","standard"]}/>
+        <CustomSelect label="type" defaultValue={user.type} helper="please choose the type" name="type_enum" options={{"administrator":"administrator","standard":"standard"}}/>
         
         <CustomInput label="username" defaultValue={user.username} helper="please give a unique username" name="username"/>
           {!wait?<SubmitButton type="submit" >Submit</SubmitButton>:<CustomLoadingButton/>}
