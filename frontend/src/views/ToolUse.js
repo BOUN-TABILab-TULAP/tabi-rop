@@ -14,27 +14,33 @@ import Output from "../components/Output"
 import CustomLoadingButton from '../components/LoadingButton';
 import { useTranslation } from 'react-i18next';
 const useStyles = makeStyles({
-    Tabs: {
+    tabs: {
         flexDirection: "column",
         alignItems: "left",
         marginBottom: "0",
         margin: "0"
     },
-    Fields: {
-        // margin: "20px",
+    tablist:{
+       
+        '& button':{
+            padding:"0px",
+            margin:"0px",
+            
+        }
     },
+   
     formElement: {
         marginBottom: "5px !important",
         padding: "10px !important"
     },
     divider: {
-        margin: "30px !important"
+        margin: "3px !important"
     },
     header: {
-        paddingBottom: "0.5em",
+        paddingBottom: "0.2em",
     },
     explanation: {
-        padding: "1em"
+        padding: "0.3em"
     }
 });
 export default function ToolUse({ tool }) {
@@ -101,10 +107,10 @@ export default function ToolUse({ tool }) {
             <Typography className={classes.explanation} >{tool.general_info[lang].description}</Typography>
 
             <TabContext value={value}>
-                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                    <TabList onChange={handleChange}>
-                        <Tab label={t("demo.label")} value="1" />
-                        <Tab label={t("usage.label")} value="2" />
+                <Box sx={{ borderBottom: 0.5, borderColor: 'divider' }}>
+                    <TabList className={classes.tablist} onChange={handleChange}>
+                        <Tab  label={t("demo.label")} value="1" />
+                        <Tab  label={t("usage.label")} value="2" />
 
                     </TabList>
                 </Box>
@@ -145,8 +151,8 @@ export default function ToolUse({ tool }) {
                                             }
                                         })}
                                     />
-                                    <Typography >
-                                        {errors[key]?.type === 'required' && value.title + t("required")}
+                                    <Typography color={"red"} >
+                                        {errors[key]?.type === 'required' && value.title + ` ${t("required")}`}
                                     </Typography>
                                 </FormControl>
                                 <Divider className={classes.divider} />
@@ -159,14 +165,12 @@ export default function ToolUse({ tool }) {
                         {result !== undefined ? <Output result={result} ></Output> : <></>}
                     </Box>
                 </TabPanel>
-                <TabPanel className={classes.Tabs} value="2">
-                    <Box>
-                        <Typography variant="h4">{t("usage.header")}</Typography>
-                        <Typography>
+                <TabPanel className={classes.tabs} value="2">
+                        <Typography variant="h5">{t("usage.header")}</Typography>
+                        <p style={{whiteSpace:"pre"}}> 
                             {tool.general_info[lang].usage_information}
-
-                        </Typography>
-                    </Box>
+                        </p>
+                    
                 </TabPanel>
 
             </TabContext>

@@ -76,7 +76,7 @@ export default function Navigation({ handleDrawerToggle }) {
     
   }
   return <>
-    <AppBar color="primary" position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, display: "flex", flexDirection: "row", justifyContent: 'space-between', alignItems: "center", border: "2px solid rgb(169,169,169,0.5)" }}>
+    <AppBar color="primary" position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, display: "flex", maxHeight:"60px",flexDirection: "row", justifyContent: 'space-between', alignItems: "center" }}>
       <div>
 
      
@@ -94,13 +94,13 @@ export default function Navigation({ handleDrawerToggle }) {
         <a className={classes.link} href={`https://www.cmpe.boun.edu.tr/${i18n.language}`} >
           
           <Button>
-          <img src={bounLogo} width={"50px"} className={classes.bounLogo}></img>
+          <img src={bounLogo} width={"45px"} className={classes.bounLogo}></img>
           </Button>
           </a>
           <a className={classes.link} href={"https://tabilab.cmpe.boun.edu.tr/"}>
          
           <Button  className={classes.bounLogo}>
-          <img src={tabiLogo} width={"60px"} ></img> <p style={{color:"black"}}>
+          <img src={tabiLogo} width={"50px"} ></img> <p style={{color:"black"}}>
             </p>
           </Button>
           </a>

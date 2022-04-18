@@ -15,7 +15,7 @@ import Brat from "./brat/Brat";
 
 const useStyles = makeStyles({
     button: {
-        padding: "15px !important",
+        padding: "10px !important",
         marginLeft: "auto !important",
         marginRight: "10px !important",
         position: "relative"
@@ -24,12 +24,10 @@ const useStyles = makeStyles({
         paddingLeft: "10px",
         marginTop: "0px"
     }
-
 })
 
 export default function Output({ result }) {
     const classes = useStyles()
-    console.log(result)
     const [value, set_value] = React.useState("0");
     const handleChange = (event, newValue) => {
         set_value(newValue);
@@ -42,7 +40,6 @@ export default function Output({ result }) {
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                         <TabList onChange={handleChange}>
                             {Object.keys(result[key]).map((type, index) => {
-
                                 return <Tab label={type} value={`${index}`} />
                             })}
                         </TabList>

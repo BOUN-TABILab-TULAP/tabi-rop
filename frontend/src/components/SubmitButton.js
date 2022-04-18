@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 import { useTranslation } from "react-i18next";
 const useStyles = makeStyles({
     button: {
-        padding: "15px !important",
+        padding: "10px !important",
         marginLeft: "auto !important",
         marginRight: "10px !important",
         position: "relative"

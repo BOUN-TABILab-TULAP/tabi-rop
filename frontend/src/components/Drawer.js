@@ -1,15 +1,15 @@
 
 import React, { useState, useEffect } from 'react';
-import { styled, useTheme } from '@mui/material/styles';
+
 import Drawer from '@mui/material/Drawer';
 
-import { List, Box,Toolbar } from '@mui/material/';
-
+import { List, Toolbar } from '@mui/material/';
+import { createTheme } from "@mui/material/styles";
 import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
+
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-import { makeStyles } from '@mui/styles';
+import { makeStyles, ThemeProvider } from '@mui/styles';
 import { Link } from "react-router-dom";
 
 const useStyles = makeStyles({
@@ -19,18 +19,34 @@ const useStyles = makeStyles({
   }
 });
 const drawerWidth = 290;
+const theme = createTheme({
+  components: {
+    MuiToolbar: {
+      styleOverrides: {
+        root: {
+          height: "32px !important",
+          minHeight: "32px !important",
+          '@media(min-width:600px)': {
+            minHeight: "48px "
+          }
+        }
+      }
 
-
+    }
+  }
+});
 export default function MyDrawer({ tools, mobileOpen, handleDrawerToggle, ...props }) {
   const [selectedIndex, setSelectedIndex] = React.useState();
-  const theme = useTheme();
+
   const classes = useStyles();
   const handleListItemClick = (event, index) => {
     setSelectedIndex(index);
   };
-  
+
   return <>
-    
+    <ThemeProvider theme={theme}>
+
+
       <Drawer
         variant="temporary"
         open={mobileOpen}
@@ -43,11 +59,12 @@ export default function MyDrawer({ tools, mobileOpen, handleDrawerToggle, ...pro
           '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
         }}
       >
-        <Toolbar />
+        <Toolbar 
+        />
         <List>
 
           {tools.map((tool, index) => (
-            <Link  key={index} className={classes.link} to={'/' + tool.enum}>
+            <Link key={index} className={classes.link} to={'/' + tool.enum}>
               <ListItem button key={tool.enum}>
 
                 <ListItemText primary={tool.name} />
@@ -65,17 +82,17 @@ export default function MyDrawer({ tools, mobileOpen, handleDrawerToggle, ...pro
         }}
         open
       >
-         <Toolbar />
+        <Toolbar />
         <Divider />
-        <List 
-        
+        <List
+
         >
 
           {tools.map((tool, index) => (
-            <Link  key={index}className={classes.link} to={'/' + tool.enum}>
+            <Link key={index} className={classes.link} to={'/' + tool.enum}>
               <ListItem button key={tool.enum}
-              selected={selectedIndex === index}
-              onClick={(event) => handleListItemClick(event, index)}
+                selected={selectedIndex === index}
+                onClick={(event) => handleListItemClick(event, index)}
               >
 
                 <ListItemText primary={tool.name} />
@@ -83,8 +100,8 @@ export default function MyDrawer({ tools, mobileOpen, handleDrawerToggle, ...pro
             </Link>
           ))}
         </List>
-        
-        </Drawer>
 
+      </Drawer>
+    </ThemeProvider>
   </>
 }

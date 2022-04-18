@@ -21,7 +21,8 @@ export default function CustomTextArea({label,placeholder,helper,name,defaultVal
             fullWidth
                type="text"
               label={label}
-              rows={4}
+              sx={{padding:"10px !important"}}
+              rows={3}
               placeholder={placeholder}
               defaultValue={defaultValue}
               helper={helper}

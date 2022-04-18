@@ -30,7 +30,7 @@ const useStyles = makeStyles({
   MainContainer: {
     marginLeft:  "300px",
     marginRight: "40px" ,
-    marginTop: "80px",
+    marginTop: "65px",
     padding: "20px",
     backgroundColor:"white",
   
@@ -39,7 +39,7 @@ const useStyles = makeStyles({
     marginLeft: "0px",
     backgroundColor: "white",
     marginRight: "0px",
-    marginTop: "80px",
+    marginTop: "65px",
     padding: "20px"
   },
   plainPage:{
@@ -109,7 +109,7 @@ function App(props) {
   }, []);
   const handleFeedback = () => {
     setOpenFeedback(true)
-    console.log(openFeedback)
+   
 
   }
 

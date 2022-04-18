@@ -5,7 +5,7 @@ import { makeStyles } from '@mui/styles';
 import { useTranslation } from "react-i18next"
 const useStyles = makeStyles({
   input: {
-    marginBottom: "20px !important",
+    marginBottom: "10px !important",
     width: "100%"
   }
 });
@@ -18,6 +18,7 @@ export default function CustomInput({ type = "text", label, placeholder, helper,
 
     <FormControl className={classes.input}  >
       <TextField
+        
         type={type}
         label={label}
         placeholder={placeholder}
