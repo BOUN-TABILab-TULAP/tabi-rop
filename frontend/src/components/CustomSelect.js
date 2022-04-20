@@ -4,7 +4,7 @@ import { Divider, Typography, MenuItem, Select,Button, TextField, FormControl, I
 import { makeStyles } from '@mui/styles';
 const useStyles = makeStyles({
   input:{
-   marginBottom:"20px !important",
+   marginBottom:"10px !important",
    width:"100%"
     
   },
@@ -16,9 +16,10 @@ export default function CustomSelect({label,placeholder,helper,name,options,defa
     const { register, handleSubmit, watch, control, formState: { errors } } = useFormContext();
     const classes=useStyles()
     return <>
-   <FormControl className={classes.input}    >
+   <FormControl className={classes.input} >
               <InputLabel >{label}</InputLabel>
               <Select fullWidth
+                 
                 label={label}
                 {...register(name)}
                 defaultValue={defaultValue}

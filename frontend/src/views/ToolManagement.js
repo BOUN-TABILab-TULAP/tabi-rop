@@ -13,7 +13,9 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import toolsApi from '../services/toolsApi';
 import GeneralButton from '../components/GeneralButton';
+import {useTranslation} from "react-i18next"
 export default function ToolManagement() {
+  const {t,i18n}=useTranslation()
     const [open, setOpen] = React.useState(false);
     const [rows, setRows] = React.useState([])
     const [tools, setTools] = React.useState([])
@@ -31,11 +33,12 @@ export default function ToolManagement() {
         await toolsApi.restartTool({tool_enum:cellValues.row.enum})
     }
     const columns = [{ field: "id", headerName: "Id", width: 70 },
-    { field: "name", headerName: "name", width: 130 },
-    { field: "endpoint", headerName: "Endpoint", width: 130 },
-    { field: "enum", headerName: "enum", width: 130 },
+    { field: "name", headerName:  t("name"), width: 130 },
+    { field: "endpoint", headerName: t("endpoint"), width: 130 },
+    { field: "enum", headerName: t("enum"), width: 130 },
     {
-        field: "Edit",
+        field: t("edit"),
+
         renderCell: (cellValues) => {
           return (
             <Button
@@ -45,13 +48,13 @@ export default function ToolManagement() {
                 handleClickOpen(event, cellValues);
               }}
             >
-              Edit
+              {t("edit")}
             </Button>
           );
         }
       },
       {
-        field: "Restart",
+        field: t("restart"),
         renderCell: (cellValues) => {
           return (
             <Button
@@ -61,7 +64,7 @@ export default function ToolManagement() {
                 handleRestart(event, cellValues);
               }}
             >
-              Restart
+             {t("restart")}
             </Button>
           );
         }
@@ -113,10 +116,10 @@ export default function ToolManagement() {
                 </DialogContent>
                 <DialogActions>
                     <GeneralButton onClick={handleClose} autoFocus>
-                        Save
+                        {t("save")}
                     </GeneralButton>
                     <GeneralButton onClick={handleClose} autoFocus>
-                       Exit
+                      {t("exit")}
                     </GeneralButton>
                 </DialogActions>
             </Dialog>

@@ -18,12 +18,8 @@ import OutputInfo from '../components/OutputInfo.js';
 import GuideInfo from '../components/GuideInfo.js'
 import { Palette } from '@mui/icons-material';
 import GeneralButton from "../components/GeneralButton"
-const steps = [
-  'General Information',
-  'Define Input',
-  'Define Output',
-  'Usage Information'
-];
+import {useTranslation} from "react-i18next"
+
 const useStyles = makeStyles({
   steps: {
     display: "flex",
@@ -36,12 +32,19 @@ const useStyles = makeStyles({
 
 });
 export default function AddTool() {
+  const {t} = useTranslation()
+  const steps = [
+    t('general.info'),
+    t('define.input'),
+    t('define.output'),
+    t('usage.info')
+  ];
   const classes = useStyles();
   const theme=useTheme()
   const methods = useForm({
     defaultValues: {
       input_fields_temp: [{ title: "input", type: "sentence", examples: [], json_field: "" }],
-      output_fields_temp: [{ title: "output", type: "sentence" }],
+      output_fields_temp: [{ title: "output", type: "sentence" ,json_field:""}],
     }
   });
   const inputcontroller = useFieldArray({
@@ -55,12 +58,12 @@ export default function AddTool() {
   const [toolSubmit, setToolSubmit] = useState(false)
 
   const onSubmit = async data => {
-    console.log(data)
+   
     let input_values = data["input_fields_temp"]
     data["input_fields"]={}
     input_values.map((key, index) => {
       var json_field = key.json_field
-      console.log(data)
+     
       data["input_fields"][json_field] =
         {
           "title": key.title,
@@ -70,9 +73,10 @@ export default function AddTool() {
     })
     let output_values = data["output_fields_temp"]
 
+data["output_fields"]={}
     output_values.map((key, index) => {
       var json_field = key.json_field
-      console.log(data)
+     
       data["output_fields"][json_field] =
         {
           "title": key.title,
@@ -80,8 +84,16 @@ export default function AddTool() {
         }
     })
     setToolSubmit(true);
+delete data["output_fields_temp"]
+delete data["input_fields_temp"]
+    let response = await toolsApi.addtool(data)
+    if(response.success){
+      window.alert("tool added to the system")
+    }
+    else{
+      window.alert(response.message)
 
-    let response = toolsApi.addtool(data)
+    }
     setToolSubmit(false);
   }
   const [activeStep, setActiveStep] = React.useState(0);
@@ -94,8 +106,7 @@ export default function AddTool() {
   return (
     <Container className={classes.main} component="main" maxWidth="l" >
       <Typography  variant="h5">
-        Add your tool to the system
-      </Typography>
+       {t("addtool.header")}      </Typography>
       <FormProvider {...methods} >
         <form
           onSubmit={methods.handleSubmit(onSubmit)}>

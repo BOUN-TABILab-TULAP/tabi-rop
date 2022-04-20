@@ -17,12 +17,14 @@ import UserApi from "../services/UserApi.js"
 import { UserContext } from '../userContext.js';
 import { useNavigate } from "react-router-dom";
 import Alert from '@mui/material/Alert';
+import {useTranslation} from "react-i18next"
 const url = process.env.REACT_APP_BACKEND + "/api/user/login";
 
 
 const theme = createTheme();
 
 export default function Login() {
+  const {t,i18n}=useTranslation()
   const { login } = React.useContext(UserContext)
   const navigate = useNavigate();
   const [error,setError]=React.useState({})
@@ -39,7 +41,7 @@ export default function Login() {
       
       login(response)
       setError({error:false,message:"successfully logged in"})
-      setTimeout(()=>navigate("/main"), 1000);
+      setTimeout(()=>navigate("/"), 1000);
     }
     else{
       setError({error:true,message:response.message})
@@ -50,7 +52,7 @@ export default function Login() {
     <Container >
       <Box>
         <Typography variant="h2">
-          Sign in
+          {t("signin")}
         </Typography>
         {error.error?<Alert variant="filled" severity="error">
   {error}
@@ -61,9 +63,9 @@ export default function Login() {
             required
             fullWidth
             id="username"
-            label="user name"
+            label={t("useradd.username.label")}
             name="username"
-            autoComplete="Admin"
+            autoComplete="username"
             autoFocus
           />
           <TextField
@@ -71,7 +73,7 @@ export default function Login() {
             required
             fullWidth
             name="password"
-            label="Password"
+            label={t("useradd.password.label")}
             type="password"
             id="password"
             autoComplete="current-password"
@@ -82,7 +84,7 @@ export default function Login() {
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
           >
-            Sign In
+            
           </SubmitButton>
         </Box>
       </Box>

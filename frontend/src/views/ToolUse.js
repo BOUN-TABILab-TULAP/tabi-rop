@@ -11,58 +11,71 @@ import { useForm, useFieldArray, Controller } from "react-hook-form";
 import toolsApi from '../services/toolsApi';
 import SubmitButton from '../components/SubmitButton';
 import Output from "../components/Output"
-import { useNavigate } from "react-router-dom";
-import {CircularProgress,LinearProgress} from "@mui/material"
-import  CustomLoadingButton from '../components/LoadingButton';
+import CustomLoadingButton from '../components/LoadingButton';
+import { useTranslation } from 'react-i18next';
 const useStyles = makeStyles({
-    Tabs: {
+    tabs: {
         flexDirection: "column",
         alignItems: "left",
         marginBottom: "0",
         margin: "0"
     },
-    Fields: {
-        // margin: "20px",
+    tablist:{
+       
+        '& button':{
+            padding:"0px",
+            margin:"0px",
+            
+        }
     },
+   
     formElement: {
         marginBottom: "5px !important",
         padding: "10px !important"
     },
     divider: {
-        margin: "30px !important"
+        margin: "3px !important"
     },
     header: {
-        paddingBottom: "0.5em",
+        paddingBottom: "0.2em",
     },
     explanation: {
-        padding: "1em"
+        padding: "0.3em"
     }
 });
 export default function ToolUse({ tool }) {
     const location = useLocation();
-    const { register, handleSubmit, watch, control, setValue, formState: { errors },reset } = useForm({});
-  
+    const { register, handleSubmit, watch, control, setValue, formState: { errors }, reset } = useForm({});
+    const {t,i18n} = useTranslation()
+    const lang=i18n.language
     React.useEffect(() => {
-       setResult(undefined)
-       setLoading(false)
-       reset()
-      }, [location]);
+        setResult(undefined)
+        setLoading(false)
+        reset()
+    }, [location]);
     const classes = useStyles();
     const [value, set_value] = React.useState('1');
     const handleChange = (event, newValue) => {
         set_value(newValue);
     };
     const [result, setResult] = React.useState()
-    const [loading,setLoading]=React.useState(false)
+    const [loading, setLoading] = React.useState(false)
     const onSubmit = async (data) => {
         setLoading(true)
-        let runresult = await toolsApi.runTool(data, tool.enum)
-        setResult(runresult)
+        setResult(undefined)
+        let response = await toolsApi.runTool(data, tool.enum)
+        if (response.success) {
+            setResult(response.result)
+        }
+        else {
+            window.alert(response.message)
+
+        }
         setLoading(false)
 
     }
     React.useEffect(async () => {
-        
+
         const head_script = document.createElement("script");
         head_script.type = "text/javascript";
         head_script.src = "../demo/brat/head.js";
@@ -91,13 +104,13 @@ export default function ToolUse({ tool }) {
         <Box>
             <Typography variant="h4" className={classes.header}> {tool.name} </Typography>
             <Divider />
-            <Typography className={classes.explanation} >{tool.description}</Typography>
+            <Typography className={classes.explanation} >{tool.general_info[lang].description}</Typography>
 
             <TabContext value={value}>
-                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                    <TabList onChange={handleChange}>
-                        <Tab label="Demo" value="1" />
-                        <Tab label="Usage" value="2" />
+                <Box sx={{ borderBottom: 0.5, borderColor: 'divider' }}>
+                    <TabList className={classes.tablist} onChange={handleChange}>
+                        <Tab  label={t("demo.label")} value="1" />
+                        <Tab  label={t("usage.label")} value="2" />
 
                     </TabList>
                 </Box>
@@ -116,7 +129,7 @@ export default function ToolUse({ tool }) {
                                             value: "0",
                                         })}
                                     >
-                                        <MenuItem value={"0"}><em>Select an example</em></MenuItem>
+                                        <MenuItem value={"0"}><em>{t("use.example")}</em></MenuItem>
                                         {value.examples.map((example, index) => {
                                             return <MenuItem value={example}>{example}</MenuItem>
                                         })}
@@ -138,32 +151,30 @@ export default function ToolUse({ tool }) {
                                             }
                                         })}
                                     />
-                                    <Typography >
-                                        {errors[key]?.type === 'required' && value.title + " is required"}
+                                    <Typography color={"red"} >
+                                        {errors[key]?.type === 'required' && value.title + ` ${t("required")}`}
                                     </Typography>
                                 </FormControl>
                                 <Divider className={classes.divider} />
                             </div>
                         })}
 
-                        {!loading?<SubmitButton>Submit</SubmitButton>:<CustomLoadingButton />}
+                        {!loading ? <SubmitButton type="submit" onClick={handleSubmit}></SubmitButton> : <CustomLoadingButton />}
                     </form>
                     <Box>
-                    {result !== undefined ? <Output result={result} ></Output> : <></>}
+                        {result !== undefined ? <Output result={result} ></Output> : <></>}
                     </Box>
                 </TabPanel>
-                <TabPanel className={classes.Tabs} value="2">
-                    <Box>
-                        <Typography variant="h4">Usage Information</Typography>
-                        <Typography>
-                            {tool.usage_information}
-
-                        </Typography>
-                    </Box>
+                <TabPanel className={classes.tabs} value="2">
+                        <Typography variant="h5">{t("usage.header")}</Typography>
+                        <p style={{whiteSpace:"pre"}}> 
+                            {tool.general_info[lang].usage_information}
+                        </p>
+                    
                 </TabPanel>
 
             </TabContext>
-           
+
         </Box>
     </>
 

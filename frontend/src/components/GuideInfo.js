@@ -7,6 +7,7 @@ import { makeStyles } from '@mui/styles';
 import CustomInput from './CustomInput.js';
 import CustomSelect from './CustomSelect.js';
 import CustomTextArea from './CustomTextArea.js';
+import { useTranslation } from "react-i18next";
 const useStyles = makeStyles({
     step: {
         display: "flex",
@@ -24,11 +25,12 @@ const useStyles = makeStyles({
 
 export default function GuideInfo() {
     const classes = useStyles()
+    const {t,i18n}= useTranslation()
     return (
         <div >
-            <Typography variant="h6" align="center" className={classes.header}> Usage Guide</Typography>
+            <Typography variant="h6" align="center" className={classes.header}> {t("guide.header")}</Typography>
             <Box className={classes.step}>
-            <CustomTextArea label="Write your guide here" name={"usage_information"} ></CustomTextArea>
+            <CustomTextArea label={t("guide.label")} name={"usage_information"} ></CustomTextArea>
             </Box>
 
         </div>)
