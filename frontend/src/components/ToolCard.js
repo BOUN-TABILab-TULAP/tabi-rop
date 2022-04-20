@@ -38,9 +38,9 @@ export default function ToolCard({tool}) {
     <Link to={`/${tool.enum}`}>
       <GeneralButton size="small">{t("trydemo")}</GeneralButton>
       </Link>
-      <Link to={`./${tool.enum}`}>
+      {/* <Link to={`./${tool.enum}`}>
       <GeneralButton size="small">{t("learnmore")}</GeneralButton>
-      </Link>
+      </Link> */}
     </CardActions>
        </Card>
 
