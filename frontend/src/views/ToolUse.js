@@ -102,7 +102,7 @@ export default function ToolUse({ tool }) {
     }, [])
     return <>
         <Box>
-            <Typography variant="h4" className={classes.header}> {tool.name} </Typography>
+            <Typography variant="h4" className={classes.header}> {tool.general_info[lang].name} </Typography>
             <Divider />
             <Typography className={classes.explanation} >{tool.general_info[lang].description}</Typography>
 
