@@ -42,7 +42,7 @@ class DockerService:
                 ports = runningContainer.ports
                 port = int(ports[list(ports.keys())[0]][0]['HostPort'])
                 tool['port'] = port
-                MongoDB.getInstance().db['tools'].update_one({u'_id': tool['_id']}, {
+                MongoDB.getInstance().db['tool'].update_one({u'_id': tool['_id']}, {
                     "$set": {"port": port}})
                 self.runningContainers[container_name] = tool
             except docker.errors.NotFound as e:  # Tool is registered to the database but does not exist in docker

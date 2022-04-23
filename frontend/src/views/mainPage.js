@@ -14,7 +14,7 @@ export default function MainPage({tools}) {
 
   return (
    <>
-       {tools === undefined | tools.length == 0 ? <>dur buradayim</> :
+       {tools === undefined | tools.length == 0 ? <>loading</> :
                 tools.map((tool, index) => {
                   return (
                    <ToolCard tool={tool}></ToolCard>

@@ -19,7 +19,7 @@ import GuideInfo from '../components/GuideInfo.js'
 import { Palette } from '@mui/icons-material';
 import GeneralButton from "../components/GeneralButton"
 import {useTranslation} from "react-i18next"
-
+import CustomLoadingButton from '../components/LoadingButton.js';
 const useStyles = makeStyles({
   steps: {
     display: "flex",
@@ -83,9 +83,24 @@ data["output_fields"]={}
           "type": key.type
         }
     })
+  
+  data["general_info"]={
+    tr:{
+      description:data.description_tr,
+      name:data.name_tr,
+      usage_information:data.usage_information_tr
+    },
+    en:{
+      description:data.description_en,
+      name:data.name_en,
+      usage_information:data.usage_information_en
+    }
+  }
+  
     setToolSubmit(true);
 delete data["output_fields_temp"]
 delete data["input_fields_temp"]
+console.log(data)
     let response = await toolsApi.addtool(data)
     if(response.success){
       window.alert("tool added to the system")
@@ -139,7 +154,7 @@ delete data["input_fields_temp"]
             </GeneralButton>
 
             <div>
-              <GeneralButton   disabled={activeStep !== steps.length - 1} type="submit" >Submit</GeneralButton>
+              {!toolSubmit?<GeneralButton   disabled={(activeStep !== steps.length - 1) } type="submit" >Submit</GeneralButton>: <CustomLoadingButton />}
             </div>
 
 

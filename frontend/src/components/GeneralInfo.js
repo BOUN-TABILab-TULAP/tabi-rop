@@ -25,17 +25,12 @@ export default function GeneralInfo(inputcontroller, outputcontroller) {
     const { t, i18n } = useTranslation()
     return <div align="center">
 
-        <Typography variant="h5" className={classes.header}>{t("general.info")}</Typography>
+        <h2 className={classes.header}>{t("general.info")}</h2>
         <Box className={classes.step}>
 
-
-
-            <CustomInput label={t("name.label")}
-                placeholder={t("name.placeholder")}
-                helper={t("name.helper")}
-                name={t("name.name")}
-                required={t("name.required")}
-            ></CustomInput>
+           
+            
+            
             <CustomInput label={t("git.label")}
                 placeholder={t("git.placeholder")}
                 helper={t("git.helper")}
@@ -64,11 +59,37 @@ export default function GeneralInfo(inputcontroller, outputcontroller) {
                 required={t("contact.required")}
                 type="email"
                 ></CustomInput>
-            <CustomTextArea label={t("desc.label")}
-                placeholder={t("desc.placeholder")}
-                helper={t("desc.helper")}
-                name={t("desc.name")}
-                required={t("desc.required")}></CustomTextArea>
+    <Divider/>        
+            <h3>Please write these fields in English </h3>
+          
+           
+<CustomTextArea label={t("desc.label")}
+    placeholder={t("desc.placeholder")}
+    helper={t("desc.helper")}
+    name={`${t("desc.name")}_en`}
+    required={t("desc.required")}></CustomTextArea>
+<CustomInput label={t("name.label")}
+    placeholder={t("name.placeholder")}
+    helper={t("name.helper")}
+    name={`${t("name.name")}_en`}
+    required={t("name.required")}
+></CustomInput>
+
+<Divider/>
+
+<h3>Please write these fields in Turkish </h3>
+
+<CustomTextArea label={t("desc.label")}
+    placeholder={t("desc.placeholder")}
+    helper={t("desc.helper")}
+    name={`${t("desc.name")}_tr`}
+    required={t("desc.required")}></CustomTextArea>
+<CustomInput label={t("name.label")}
+    placeholder={t("name.placeholder")}
+    helper={t("name.helper")}
+    name={`${t("name.name")}_tr`}
+    required={t("name.required")}
+></CustomInput>
 
         </Box>
 

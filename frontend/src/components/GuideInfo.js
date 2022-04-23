@@ -30,7 +30,9 @@ export default function GuideInfo() {
         <div >
             <Typography variant="h6" align="center" className={classes.header}> {t("guide.header")}</Typography>
             <Box className={classes.step}>
-            <CustomTextArea label={t("guide.label")} name={"usage_information"} ></CustomTextArea>
+            <CustomTextArea label={t("tr.guide.label")} name={"usage_information_tr"} ></CustomTextArea>
+            <CustomTextArea label={t("en.guide.label")} name={"usage_information_en"} ></CustomTextArea>
+
             </Box>
 
         </div>)
