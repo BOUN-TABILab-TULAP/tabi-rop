@@ -5,7 +5,8 @@ import subprocess
 
 
 def get_specs_from_git(git_url) -> str: 
-    dname = f"backups/{git_url}"
+    base64.b64encode(bytes(git_url, 'utf-8')).decode("ascii").replace("/","").replace("+","").replace("=","")
+    dname = f"backups/{dname}"
     # check if folder exists, if so, delete it
     if not os.path.isdir("backups"):
         os.mkdir("backups")
