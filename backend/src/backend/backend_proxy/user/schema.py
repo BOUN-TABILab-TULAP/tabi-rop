@@ -1,4 +1,4 @@
-from backend.src.backend.backend_proxy.api.exception import IncorrectTypeException, NotFoundException
+from backend.backend_proxy.api.exception import IncorrectTypeException, NotFoundException
 import bson
 from datetime import date, datetime
 from backend.backend_proxy.user.user_class import User

@@ -1,5 +1,5 @@
 from backend.backend_proxy.tool.tool_class import Tool
-from backend.src.backend.backend_proxy.api.exception import IncorrectTypeException, NotFoundException
+from backend.backend_proxy.api.exception import IncorrectTypeException, NotFoundException
 from marshmallow import Schema, fields
 
 dtime_format = "%d-%m-%Y | %H:%M:%S"
