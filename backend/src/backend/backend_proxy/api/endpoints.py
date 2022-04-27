@@ -3,7 +3,7 @@ from backend.backend_proxy.config import Config
 from backend.backend_proxy.containerization.service import DockerService
 from backend.backend_proxy.feedback.service import FeedbackService
 from backend.backend_proxy.logging.event import Event
-from backend.src.backend.backend_proxy.api.exception import IncorrectTypeException, NotFoundException
+from backend.backend_proxy.api.exception import IncorrectTypeException, NotFoundException
 from flask import Flask, json, g, request, jsonify, json, session
 from flask_cors import CORS, cross_origin
 from backend.backend_proxy.tool.formats.supportedFormats import SupportedFormats
