@@ -1,18 +1,19 @@
 from backend.backend_proxy.tool.tool_class import Tool
+from backend.src.backend.backend_proxy.api.exception import IncorrectTypeException, NotFoundException
 from marshmallow import Schema, fields
 
 dtime_format = "%d-%m-%Y | %H:%M:%S"
 
-class NotFoundException(Exception):
-    def __init__(self, field):
-        self.message = f"{field} is not in provided data"
-        super().__init__(self.message)
+# class NotFoundException(Exception):
+#     def __init__(self, field):
+#         self.message = f"{field} is not in provided data"
+#         super().__init__(self.message)
 
 
-class IncorrectTypeException(Exception):
-    def __init__(self, field, expected_type, given_type):
-        self.message = f"Expected type for {field} is {expected_type}; however, given type is {given_type}"
-        super().__init__(self.message)
+# class IncorrectTypeException(Exception):
+#     def __init__(self, field, expected_type, given_type):
+#         self.message = f"Expected type for {field} is {expected_type}; however, given type is {given_type}"
+#         super().__init__(self.message)
 
 
 class ToolSchema():

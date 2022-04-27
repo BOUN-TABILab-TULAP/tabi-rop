@@ -3,6 +3,7 @@ from backend.backend_proxy.config import Config
 from backend.backend_proxy.containerization.service import DockerService
 from backend.backend_proxy.feedback.service import FeedbackService
 from backend.backend_proxy.logging.event import Event
+from backend.src.backend.backend_proxy.api.exception import IncorrectTypeException, NotFoundException
 from flask import Flask, json, g, request, jsonify, json, session
 from flask_cors import CORS, cross_origin
 from backend.backend_proxy.tool.formats.supportedFormats import SupportedFormats
@@ -31,6 +32,7 @@ CORS(app, supports_credentials=True)
 def debugPrint(*args, **kwargs):
     print(*args, file=sys.stderr, **kwargs)
 
+exceptions = (REST_Exception,NotFoundException,IncorrectTypeException)
 
 @app.route("/api/alive", methods=["GET"])
 def alive():
@@ -43,7 +45,7 @@ def list_all_tools():
         data = ToolService().list_all_tools()
         status = 200
         return create_response(data=data, status=status)
-    except REST_Exception as e:
+    except exceptions as e:
         # traceback.print_exc()
         return create_response(message=e.message, status=e.status)
 
@@ -58,7 +60,7 @@ def list_editable_tools():
         data = ToolService().list_editable_tools(token=token)
         status = 200
         return create_response(data=data, status=status)
-    except REST_Exception as e:
+    except exceptions as e:
         # traceback.print_exc()
         return create_response(message=e.message, status=e.status)
 
@@ -69,7 +71,7 @@ def get_tool_names():
         data = ToolService().list_all_tools()
         status = 200
         return create_response(data=data, status=status)
-    except REST_Exception as e:
+    except exceptions as e:
         # traceback.print_exc()
         return create_response(message=e.message, status=e.status)
 
@@ -86,7 +88,7 @@ def add_tool():
         data = {"message": "Tool is added", "tool_info": req_dict}
         status = 200
         return create_response(data=data, status=status)
-    except REST_Exception as e:
+    except exceptions as e:
         # traceback.print_exc()
         return create_response(message=e.message, status=e.status)
 
@@ -109,7 +111,7 @@ def update_tool(enum):
         data = {"message": "Tool is updated", "tool_info": req_dict}
         status = 200
         return create_response(data=data, status=status)
-    except REST_Exception as e:
+    except exceptions as e:
         return create_response(message=e.message, status=e.status)
 
 
@@ -124,7 +126,7 @@ def delete_tool(enum):
         data = {"message": "Tool is deleted", }
         status = 200
         return create_response(data=data, status=status)
-    except REST_Exception as e:
+    except exceptions as e:
         return create_response(message=e.message, status=e.status)
 
 
@@ -138,7 +140,7 @@ def run_tool(enum):
         data = ToolService().run_tool(enum, input_dict)
         status = 200
         res = create_response(data=data, status=status)
-    except REST_Exception as e:
+    except exceptions as e:
         # traceback.print_exc()
         status = e.status
         message = e.message
@@ -166,7 +168,7 @@ def restart_tool(enum):
             status = 200
             return create_response(data=data, status=status)
         return create_response(message=f"Could not restart {enum}", status=400)
-    except REST_Exception as e:
+    except exceptions as e:
         # traceback.print_exc()
         return create_response(message=e.message, status=e.status)
 
@@ -180,23 +182,23 @@ def login_user():
         data = UserService().login_user(req_dict)
         status = 200
         return create_response(data=data, status=status)
-    except REST_Exception as e:
+    except exceptions as e:
         # traceback.print_exc()
         return create_response(message=e.message, status=e.status)
 
 
 @app.route("/api/users", methods=["GET"])
 def get_users():
-    if "Token" not in dict(request.headers):
-        raise REST_Exception(
-            "You must provide a token in the header", status=400)
-    token = request.headers.get("Token")
-
     try:
+        if "Token" not in dict(request.headers):
+            raise REST_Exception(
+                "You must provide a token in the header", status=400)
+        token = request.headers.get("Token")
+
         data = UserService().get_users(token=token)
         status = 200
         return create_response(data=data, status=status)
-    except REST_Exception as e:
+    except exceptions as e:
         # traceback.print_exc()
         return create_response(message=e.message, status=e.status)
 
@@ -216,7 +218,7 @@ def register_user():
         else:
             data = {"message": "Could not register"}
             return create_response(data=data, status=400)
-    except REST_Exception as e:
+    except exceptions as e:
         # traceback.print_exc()
         return create_response(message=e.message, status=e.status)
 
@@ -235,7 +237,7 @@ def delete_user(user_id):
         else:
             data = {"message": "Could not delete"}
             return create_response(data=data, status=400)
-    except REST_Exception as e:
+    except exceptions as e:
         # traceback.print_exc()
         return create_response(message=e.message, status=e.status)
 
@@ -254,7 +256,7 @@ def edit_user(user_id):
 
         data = {"message": "Updated Successfully", "user_info": user_dict}
         return create_response(data=data, status=200)
-    except REST_Exception as e:
+    except exceptions as e:
         # traceback.print_exc()
         return create_response(message=e.message, status=e.status)
 
@@ -272,22 +274,22 @@ def create_feedback():
         else:
             data = {"message": "Could not save the feedback"}
             return create_response(data=data, status=400)
-    except REST_Exception as e:
+    except exceptions as e:
         return create_response(message=e.message, status=e.status)
 
 
 @app.route("/api/feedbacks", methods=["GET"])
 def get_feedbacks():
-    if "Token" not in dict(request.headers):
-        raise REST_Exception(
-            "You must provide a token in the header", status=400)
-    token = request.headers.get("Token")
-
     try:
+        if "Token" not in dict(request.headers):
+            raise REST_Exception(
+                "You must provide a token in the header", status=400)
+        token = request.headers.get("Token")
+
         data = FeedbackService().get_feedbacks(token=token)
         status = 200
         return create_response(data=data, status=status)
-    except REST_Exception as e:
+    except exceptions as e:
         # traceback.print_exc()
         return create_response(message=e.message, status=e.status)
 
