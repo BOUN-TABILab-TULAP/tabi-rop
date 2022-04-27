@@ -62,6 +62,17 @@ class ToolService:
             raise REST_Exception(
                 f"The enum: {enum} already exists, please provide another enum")
 
+        if 'general_info' not in req_dict or len(req_dict['general_info'].keys()) < 1:
+            raise REST_Exception(
+                f"You must provide general_info field")
+        
+        if 'name' not in req_dict:
+            lang = list(req_dict['general_info'].keys())[0]
+            if 'name' not in req_dict['general_info'][lang]:
+                raise REST_Exception(
+                f"You must provide name field in  general_info for {lang}")
+            req_dict['name'] = req_dict['general_info'][lang]['name']
+
         # Clone given repository
         toolPath = util.get_specs_from_git(req_dict["git_address"])
         # Build docker image, run and return port
