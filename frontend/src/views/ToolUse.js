@@ -167,7 +167,7 @@ export default function ToolUse({ tool }) {
                 </TabPanel>
                 <TabPanel className={classes.tabs} value="2">
                         <Typography variant="h5">{t("usage.header")}</Typography>
-                        <p style={{whiteSpace:"pre"}}> 
+                        <p style={{whiteSpace:"pre-wrap"}}> 
                             {tool.general_info[lang].usage_information}
                         </p>
                     

@@ -60,7 +60,7 @@ class DockerService:
     # version: version of the tool
 
     def create_new_container(self, dockerfilePath: str, nameEnum: str) -> int:
-        naming = f"{nameEnum}"
+        naming = f"{nameEnum}".lower()
         imageTag = naming + "-image"
         containerTag = naming + "-container"
         debugPrint(f"Creating a new container with {containerTag}")
