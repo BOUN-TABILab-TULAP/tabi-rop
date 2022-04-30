@@ -56,6 +56,7 @@ class ToolService:
         if 'enum' not in req_dict:
             raise REST_Exception("You have to provide an enum")
 
+        req_dict["enum"] = req_dict["enum"].lower()
         enum = req_dict["enum"]
 
         if self.controller.get_tool_query(query={"enum": enum}) != None:
