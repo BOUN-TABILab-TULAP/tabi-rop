@@ -14,9 +14,11 @@ import { useTheme } from '@mui/material/styles';
 import toolsApi from '../services/toolsApi';
 import GeneralButton from '../components/GeneralButton';
 import {useTranslation} from "react-i18next"
+import { LoadingButton } from '@mui/lab';
 export default function ToolManagement() {
   const {t,i18n}=useTranslation()
     const [open, setOpen] = React.useState(false);
+    const [restarted,setRestart] = React.useState(false)
     const [rows, setRows] = React.useState([])
     const [tools, setTools] = React.useState([])
     const theme = useTheme();
@@ -30,7 +32,18 @@ export default function ToolManagement() {
         setOpen(false);
     };
     const handleRestart=async (event,cellValues)=>{
-        await toolsApi.restartTool({tool_enum:cellValues.row.enum})
+      setRestart(true)
+      
+        const result= await toolsApi.restartTool({tool_enum:cellValues.row.enum})
+        if(result.success){
+          window.alert(t("restart.success"))
+        }
+        else{
+          window.alert(t("restart.failure"))
+        }
+        setRestart(false)
+
+    
     }
     const columns = [{ field: "id", headerName: "Id", width: 70 },
     { field: "name", headerName:  t("name"), width: 130 },
@@ -57,7 +70,7 @@ export default function ToolManagement() {
         field: t("restart"),
         renderCell: (cellValues) => {
           return (
-            <Button
+           <Button
               variant="contained"
               
               onClick={(event) => {
@@ -96,9 +109,7 @@ export default function ToolManagement() {
 
                 />
             </div>}
-
         <div>
-
             <Dialog
             
                 fullScreen={fullScreen}

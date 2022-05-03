@@ -83,5 +83,7 @@
     "define.output": "Define Output",
     "usage.info": "Usage Information",
     "addtool.header": "Add your tool to the system",
-    "notfound":"Not Found"
+    "notfound":"Not Found",
+    "restart.success":"Succesfully restarted the tool",
+    "restart.failure":"Error occured while restarting"
 }

@@ -60,12 +60,11 @@ export default class toolsApi {
             headers: { "Content-Type": "application/json", "token": localuser.token }
         };
         const res = await fetch(process.env.REACT_APP_BACKEND + `/api/tool/restart/${tool_enum}`, requestOptions);
-        console.log(res)
         let response = await res.json();
-        if (res.status == 200) {
-            return response
+        if (res.status === 200) {
+            return {result:response,success:true}
         }
-        return { msg: "error on request" }
+        return { message: "error on request",success:false }
 
     }
     static async listEditableTools() {

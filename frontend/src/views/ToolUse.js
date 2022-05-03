@@ -20,15 +20,13 @@ const useStyles = makeStyles({
         marginBottom: "0",
         margin: "0"
     },
-    tablist:{
-       
-        '& button':{
-            padding:"0px",
-            margin:"0px",
-            
+    tablist: {
+
+        '& button': {
+            padding: "0px",
+            margin: "0px",
         }
     },
-   
     formElement: {
         marginBottom: "5px !important",
         padding: "10px !important"
@@ -46,8 +44,8 @@ const useStyles = makeStyles({
 export default function ToolUse({ tool }) {
     const location = useLocation();
     const { register, handleSubmit, watch, control, setValue, formState: { errors }, reset } = useForm({});
-    const {t,i18n} = useTranslation()
-    const lang=i18n.language
+    const { t, i18n } = useTranslation()
+    const lang = i18n.language
     React.useEffect(() => {
         setResult(undefined)
         setLoading(false)
@@ -74,8 +72,7 @@ export default function ToolUse({ tool }) {
         setLoading(false)
 
     }
-    React.useEffect(async () => {
-
+    React.useEffect( async () => {
         const head_script = document.createElement("script");
         head_script.type = "text/javascript";
         head_script.src = "../demo/brat/head.js";
@@ -109,8 +106,8 @@ export default function ToolUse({ tool }) {
             <TabContext value={value}>
                 <Box sx={{ borderBottom: 0.5, borderColor: 'divider' }}>
                     <TabList className={classes.tablist} onChange={handleChange}>
-                        <Tab  label={t("demo.label")} value="1" />
-                        <Tab  label={t("usage.label")} value="2" />
+                        <Tab label={t("demo.label")} value="1" />
+                        <Tab label={t("usage.label")} value="2" />
 
                     </TabList>
                 </Box>
@@ -155,7 +152,7 @@ export default function ToolUse({ tool }) {
                                         {errors[key]?.type === 'required' && value.title + ` ${t("required")}`}
                                     </Typography>
                                 </FormControl>
-                                <Divider className={classes.divider} />
+                                {tool.input_fields.length>=1&&<Divider className={classes.divider} />}
                             </div>
                         })}
 
@@ -166,11 +163,11 @@ export default function ToolUse({ tool }) {
                     </Box>
                 </TabPanel>
                 <TabPanel className={classes.tabs} value="2">
-                        <Typography variant="h5">{t("usage.header")}</Typography>
-                        <p style={{whiteSpace:"pre"}}> 
-                            {tool.general_info[lang].usage_information}
-                        </p>
-                    
+                    <Typography variant="h5">{t("usage.header")}</Typography>
+                    <p style={{ whiteSpace: "pre" }}>
+                        {tool.general_info[lang].usage_information}
+                    </p>
+
                 </TabPanel>
 
             </TabContext>

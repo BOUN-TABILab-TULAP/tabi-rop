@@ -83,7 +83,9 @@
     "define.output":"Çıktı bilgileri",
     "usage.info":"Kullanım kılavuzu",
     "addtool.header": "Araç bilgilerini giriniz",
-    "notfound":"Sayfa Bulunamadı"
+    "notfound":"Sayfa Bulunamadı",
+    "restart.success":"Araç başarıyla yenilendi",
+    "restart.failure":"Yenilenirken hata oluştu"
     
 
    

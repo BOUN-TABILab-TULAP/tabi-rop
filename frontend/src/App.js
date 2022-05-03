@@ -30,7 +30,7 @@ const useStyles = makeStyles({
   MainContainer: {
     marginLeft:  "300px",
     marginRight: "40px" ,
-    marginTop: "65px",
+    marginTop: "70px",
     padding: "20px",
     backgroundColor:"white",
   
@@ -39,7 +39,7 @@ const useStyles = makeStyles({
     marginLeft: "0px",
     backgroundColor: "white",
     marginRight: "0px",
-    marginTop: "65px",
+    marginTop: "70px",
     padding: "20px"
   },
   plainPage:{
@@ -48,6 +48,7 @@ const useStyles = makeStyles({
     width:  "1000px",
     display:"flex",
     flexWrap:"wrap",
+    justifyContent:"center",
     alignItems:"center",
     backgroundColor:"#e6e9eb"
   },
@@ -71,7 +72,6 @@ const drawerWidth = 290;
 function App(props) {
   const location = useLocation();
   const isSideBarOpen = location.pathname !== "/"
-  const { t, i18n } = useTranslation();
   const ColorModeContext = React.createContext({ toggleColorMode: () => { } });
   const [mode, setMode] = React.useState('light');
   const colorMode = React.useMemo(
@@ -92,7 +92,6 @@ function App(props) {
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const [mobileOpen, setMobileOpen] = useState(false);
   const [tools, setTools] = useState([])
-  const [open, setOpen] = React.useState(true);
   const classes = useStyles(isSideBarOpen);
   const handleDrawerToggle = () => {
 
@@ -109,17 +108,12 @@ function App(props) {
   }, []);
   const handleFeedback = () => {
     setOpenFeedback(true)
-   
-
   }
-
   return (
     <>
       <ColorModeContext.Provider value={colorMode}>
         <ThemeProvider theme={theme} >
           <Box className={classes.layout}>
-
-
 
             <Box >
               <Navigation sx={{ width: "100%" }} handleDrawerToggle={handleDrawerToggle} />
