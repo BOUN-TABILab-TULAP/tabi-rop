@@ -1,19 +1,20 @@
+from backend.backend_proxy.api.exception import IncorrectTypeException, NotFoundException
 import bson
 from datetime import date, datetime
 from backend.backend_proxy.user.user_class import User
 from backend.backend_proxy.user.user_type import UserType
 
 
-class NotFoundException(Exception):
-    def __init__(self, field):
-        self.message = f"{field} is not in provided data"
-        super().__init__(self.message)
+# class NotFoundException(Exception):
+#     def __init__(self, field):
+#         self.message = f"{field} is not in provided data"
+#         super().__init__(self.message)
 
 
-class IncorrectTypeException(Exception):
-    def __init__(self, field, expected_type, given_type):
-        self.message = f"Expected type for {field} is {expected_type}; however, given type is {given_type}"
-        super().__init__(self.message)
+# class IncorrectTypeException(Exception):
+#     def __init__(self, field, expected_type, given_type):
+#         self.message = f"Expected type for {field} is {expected_type}; however, given type is {given_type}"
+#         super().__init__(self.message)
 
 
 class UserSchema():

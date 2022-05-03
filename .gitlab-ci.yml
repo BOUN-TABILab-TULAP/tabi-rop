@@ -1,1 +1,3 @@
-include: 'backend/.gitlab-ci.yml'
+include: 
+  - 'backend/.gitlab-ci.yml'
+  - 'deployment/.deployProduction.yml'
