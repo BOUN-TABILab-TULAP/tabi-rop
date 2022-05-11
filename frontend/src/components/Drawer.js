@@ -10,7 +10,7 @@ import Divider from '@mui/material/Divider';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import { makeStyles, ThemeProvider } from '@mui/styles';
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const useStyles = makeStyles({
   link: {
@@ -36,13 +36,8 @@ const theme = createTheme({
   }
 });
 export default function MyDrawer({ tools, mobileOpen, handleDrawerToggle, ...props }) {
-  const [selectedIndex, setSelectedIndex] = React.useState();
-
+  let location =useLocation()
   const classes = useStyles();
-  const handleListItemClick = (event, index) => {
-    setSelectedIndex(index);
-  };
-
   return <>
     <ThemeProvider theme={theme}>
 
@@ -65,8 +60,12 @@ export default function MyDrawer({ tools, mobileOpen, handleDrawerToggle, ...pro
 
           {tools.map((tool, index) => (
             <Link key={index} className={classes.link} to={'/' + tool.enum}>
-              <ListItem button key={tool.enum}>
-
+              <ListItem button 
+              selected={location.pathname.substring(1,)=== tool.enum}
+              key={tool.enum}
+             
+              >
+                
                 <ListItemText primary={tool.name} />
               </ListItem>
             </Link>
@@ -91,8 +90,8 @@ export default function MyDrawer({ tools, mobileOpen, handleDrawerToggle, ...pro
           {tools.map((tool, index) => (
             <Link key={index} className={classes.link} to={'/' + tool.enum}>
               <ListItem button key={tool.enum}
-                selected={selectedIndex === index}
-                onClick={(event) => handleListItemClick(event, index)}
+                selected={location.pathname.substring(1,)=== tool.enum}
+                // onClick={(event) => handleListItemClick(event, index)}
               >
 
                 <ListItemText primary={tool.name} />

@@ -16,7 +16,7 @@ const useStyles = makeStyles({
   responsiveCard: {
     width: "500px",
     height: "500px",
-    marginLeft: "15px",
+    // marginLeft: "15px",
     marginBottom: "15px"
   },
   content: {
@@ -53,7 +53,7 @@ export default function ToolCard({ tool }) {
 
           <Box className={!fullScreen ? classes.content : classes.responsiveContent}  >
             {(tool.general_info[lang].description).length > 300 ?
-              <span>{tool.general_info[lang].description.substr(0, 300)}... {<a href="/" style={{ color: "#1876D1" }}>read more...</a>}</span> :
+              <span>{tool.general_info[lang].description.substr(0, 300)}... {<a href={`/demo/${tool.enum}`} style={{ color: "#1876D1" }}>read more...</a>}</span> :
               <p>{(tool.general_info[lang].description)}</p>}
           </Box>
 

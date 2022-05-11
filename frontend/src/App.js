@@ -45,7 +45,6 @@ const useStyles = makeStyles({
   plainPage:{
     marginLeft:  "auto",
     marginRight:  "auto",
-    width:  "1000px",
     display:"flex",
     flexWrap:"wrap",
     justifyContent:"center",

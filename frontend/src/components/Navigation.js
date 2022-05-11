@@ -20,6 +20,8 @@ import { useTranslation } from "react-i18next"
 import bounLogo from "../boun_logo.png"
 import tabiLogo from "../tabi2.jpg"
 import { useLocation } from "react-router-dom";
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 const useStyles = makeStyles({
   svg: {
     textDecoration: "none !important",
@@ -51,6 +53,8 @@ export default function Navigation({ handleDrawerToggle }) {
   const classes = useStyles()
   const { user, logout } = useContext(UserContext);
   const navigate = useNavigate()
+  const theme = createTheme();
+  const breakpoint = useMediaQuery(theme.breakpoints.down('sm'));
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const [open, setOpen] = React.useState(Boolean(anchorEl));
@@ -99,9 +103,9 @@ export default function Navigation({ handleDrawerToggle }) {
               </p>
             </Button>
           </a>
-          <a href={process.env.REACT_APP_BACKEND}>
+          <a href="/">
             <Button variant="text" sx={{ color: "white", fontSize: "16px", fontWeight: "bold" }}>
-              DIP - Natural Language Proccessing Platform
+             {!breakpoint?"DIP -Natural Language Proccessing Platform":"DIP"}
             </Button>
           </a>
 
