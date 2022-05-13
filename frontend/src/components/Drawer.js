@@ -11,6 +11,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import { makeStyles, ThemeProvider } from '@mui/styles';
 import { Link, useLocation } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles({
   link: {
@@ -38,6 +39,8 @@ const theme = createTheme({
 export default function MyDrawer({ tools, mobileOpen, handleDrawerToggle, ...props }) {
   let location =useLocation()
   const classes = useStyles();
+  const { t, i18n } = useTranslation()
+  const lang = i18n.language
   return <>
     <ThemeProvider theme={theme}>
 
@@ -66,7 +69,7 @@ export default function MyDrawer({ tools, mobileOpen, handleDrawerToggle, ...pro
              
               >
                 
-                <ListItemText primary={tool.name} />
+                <ListItemText primary={tool.general_info[lang].name} />
               </ListItem>
             </Link>
           ))}
@@ -94,7 +97,7 @@ export default function MyDrawer({ tools, mobileOpen, handleDrawerToggle, ...pro
                 // onClick={(event) => handleListItemClick(event, index)}
               >
 
-                <ListItemText primary={tool.name} />
+                <ListItemText primary={tool.general_info[lang].name} />
               </ListItem>
             </Link>
           ))}
