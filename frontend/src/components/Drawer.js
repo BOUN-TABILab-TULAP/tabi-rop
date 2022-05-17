@@ -12,6 +12,7 @@ import ListItemText from '@mui/material/ListItemText';
 import { makeStyles, ThemeProvider } from '@mui/styles';
 import { Link, useLocation } from "react-router-dom";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { useTranslation } from 'react-i18next';
 const useStyles = makeStyles({
   link: {
     textDecoration: "None",
@@ -44,6 +45,8 @@ const theme = createTheme({
 export default function MyDrawer({ tools, mobileOpen, handleDrawerToggle, ...props }) {
   let location = useLocation()
   const classes = useStyles();
+  const { t, i18n } = useTranslation()
+  const lang = i18n.language
   return <>
     <ThemeProvider theme={theme}>
       <Drawer
@@ -81,7 +84,8 @@ export default function MyDrawer({ tools, mobileOpen, handleDrawerToggle, ...pro
                 selected={location.pathname.substring(1,) === tool.enum}
                 key={tool.enum}
               >
-                <ListItemText primary={tool.name} />
+                
+                <ListItemText primary={tool.general_info[lang].name} />
               </ListItem>
             </Link>
           ))}
@@ -121,7 +125,7 @@ export default function MyDrawer({ tools, mobileOpen, handleDrawerToggle, ...pro
                 selected={location.pathname.substring(1,) === tool.enum}
               >
 
-                <ListItemText primary={tool.name} />
+                <ListItemText primary={tool.general_info[lang].name} />
               </ListItem>
             </Link>
           ))}
