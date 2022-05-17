@@ -71,8 +71,10 @@ export default function Feedback({ setOpen, open }) {
                         <InputLabel >{t("feedback.type.desc")}</InputLabel>
                         <Select fullWidth
                             label={t("feedback.type.desc")}
-                            {...register("type")}
+                            {...register("type",
+                            { required: true })}
                             defaultValue={t("feedback.select.comment")}
+                            
                         >
                             <MenuItem value="">
                                 <em>{"Select"}</em>
@@ -81,6 +83,9 @@ export default function Feedback({ setOpen, open }) {
                                 return <MenuItem key={index} value={key}>{key}</MenuItem>
                             })}
                         </Select>
+                        <Typography >
+                            {errors.type?.type === 'required' && t("feedback.select.error")}
+                        </Typography>
                     </FormControl>
                     <FormControl sx={{ width: "100%" }}  >
                         <TextField
@@ -104,7 +109,7 @@ export default function Feedback({ setOpen, open }) {
 
             </DialogContent>
             <DialogActions>
-                <Button variant="contained" onClick={handleClose}>Cancel</Button>
+                <Button variant="contained" onClick={handleClose}>{t("cancel")}</Button>
                 <Button variant="contained" type="submit" onClick={handleSubmit(onSubmit)} >{t("submitbutton")}</Button>
             </DialogActions>
             </Box>

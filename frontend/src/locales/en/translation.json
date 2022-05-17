@@ -9,9 +9,10 @@
     "feedback.header": "Give us Feedback",
     "feedback.description": "You can send us your comments, any bug reports or improvment ideas.",
     "feedback.type.desc": "Select type of feedback",
-    "feedback.select.comment": "comment",
-    "feedback.select.bug": "bug",
-    "feedback.select.improvements": "improvements",
+    "feedback.select.comment": "Comment",
+    "feedback.select.error": "Please provide a type",
+    "feedback.select.bug": "Bug",
+    "feedback.select.improvements": "Improvements",
     "feedback.text.desc": "you can write your comment/ bug reports here",
     "feedback.text.label": "feedback",
     "feedback.text.error": "feedback  is required",
@@ -85,5 +86,7 @@
     "addtool.header": "Add your tool to the system",
     "notfound":"Not Found",
     "restart.success":"Succesfully restarted the tool",
-    "restart.failure":"Error occured while restarting"
+    "restart.failure":"Error occured while restarting",
+    "adduser":"Add User",
+    "cancel":"Cancel"
 }

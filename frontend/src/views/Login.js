@@ -55,7 +55,7 @@ export default function Login() {
           {t("signin")}
         </Typography>
         {error.error?<Alert variant="filled" severity="error">
-  {error}
+  {error.message}
 </Alert>:<></>}
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
           <TextField
@@ -83,8 +83,7 @@ export default function Login() {
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
-          >
-            
+          > 
           </SubmitButton>
         </Box>
       </Box>

@@ -18,13 +18,13 @@ import { LoadingButton } from '@mui/lab';
 export default function ToolManagement() {
   const {t,i18n}=useTranslation()
     const [open, setOpen] = React.useState(false);
-    const [restarted,setRestart] = React.useState(false)
+    const [chosen, setChosen] = React.useState({});
     const [rows, setRows] = React.useState([])
     const [tools, setTools] = React.useState([])
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
     const handleClickOpen = (params) => {
-        console.log(params.cellValues)
+        setChosen(params.cellValues)
         setOpen(true);
     };
     const handleClose = () => {
@@ -32,8 +32,6 @@ export default function ToolManagement() {
         setOpen(false);
     };
     const handleRestart=async (event,cellValues)=>{
-      setRestart(true)
-      
         const result= await toolsApi.restartTool({tool_enum:cellValues.row.enum})
         if(result.success){
           window.alert(t("restart.success"))
@@ -41,9 +39,6 @@ export default function ToolManagement() {
         else{
           window.alert(t("restart.failure"))
         }
-        setRestart(false)
-
-    
     }
     const columns = [{ field: "id", headerName: "Id", width: 70 },
     { field: "name", headerName:  t("name"), width: 130 },
@@ -51,7 +46,7 @@ export default function ToolManagement() {
     { field: "enum", headerName: t("enum"), width: 130 },
     {
         field: t("edit"),
-
+        width: 100 ,
         renderCell: (cellValues) => {
           return (
             <Button
@@ -68,6 +63,7 @@ export default function ToolManagement() {
       },
       {
         field: t("restart"),
+        width: 150 ,
         renderCell: (cellValues) => {
           return (
            <Button
@@ -86,12 +82,13 @@ export default function ToolManagement() {
 
     let row = []
     const getTools = async () => {
+        // let tool = await toolsApi.listEditableTools()
         let tool = await toolsApi.getTools()
-        console.log(tool)
+       
         row = tool.map((key, index) => {
             return { id: index, name: key.name, description: key.description, endpoint: key.endpoint, enum: key.enum }
         })
-        console.log(row)
+      
         setRows(row)
         setTools(tool)
     };
@@ -99,8 +96,8 @@ export default function ToolManagement() {
         getTools()
     }, []);
     return <>
-        {rows.length == 0 ? <div>wait</div> :
-            <div style={{ height: 400, width: '100%' }}>
+     {tools.length===0?<div>wait</div>:
+            <div style={{ height: 400 }}>
                 <DataGrid
                     rows={rows}
                     columns={columns}
@@ -108,7 +105,8 @@ export default function ToolManagement() {
                     rowsPerPageOptions={[5]}
 
                 />
-            </div>}
+            </div>
+            }
         <div>
             <Dialog
             
@@ -122,7 +120,7 @@ export default function ToolManagement() {
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                       <AddTool></AddTool>
+                       <AddTool chosen={chosen}></AddTool>
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>

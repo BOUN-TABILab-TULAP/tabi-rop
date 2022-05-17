@@ -7,11 +7,12 @@
     "useradd.username.label": "Kullanıcı adı",
     "submitbutton": "Gönder",
     "feedback.header": "Geri bildirimlerinizi bekliyoruz",
-    "feedback.description": "Bug, yorum veya geliştirme fikirlerinizi yazabilirsiniz",
+    "feedback.description": "Sorun, yorum veya geliştirme fikirlerinizi yazabilirsiniz",
     "feedback.type.desc": "Geri bildirim türünü seçiniz",
-    "feedback.select.comment": "yorum",
-    "feedback.select.bug": "bug",
-    "feedback.select.improvements": "geliştirme",
+    "feedback.select.comment": "Yorum",
+    "feedback.select.error": "Lütfen geri bildirim türü seçiniz",
+    "feedback.select.bug": "Sorun",
+    "feedback.select.improvements": "Geliştirme",
     "feedback.text.desc": "Buraya fikirlerinizi yazabilirsiniz",
     "feedback.text.label": "Geri bildirim",
     "feedback.text.error": "Bu alan boş bırakılamaz",
@@ -55,7 +56,7 @@
     "addbutton":"Ekle",
     "waitbutton":"Bekle",
     "managetools":"Araçları yönet",
-    "manageusers":"Kullanıclıarı yönet",
+    "manageusers":"Kullanıcıları yönet",
     "addtool":"Araç ekle",
     "mytools":"Benim araçlarım",
     "logout":"Çıkış yap",
@@ -85,7 +86,9 @@
     "addtool.header": "Araç bilgilerini giriniz",
     "notfound":"Sayfa Bulunamadı",
     "restart.success":"Araç başarıyla yenilendi",
-    "restart.failure":"Yenilenirken hata oluştu"
+    "restart.failure":"Yenilenirken hata oluştu",
+    "adduser":"Kullanıcı ekle",
+    "cancel":"İptal et"
     
 
    
