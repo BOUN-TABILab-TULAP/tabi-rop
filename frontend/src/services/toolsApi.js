@@ -16,9 +16,6 @@ export default class toolsApi {
         return data;
     }
     static async addtool(query) {
-        console.log((query))
-        
-        
         let localuser = JSON.parse(localStorage.getItem("user")) ?? { username: '', user_type: "", token: "", auth: false }
         const requestOptions = {
             method: "POST",
@@ -51,6 +48,7 @@ export default class toolsApi {
         }
         return { message: "error on request",success:false }
     }
+
     static async restartTool({ tool_enum }) {
         let localuser = JSON.parse(localStorage.getItem("user")) ?? { username: '', user_type: "", token: "", auth: false }
         console.log(localuser)
@@ -65,8 +63,8 @@ export default class toolsApi {
             return {result:response,success:true}
         }
         return { message: "error on request",success:false }
-
     }
+
     static async listEditableTools() {
         let localuser = JSON.parse(localStorage.getItem("user")) ?? { username: '', user_type: "", token: "", auth: false }
         const requestOptions = {
@@ -76,10 +74,10 @@ export default class toolsApi {
         };
         const res = await fetch(process.env.REACT_APP_BACKEND + `/api/tools/editable`, requestOptions);
         let response = await res.json();
-        if (res.status == 200) {
-            return response
+        if (res.status === 200) {
+            return {result:response,success:true}
         }
-        return { msg: "error on request" }
+        return { message: "error on request",success:false }
 
     }
 

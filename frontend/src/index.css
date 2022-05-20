@@ -26,8 +26,3 @@ a {
   color: black
 }
 
-@media  (max-width: 600px) {
- html{
-    font-size:20px;
-  }
-}

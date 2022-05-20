@@ -8,9 +8,6 @@ import { makeStyles } from '@mui/styles';
 import SubmitButton from "./SubmitButton";
 import CustomLoadingButton from "./LoadingButton";
 
-import SimpleBackdrop from "./BackDrop"
-
-
 export default function Update({user}) {
   const [wait,setWait]= React.useState(false)
   const methods = useForm();
@@ -48,7 +45,7 @@ export default function Update({user}) {
    });
    const classes = useStyles();
   
-  const { register, handleSubmit, watch, control, formState: { errors } } = useForm();
+  const {  formState: { errors } } = useForm();
   return (
     
     <FormProvider {...methods} > 

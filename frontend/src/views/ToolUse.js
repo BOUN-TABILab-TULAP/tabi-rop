@@ -13,6 +13,7 @@ import SubmitButton from '../components/SubmitButton';
 import Output from "../components/Output"
 import CustomLoadingButton from '../components/LoadingButton';
 import { useTranslation } from 'react-i18next';
+import Alert from '@mui/material/Alert';
 const useStyles = makeStyles({
     tabs: {
         flexDirection: "column",
@@ -149,7 +150,8 @@ export default function ToolUse({ tool }) {
                                         })}
                                     />
                                     <Typography color={"red"} >
-                                        {errors[key]?.type === 'required' && value.title + ` ${t("required")}`}
+                                        {/* {errors[key]?.type === 'required' && value.title + ` ${t("required")}`} */}
+                                        {errors[key]?.type === 'required'?<Alert variant="filled" severity="error" sx={{marginTop:"5px"}}>{value.title} is required</Alert>:<></>}
                                     </Typography>
                                 </FormControl>
                                 {tool.input_fields.length>=1&&<Divider className={classes.divider} />}

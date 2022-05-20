@@ -10,12 +10,14 @@ import Add from "../components/Add"
 import Update from "../components/Update"
 import { Typography } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
+import { useTranslation } from 'react-i18next';
 export default function UserManagement() {
     const [rows, setRows] = React.useState([])
     const [open, setOpen] = React.useState(false);
     const [update,setUpdate]=React.useState(false)
     const [chosen,setChosen]=React.useState("")
     const theme = useTheme();
+    const {t,i18n}= useTranslation()
     const [wait,setWait]=React.useState(false)
    
     const handleDelete = async (event, cellValues) => {
@@ -104,7 +106,7 @@ export default function UserManagement() {
                     rowsPerPageOptions={[20]}
                 />
             </div>}
-        <Button onClick={(event)=>{addUser()}}>Add User</Button>
+        <Button onClick={(event)=>{addUser()}}>{t("adduser")}</Button>
         <div >
             <Dialog 
                 fullScreen={fullScreen}
@@ -123,7 +125,7 @@ export default function UserManagement() {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose} autoFocus>
-                        Exit
+                    {t("exit")}
                     </Button>
                 </DialogActions>
             </Dialog>

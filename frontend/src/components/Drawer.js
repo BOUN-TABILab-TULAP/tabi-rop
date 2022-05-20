@@ -6,17 +6,24 @@ import Drawer from '@mui/material/Drawer';
 import { List, Toolbar } from '@mui/material/';
 import { createTheme } from "@mui/material/styles";
 import Divider from '@mui/material/Divider';
-
+import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import { makeStyles, ThemeProvider } from '@mui/styles';
 import { Link, useLocation } from "react-router-dom";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useTranslation } from 'react-i18next';
-
 const useStyles = makeStyles({
   link: {
     textDecoration: "None",
     color: "black"
+  },
+  mainNavigator: {
+    textDecoration: "None",
+    color: "black",
+
+
+
   }
 });
 const drawerWidth = 290;
@@ -32,19 +39,16 @@ const theme = createTheme({
           }
         }
       }
-
     }
   }
 });
 export default function MyDrawer({ tools, mobileOpen, handleDrawerToggle, ...props }) {
-  let location =useLocation()
+  let location = useLocation()
   const classes = useStyles();
   const { t, i18n } = useTranslation()
   const lang = i18n.language
   return <>
     <ThemeProvider theme={theme}>
-
-
       <Drawer
         variant="temporary"
         open={mobileOpen}
@@ -57,16 +61,28 @@ export default function MyDrawer({ tools, mobileOpen, handleDrawerToggle, ...pro
           '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
         }}
       >
-        <Toolbar 
+        <Toolbar
         />
         <List>
+         {location.pathname !=="/" ?<div> <Link key={-1} className={classes.link} to={'/'}>
+            <ListItem button
+              selected={location.pathname.substring(1,) === "/demo"}
+              key={"main"}
+            >
+              <ListItemIcon>
+                <ArrowBackIcon fontSize="small" />
+              </ListItemIcon>
+              <ListItemText primary={"Main Page"} />
+            </ListItem>
 
+          </Link>
+          <Divider />
+          </div>:<></>}
           {tools.map((tool, index) => (
             <Link key={index} className={classes.link} to={'/' + tool.enum}>
-              <ListItem button 
-              selected={location.pathname.substring(1,)=== tool.enum}
-              key={tool.enum}
-             
+              <ListItem button
+                selected={location.pathname.substring(1,) === tool.enum}
+                key={tool.enum}
               >
                 
                 <ListItemText primary={tool.general_info[lang].name} />
@@ -89,12 +105,24 @@ export default function MyDrawer({ tools, mobileOpen, handleDrawerToggle, ...pro
         <List
 
         >
+          {location.pathname !=="/" ?<div> <Link key={-1} className={classes.link} to={'/'}>
+            <ListItem button
+              selected={location.pathname.substring(1,) === "/demo"}
+              key={"main"}
+            >
+              <ListItemIcon>
+                <ArrowBackIcon fontSize="small" />
+              </ListItemIcon>
+              <ListItemText primary={"Main Page"} />
+            </ListItem>
 
+          </Link>
+          <Divider />
+          </div>:<></>}
           {tools.map((tool, index) => (
             <Link key={index} className={classes.link} to={'/' + tool.enum}>
               <ListItem button key={tool.enum}
-                selected={location.pathname.substring(1,)=== tool.enum}
-                // onClick={(event) => handleListItemClick(event, index)}
+                selected={location.pathname.substring(1,) === tool.enum}
               >
 
                 <ListItemText primary={tool.general_info[lang].name} />

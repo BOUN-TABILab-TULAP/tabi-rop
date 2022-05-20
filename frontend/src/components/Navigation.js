@@ -19,7 +19,6 @@ import ConstructionIcon from '@mui/icons-material/Construction';
 import { useTranslation } from "react-i18next"
 import bounLogo from "../boun_logo.png"
 import tabiLogo from "../tabi2.jpg"
-import { useLocation } from "react-router-dom";
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 const useStyles = makeStyles({
@@ -49,7 +48,6 @@ const useStyles = makeStyles({
 })
 export default function Navigation({ handleDrawerToggle }) {
   const { t, i18n } = useTranslation()
-  const location = useLocation()
   const classes = useStyles()
   const { user, logout } = useContext(UserContext);
   const navigate = useNavigate()
@@ -60,7 +58,7 @@ export default function Navigation({ handleDrawerToggle }) {
   const [open, setOpen] = React.useState(Boolean(anchorEl));
   const Log = () => {
     logout()
-    navigate("./main")
+    navigate("./")
 
   }
   const handleClick = (event) => {
@@ -112,16 +110,15 @@ export default function Navigation({ handleDrawerToggle }) {
         </Toolbar>
       </div>
       <div className={classes.wrap}>
+        {!breakpoint?<>
         <Button className={classes.img} value="tr" onClick={(e) => changeLanguage(e, "tr")}>TR</Button>
         <span>|</span>
         <Button className={classes.img} value="en" onClick={(e) => changeLanguage(e, "en")}>EN</Button>
-
+        </>:<Button className={classes.img} value={i18n.language==="en"?"tr":"en"} onClick={(e) => changeLanguage(e, "en")}>{i18n.language}</Button>
+        }
         <div>
           <IconButton
-            size="large"
-            aria-label="account of current user"
-            aria-controls="menu-appbar"
-            aria-haspopup="true"
+            size="medium"
             onClick={handleClick}
             className={classes.svg}
             onMouseOver={handleClick}
@@ -178,20 +175,19 @@ export default function Navigation({ handleDrawerToggle }) {
                 </div> :
                 <div>
                   <MenuItem>
+                    <Link className={classes.link} to='/manageTools'>
+                    <ListItemIcon>
+                      <Build fontSize="small" />
+                    </ListItemIcon>
+                    {t("mytools")}
+                    </Link>
+                  </MenuItem>
+                  <MenuItem>
                     <Link className={classes.link} to='/AddTool'>
                       <ListItemIcon>
                         <Build fontSize="small" />
                       </ListItemIcon>
                       {t("addtool")}
-                    </Link>
-                  </MenuItem>
-
-                  <MenuItem>
-                    <ListItemIcon>
-                      <Build fontSize="small" />
-                    </ListItemIcon>
-                    {t("mytools")}
-                    <Link className={classes.link} to='/manageUsers'>
                     </Link>
                   </MenuItem>
                 </div>

@@ -31,7 +31,7 @@ const useStyles = makeStyles({
   }
 
 });
-export default function AddTool() {
+export default function AddTool({chosen}) {
   const {t} = useTranslation()
   const steps = [
     t('general.info'),
