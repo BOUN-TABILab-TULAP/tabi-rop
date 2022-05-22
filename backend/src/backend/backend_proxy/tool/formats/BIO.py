@@ -21,7 +21,7 @@ class BIO(Format):
     def brat(self, BIO:dict, input) -> dict:
         bio_text = ""
         for entity in BIO.values():
-            bio_text += f"{entity[0]} {'B-PER' if 'PER' in entity[1] else entity[1]}\n"
+            bio_text += f"{entity[0]} {entity[1]}\n"
         return BIOtoStandoff(text=input, bio=bio_text)
         
 
