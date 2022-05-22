@@ -56,7 +56,7 @@ export default function ToolCard({ tool }) {
 
         <CardContent >
           <Typography sx={{ marginBottom: "5px" }} variant="h5" >
-            {tool.general_info[lang].name}  dfgdfhdfhfgdfgfghgfhfgdf
+            {tool.general_info[lang].name}
           </Typography>
           <Divider />
 
