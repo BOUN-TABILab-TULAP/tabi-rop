@@ -56,6 +56,6 @@ class ToolController(AbstractToolController):
         return self.collection.delete_one({"_id": tool_id}).deleted_count > 0
 
     def get_all_tools(self) -> list[Tool]:
-        return [self.schema.create_object(x) for x in self.collection.find({})]
+        return [self.schema.create_object(x) for x in self.collection.find({}).sort('name',1)]
 
     def dump_tool(self, tool: Tool) -> dict: return self.schema.dump(tool=tool)
