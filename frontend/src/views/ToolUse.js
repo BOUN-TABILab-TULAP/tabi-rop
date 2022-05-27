@@ -63,6 +63,12 @@ export default function ToolUse({ tool }) {
     const onSubmit = async (data) => {
         setLoading(true)
         setResult(undefined)
+        
+        for (let key in data) {
+            data[key.substring(0,key.indexOf('_'))]=data[key]
+            console.log(key.substring(0,key.indexOf('_')))
+        }
+        console.log(data)
         let response = await toolsApi.runTool(data, tool.enum)
         if (response.success) {
             setResult(response.result)
@@ -124,8 +130,8 @@ export default function ToolUse({ tool }) {
                                     <Select
                                     
                                         defaultValue={0}
-                                        {...register(`${key}_${tool.enum}_select`, {
-                                            onChange: (e) => setValue(key, e.target.value === 0 ? "" : e.target.value),
+                                        {...register(`${key}${tool.enum}select`, {
+                                            onChange: (e) => setValue(`${key}_${tool.enum}`, e.target.value === 0 ? "" : e.target.value),
                                             value: 0,
                                         })}
                                     >
@@ -145,10 +151,10 @@ export default function ToolUse({ tool }) {
                                         defaultValue={""}
                                         rows={4}
                                         type={value.type}
-                                        
-                                        {...register(key, { required: true }, {
+                                        key={tool.enum}
+                                        {...register(`${key}_${tool.enum}`, { required: true }, {
                                             onChange: (e) => {
-                                                setValue(`${key}_${tool.enum}_select`, 0);
+                                                setValue(`${key}${tool.enum}select`, 0);
                                             }
                                         })}
                                     />
