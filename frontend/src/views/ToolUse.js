@@ -48,6 +48,7 @@ export default function ToolUse({ tool }) {
     const { t, i18n } = useTranslation()
     const lang = i18n.language
     React.useEffect(() => {
+        setValue(0)
         setResult(undefined)
         setLoading(false)
         reset()
@@ -113,27 +114,29 @@ export default function ToolUse({ tool }) {
                     </TabList>
                 </Box>
                 <TabPanel className={classes.Tabs} value="1">
-                    <form onSubmit={handleSubmit(onSubmit)}>
+                    <form key= {tool.enum} onSubmit={handleSubmit(onSubmit)}>
                         {Object.keys(tool.input_fields).map((key, index) => {
                             let value = tool.input_fields[key]
                             return <div className={classes.Fields}>
-                                <Typography>{value.title}</Typography>
+                                <Typography>{t('sample.sentence')}</Typography>
                                 <FormControl className={classes.formElement} fullWidth>
-
+                               
                                     <Select
-                                        defaultValue={"0"}
-                                        {...register(`${key}_select`, {
+                                    
+                                        defaultValue={0}
+                                        {...register(`${key}_${tool.enum}_select`, {
                                             onChange: (e) => setValue(key, e.target.value === 0 ? "" : e.target.value),
-                                            value: "0",
+                                            value: 0,
                                         })}
                                     >
-                                        <MenuItem value={"0"}><em>{t("use.example")}</em></MenuItem>
+                                        <MenuItem value={0}><em>{t("use.example")}</em></MenuItem>
                                         {value.examples.map((example, index) => {
                                             return <MenuItem value={example}>{example}</MenuItem>
                                         })}
 
                                     </Select>
                                 </FormControl>
+                                <Typography>{value.title[i18n.language]}</Typography>
                                 <FormControl fullWidth className={classes.formElement}>
                                     <TextField multiline fullWidth
                                         InputLabelProps={{
@@ -142,10 +145,10 @@ export default function ToolUse({ tool }) {
                                         defaultValue={""}
                                         rows={4}
                                         type={value.type}
-                                        label={value.title}
+                                        
                                         {...register(key, { required: true }, {
                                             onChange: (e) => {
-                                                setValue(`${key}_select`, "0");
+                                                setValue(`${key}_${tool.enum}_select`, 0);
                                             }
                                         })}
                                     />

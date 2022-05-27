@@ -48,6 +48,7 @@ export default function Feedback({ setOpen, open }) {
       else {
         window.alert(response.message)
       }
+      setOpen(false);
     };
     const handleClose = () => {
         setOpen(false);
