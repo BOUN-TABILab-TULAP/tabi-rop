@@ -89,5 +89,8 @@
     "restart.failure":"Error occured while restarting",
     "adduser":"Add User",
     "cancel":"Cancel",
-    "sample.sentence":"Sample Sentences"
+    "sample.sentence":"Sample Sentences",
+    "select":"Select the type of feedback"
+
+
 }

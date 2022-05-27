@@ -4,17 +4,17 @@
 /* Styling for annotations */
 
 /* alternative font test */
-/*
+
 text {
-  font-size: 13px;
+  font-size: 16px !important;
   font-family: helvetica,arial,freesans,clean,sans-serif;
 }
-*/
 
-/* #svg {
-  margin: 34px auto 100px;
-  padding-top: 15px;
-} */
+
+#svg {
+  margin: 40px auto 100px;
+  padding-top: 20px;
+} 
 
 .center_wrapper {
   display: table;
@@ -93,22 +93,22 @@ path {
 
 /* this should likely match span font */
 .span_type_label {
-  font-size: 11px;
+  font-size: 18px !important;
   font-family: "PT Sans Caption", sans-serif;
 }
 /* this should likely match arc font */
 .arc_type_label {
-  font-size: 11px;
+  font-size: 18px;
   font-family: "PT Sans Caption", sans-serif;
 }
 .attribute_type_label .ui-button-text {
-  font-size: 11px;
+  font-size: 18px;
   font-family: "PT Sans Caption", sans-serif;
 }
 
 .span rect {
   stroke-width: 0.75;
-  /* width: xxpx; width of the boxes */
+
 }
 
 .glyph {
@@ -363,7 +363,7 @@ fieldset legend {
       sorry about the duplication. */
   font-family: monospace;
   font-weight: bold;
-  font-size: 90%;
+  font-size: 100%;
   /* match jQuery UI .ui-widget-content color */
   color: #2e6e9e;
 }
@@ -438,10 +438,10 @@ fieldset legend {
 }
 .norm_info_label {
   font-weight: bold;
-  font-size: 80%;
+  font-size: 100%;
 }
 .norm_info_value {
-  font-size: 80%;
+  font-size: 100%;
 }
 .norm_info_img {
   float: right;
