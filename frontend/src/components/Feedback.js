@@ -71,14 +71,13 @@ export default function Feedback({ setOpen, open }) {
                 <FormControl sx={{ width: "100%" }}   >
                         <InputLabel >{t("feedback.type.desc")}</InputLabel>
                         <Select fullWidth
+                            defaultValue={0}
                             label={t("feedback.type.desc")}
                             {...register("type",
-                            { required: true })}
-                            defaultValue={t("feedback.select.comment")}
-                            
+                            { required: true })}   
                         >
-                            <MenuItem value="">
-                                <em>{"Select"}</em>
+                            <MenuItem value="0">
+                                <em>{t("select")}</em>
                             </MenuItem>
                             {[t("feedback.select.bug"),t("feedback.select.comment"), t("feedback.select.improvements")].map((key, index) => {
                                 return <MenuItem key={index} value={key}>{key}</MenuItem>

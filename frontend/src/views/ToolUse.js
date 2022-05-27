@@ -66,9 +66,9 @@ export default function ToolUse({ tool }) {
         
         for (let key in data) {
             data[key.substring(0,key.indexOf('_'))]=data[key]
-            console.log(key.substring(0,key.indexOf('_')))
+       
         }
-        console.log(data)
+       
         let response = await toolsApi.runTool(data, tool.enum)
         if (response.success) {
             setResult(response.result)
@@ -128,7 +128,7 @@ export default function ToolUse({ tool }) {
                                 <FormControl className={classes.formElement} fullWidth>
                                
                                     <Select
-                                    
+                                      
                                         defaultValue={0}
                                         {...register(`${key}${tool.enum}select`, {
                                             onChange: (e) => setValue(`${key}_${tool.enum}`, e.target.value === 0 ? "" : e.target.value),
@@ -137,7 +137,7 @@ export default function ToolUse({ tool }) {
                                     >
                                         <MenuItem value={0}><em>{t("use.example")}</em></MenuItem>
                                         {value.examples.map((example, index) => {
-                                            return <MenuItem value={example}>{example}</MenuItem>
+                                            return <MenuItem sx={{width:"60px"}} value={example}>{example}</MenuItem>
                                         })}
 
                                     </Select>
