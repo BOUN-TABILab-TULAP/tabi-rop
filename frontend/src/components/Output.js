@@ -51,7 +51,7 @@ export default function Output({ result }) {
                             {type === "brat" ? <TabPanel value={`${index}`}>
                                 <Brat conll={result[key][type]} /></TabPanel> : <></>}
                             {type == "raw" ? <TabPanel value={`${index}`}>
-                                <Typography sx={{ whiteSpace: 'pre-line' }}>{result[key][type]}</Typography></TabPanel> : <></>}
+                                <Typography sx={{ whiteSpace: 'pre-line' }} style={{whiteSpace:"pre-wrap"}} >{result[key][type]}</Typography></TabPanel> : <></>}
                         </>
                     })}
 
