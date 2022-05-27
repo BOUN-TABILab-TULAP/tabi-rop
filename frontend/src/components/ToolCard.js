@@ -64,7 +64,8 @@ export default function ToolCard({ tool }) {
               <Divider />
 
               <Box className={!fullScreen ? classes.content : classes.responsiveContent}  >
-
+       
+        
                 {((tool.general_info[lang].description).length > width) ?
                   <span>{tool.general_info[lang].description.substr(0, width)}... {<a href={`/demo/${tool.enum}`} style={{ color: "#1876D1" }}>read more...</a>}</span> :
                   <p>{(tool.general_info[lang].description)}</p>}
