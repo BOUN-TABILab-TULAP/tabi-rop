@@ -2,7 +2,7 @@
     "useradd.success": "kullanıcı başarıyla eklendi",
     "feedback.success": "geri bildirim için teşekkür ederiz",
     "useradd.email.label": "Email",
-    "useradd.email.placeholder": "dip@boun.edu.tr",
+    "useradd.email.placeholder": "tulap@boun.edu.tr",
     "useradd.password.label": "Şifre",
     "useradd.username.label": "Kullanıcı adı",
     "submitbutton": "Gönder",
