@@ -135,9 +135,9 @@ export default function ToolUse({ tool }) {
                                             value: 0,
                                         })}
                                     >
-                                        <MenuItem value={0}><em>{t("use.example")}</em></MenuItem>
+                                        <MenuItem  value={0}><em>{t("use.example")}</em></MenuItem>
                                         {value.examples.map((example, index) => {
-                                            return <MenuItem sx={{width:"60px"}} value={example}>{example}</MenuItem>
+                                            return <MenuItem  style={{whiteSpace: 'normal'}} value={example}>{example}</MenuItem>
                                         })}
 
                                     </Select>
