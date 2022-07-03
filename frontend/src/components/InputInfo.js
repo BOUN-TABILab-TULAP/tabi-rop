@@ -40,6 +40,14 @@ export default function InputInfo({ inputcontroller }) {
             {inputcontroller.fields.map((item, index) => {
                 return (
                     <Box className={classes.step}>
+                        <Grid container spacing={3}>
+                                <Grid item xs={4}>
+                                    <CustomInput label={`${t("name.label")} - Tr`} name={`input_fields_temp[${index}].title.tr`}  > </CustomInput>
+                                </Grid>
+                                <Grid item xs={4}>
+                                    <CustomInput label={`${t("name.label")} - En`} name={`input_fields_temp[${index}].title.en`}  > </CustomInput>
+                                </Grid>
+                        </Grid>
                         <Grid container spacing={2}>
                             <Grid item xs={4}>
                                 <CustomInput label={t("json.label")} name={`input_fields_temp[${index}].json_field`} ></CustomInput>
@@ -53,10 +61,8 @@ export default function InputInfo({ inputcontroller }) {
                                     "JSON": "JSON"
                                 }} > </CustomSelect>
                             </Grid>
-                            <Grid item xs={4}>
-                                <CustomInput label={t("name.label")} name={`input_fields_temp[${index}].title`}  > </CustomInput>
-                            </Grid>
                         </Grid>
+                        
                         <NestedExampleArray nestIndex={index} />
                         <Divider />
                         <Button type="button" disabled={inputcontroller.fields.length == 1} onClick={() => inputcontroller.remove(index)}>

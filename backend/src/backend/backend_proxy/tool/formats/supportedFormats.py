@@ -1,11 +1,14 @@
-from backend.backend_proxy.tool.formats.BIO import BIO
-from backend.backend_proxy.tool.formats.conll import CoNLL
-from backend.backend_proxy.tool.formats.rawSentence import RawSentence
-from backend.backend_proxy.tool.formats.tokenizedSentence import TokenizedSentence
-from backend.backend_proxy.tool.formats.listOfListOfMorphFeatList import ListOfListOfMorphFeatList
 from enum import Enum, auto
 
+from backend.backend_proxy.tool.formats.BIO import BIO
+from backend.backend_proxy.tool.formats.conll import CoNLL
 from backend.backend_proxy.tool.formats.json import JSON
+from backend.backend_proxy.tool.formats.listOfListOfMorphFeatList import \
+    ListOfListOfMorphFeatList
+from backend.backend_proxy.tool.formats.MWE import MWE
+from backend.backend_proxy.tool.formats.rawSentence import RawSentence
+from backend.backend_proxy.tool.formats.tokenizedSentence import \
+    TokenizedSentence
 
 
 class SupportedFormats(Enum):
@@ -15,7 +18,7 @@ class SupportedFormats(Enum):
     CoNLL = auto()
     json = auto()
     BIO = auto()
-
+    MWE = auto()
 
     @staticmethod
     def strToEnum(string):
@@ -51,6 +54,7 @@ SupportedFormats.formatsMap = {
     SupportedFormats.CoNLL : CoNLL(SupportedFormats.CoNLL),
     SupportedFormats.json : JSON(SupportedFormats.json),
     SupportedFormats.BIO : BIO(SupportedFormats.BIO),
+    SupportedFormats.MWE : MWE(SupportedFormats.MWE),
 } 
 
 enumMap = {
@@ -59,5 +63,6 @@ enumMap = {
     "RawSentence": SupportedFormats.RawSentence,
     "CoNLL": SupportedFormats.CoNLL,
     "JSON":SupportedFormats.json,
-    "BIO":SupportedFormats.BIO
+    "BIO":SupportedFormats.BIO,
+    "MWE":SupportedFormats.MWE,
 }

@@ -43,7 +43,7 @@ export default function AddTool({chosen}) {
   const theme=useTheme()
   const methods = useForm({
     defaultValues: {
-      input_fields_temp: [{ title: "input", type: "sentence", examples: [], json_field: "" }],
+      input_fields_temp: [{ title: {"tr":"","en":""}, type: "", examples: [], json_field: "" }],
       output_fields_temp: [{ title: "output", type: "sentence" ,json_field:""}],
     }
   });
