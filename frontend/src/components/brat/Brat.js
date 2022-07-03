@@ -90,7 +90,30 @@ var colldata = {
             'bgColor': '#FFFFFF',
             'borderColor': 'darken'
         },
-
+        {
+            'type': 'PER',
+            'labels': ['Per'],
+            'bgColor': '#F07800',
+            'borderColor': 'lighten'
+        },
+        {
+            'type': 'ORG',
+            'labels': ['Org'],
+            'bgColor': '#729FCF',
+            'borderColor': 'lighten'
+        },
+        {
+            'type': 'LOC',
+            'labels': ['Loc'],
+            'bgColor': '#EDD400',
+            'borderColor': 'lighten'
+        },
+        {
+            'type': 'MISC',
+            'labels': ['Misc'],
+            'bgColor': '#B78FB3',
+            'borderColor': 'lighten'
+        },
         {
             'type': 'token',
             'labels': ['\u00A0\u00A0'], // non-breaking space for empty
