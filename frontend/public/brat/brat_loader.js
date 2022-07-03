@@ -1,5 +1,5 @@
 // TODO: change this
-var bratLocation = "https://nlp.cmpe.boun.edu.tr/staticFiles/Brat";
+var bratLocation = "https://tulap.cmpe.boun.edu.tr/staticFiles/Brat";
 head.js(
   // External libraries
   bratLocation + "/lib/jquery.min.js",
@@ -24,7 +24,7 @@ head.js(
   // project-specific coniguration
   bratLocation + '/src/config.js',
   bratLocation + '/src/conllu.js',
-  // "http://nlp.cmpe.boun.edu.tr/staticFiles/conllu.js"
+  // "http://tulap.cmpe.boun.edu.tr/staticFiles/conllu.js"
 
   
   
