@@ -7,5 +7,5 @@ deployProduction:
     - echo "$SSH_PRIVATE_KEY" | base64 -d |  tr -d '\r' | ssh-add -
     - mkdir -p ~/.ssh
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
-    - ssh dip@nlp.cmpe.boun.edu.tr "cd nlp-tools-platform && git pull && docker-compose up --build -d && exit"
+    - ssh dip@tulap.cmpe.boun.edu.tr "cd nlp-tools-platform && git pull && docker-compose up --build -d && exit"
     when: manual
