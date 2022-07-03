@@ -1,5 +1,5 @@
 class NetworkException(Exception):
-    """Exception raised when a network happens while talking with the DIP backend.
+    """Exception raised when a network happens while talking with the TULAP backend.
 
     Attributes:
         currentEndpoint -- where are we trying to reach

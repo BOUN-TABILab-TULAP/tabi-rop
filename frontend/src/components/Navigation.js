@@ -103,7 +103,7 @@ export default function Navigation({ handleDrawerToggle }) {
           </a>
           <a href="/">
             <Button variant="text" sx={{ color: "white", fontSize: "16px", fontWeight: "bold" }}>
-             {!breakpoint?"DIP -Natural Language Proccessing Platform":"DIP"}
+             {!breakpoint?"TULAP - Turkish Language Processing Platform":"TULAP"}
             </Button>
           </a>
 

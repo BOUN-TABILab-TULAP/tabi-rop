@@ -19,7 +19,7 @@ backendURL = get_config("backendURL")
 
 def get_all_tools(endpoint="/tools/name"):
     """
-    Send a request to DIP backend in order to get all the tools registered to system. 
+    Send a request to TULAP backend in order to get all the tools registered to system. 
     """
 
     res = requests.get(url=backendURL + endpoint)
