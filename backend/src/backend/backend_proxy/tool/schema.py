@@ -28,7 +28,9 @@ class ToolSchema():
         "input_fields": dict,
         "output_fields": dict,
         "contact_mail":str,
-        "general_info":dict
+        "general_info":dict,
+        "git_address":str,
+        "tulap_address":str
     }
 
     @staticmethod
@@ -55,7 +57,9 @@ class ToolSchema():
             "contact_mail": tool.contact_mail,
             "input_fields": tool.input_fields,
             "output_fields": tool.output_fields,
-            "general_info":tool.general_info
+            "general_info":tool.general_info,
+            "git_address":tool.git_address,
+            "tulap_address":tool.tulap_address,
         }
 
         if hasattr(tool, "_id"):

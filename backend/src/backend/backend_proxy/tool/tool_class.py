@@ -24,6 +24,8 @@ class Tool(AbstractToolClass):
         self.input_fields = tool_dict["input_fields"]
         self.output_fields = tool_dict["output_fields"]
         self.general_info = tool_dict["general_info"]
+        self.git_address = tool_dict["git_address"]
+        self.tulap_address = tool_dict["tulap_address"]
         if '_id' in tool_dict: self._id = tool_dict['_id']
 
     def run(self, parameters: dict) -> dict:
