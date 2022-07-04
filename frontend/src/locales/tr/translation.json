@@ -90,7 +90,9 @@
     "adduser":"Kullanıcı ekle",
     "cancel":"İptal et",
     "sample.sentence":"Örnek Cümleler",
-    "select":"Geri bildirim türünü seçiniz"
+    "select":"Geri bildirim türünü seçiniz",
+    "demo.gitaddress":"Git Adresi",
+    "textarea":"Lütfen Girdinizi yazınız"
     
 
    

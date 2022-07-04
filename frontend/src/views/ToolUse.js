@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import Box from '@mui/material/Box';
-import Tab from '@mui/material/Tab';
+import { Tab, Grid, FormGroup, FormControlLabel, Checkbox } from '@mui/material';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
@@ -39,15 +39,18 @@ const useStyles = makeStyles({
         paddingBottom: "0.2em",
     },
     explanation: {
-        padding: "0.3em"
+        padding: "0.6em 0.3em ",
+
     }
 });
 export default function ToolUse({ tool }) {
+    const [sample, setSample] = React.useState(true)
     const location = useLocation();
     const { register, handleSubmit, watch, control, setValue, formState: { errors }, reset } = useForm({});
     const { t, i18n } = useTranslation()
     const lang = i18n.language
     React.useEffect(() => {
+        // setSample(false)
         setValue(0)
         setResult(undefined)
         setLoading(false)
@@ -63,12 +66,12 @@ export default function ToolUse({ tool }) {
     const onSubmit = async (data) => {
         setLoading(true)
         setResult(undefined)
-        
+
         for (let key in data) {
-            data[key.substring(0,key.indexOf('_'))]=data[key]
-       
+            data[key.substring(0, key.indexOf('_'))] = data[key]
+
         }
-       
+
         let response = await toolsApi.runTool(data, tool.enum)
         if (response.success) {
             setResult(response.result)
@@ -80,7 +83,7 @@ export default function ToolUse({ tool }) {
         setLoading(false)
 
     }
-    React.useEffect( async () => {
+    React.useEffect(async () => {
         const head_script = document.createElement("script");
         head_script.type = "text/javascript";
         head_script.src = "../demo/brat/head.js";
@@ -109,8 +112,29 @@ export default function ToolUse({ tool }) {
         <Box>
             <Typography variant="h4" className={classes.header}> {tool.general_info[lang].name} </Typography>
             <Divider />
-            <Typography className={classes.explanation} >{tool.general_info[lang].description}</Typography>
 
+            <Typography className={classes.explanation} >{tool.general_info[lang].description}</Typography>
+            <Divider />
+            <Grid className={classes.explanation} container spacing={2} >
+            <Grid item xs={6}>
+                    <a href={tool.git_address}>
+                <Button variant="outlined">
+                    Github Link
+                    
+                </Button>
+                    </a>
+                </Grid>
+                <Grid item xs={6}>
+                <a href={tool.tulap}>
+                <Button variant="outlined">
+                    {t('learnmore')}
+                    
+                </Button>
+                    </a>
+                </Grid>
+
+            </Grid>
+         
             <TabContext value={value}>
                 <Box sx={{ borderBottom: 0.5, borderColor: 'divider' }}>
                     <TabList className={classes.tablist} onChange={handleChange}>
@@ -120,50 +144,46 @@ export default function ToolUse({ tool }) {
                     </TabList>
                 </Box>
                 <TabPanel className={classes.Tabs} value="1">
-                    <form key= {tool.enum} onSubmit={handleSubmit(onSubmit)}>
+                    <form key={tool.enum} onSubmit={handleSubmit(onSubmit)}>
                         {Object.keys(tool.input_fields).map((key, index) => {
                             let value = tool.input_fields[key]
                             return <div className={classes.Fields}>
-                                <Typography>{t('sample.sentence')}</Typography>
-                                <FormControl className={classes.formElement} fullWidth>
-                               
+
+                                <FormControlLabel control={<Checkbox checked={sample} onChange={(e) => { setSample(e.target.checked) }} />} label="Use Sample Sentence" />
+                                {sample && <FormControl fullWidth>
+                                    <Typography sx={{paddingBottom:"0.5em"}}>{t('sample.sentence')}</Typography>
+                                   
                                     <Select
-                                      
-                                        defaultValue={0}
-                                        {...register(`${key}${tool.enum}select`, {
-                                            onChange: (e) => setValue(`${key}_${tool.enum}`, e.target.value === 0 ? "" : e.target.value),
-                                            value: 0,
-                                        })}
+
+                                        {...register(`${key}_${tool.enum}`, { required: true })}
                                     >
-                                        <MenuItem  value={0}><em>{t("use.example")}</em></MenuItem>
+                                        
                                         {value.examples.map((example, index) => {
-                                            return <MenuItem  style={{whiteSpace: 'normal'}} value={example}>{example}</MenuItem>
+                                            return <MenuItem style={{ whiteSpace: 'normal' }} value={example}>{example}</MenuItem>
                                         })}
 
                                     </Select>
-                                </FormControl>
-                                <Typography>{value.title[i18n.language]}</Typography>
-                                <FormControl fullWidth className={classes.formElement}>
-                                    <TextField multiline fullWidth
-                                        InputLabelProps={{
-                                            shrink: true,
-                                        }}
-                                        defaultValue={""}
-                                        rows={4}
-                                        type={value.type}
-                                        key={tool.enum}
-                                        {...register(`${key}_${tool.enum}`, { required: true }, {
-                                            onChange: (e) => {
-                                                setValue(`${key}${tool.enum}select`, 0);
-                                            }
-                                        })}
-                                    />
-                                    <Typography color={"red"} >
-                                        {/* {errors[key]?.type === 'required' && value.title + ` ${t("required")}`} */}
-                                        {errors[key]?.type === 'required'?<Alert variant="filled" severity="error" sx={{marginTop:"5px"}}>{value.title} is required</Alert>:<></>}
-                                    </Typography>
-                                </FormControl>
-                                {tool.input_fields.length>=1&&<Divider className={classes.divider} />}
+                                </FormControl>}
+
+                                {!sample &&
+                                    <FormControl fullWidth className={classes.formElement}>
+                                        <Typography sx={{paddingBottom:"0.5em"}} >{value.title[i18n.language]}</Typography>
+                                        <TextField multiline fullWidth
+                                            InputLabelProps={{
+                                                shrink: true,
+                                            }}
+                                            placeholder={t("textarea")}
+                                            rows={4}
+                                            type={value.type}
+                                            key={tool.enum}
+                                            {...register(`${key}_${tool.enum}`, { required: true })}
+                                        />
+                                        <Typography color={"red"} >
+                                            {/* {errors[key]?.type === 'required' && value.title + ` ${t("required")}`} */}
+                                            {errors[key]?.type === 'required' ? <Alert variant="filled" severity="error" sx={{ marginTop: "5px" }}>{value.title} is required</Alert> : <></>}
+                                        </Typography>
+                                    </FormControl>}
+                                {tool.input_fields.length >= 1 && <Divider className={classes.divider} />}
                             </div>
                         })}
 
@@ -174,11 +194,11 @@ export default function ToolUse({ tool }) {
                     </Box>
                 </TabPanel>
                 <TabPanel className={classes.tabs} value="2">
-                        <Typography variant="h5">{t("usage.header")}</Typography>
-                        <p style={{whiteSpace:"pre-wrap"}}> 
-                            {tool.general_info[lang].usage_information}
-                        </p>
-                    
+                    <Typography variant="h5">{t("usage.header")}</Typography>
+                    <p style={{ whiteSpace: "pre-wrap" }}>
+                        {tool.general_info[lang].usage_information}
+                    </p>
+
                 </TabPanel>
 
             </TabContext>
