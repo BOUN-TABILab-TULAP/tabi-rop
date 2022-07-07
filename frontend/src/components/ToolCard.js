@@ -13,6 +13,7 @@ const useStyles = makeStyles({
     height: "300px",
     marginLeft: "15px",
     marginBottom: "15px",
+   
     
 
   },
@@ -20,17 +21,20 @@ const useStyles = makeStyles({
     position: "relative",
     width: " 90vw",
     height: " 90vw",
-    marginBottom: "15px"
+    marginBottom: "15px",
+    
   },
   content: {
     overflow: "clip",
     marginTop: "10px",
-    padding: "5px"
+    padding: "5px",
+    fontSize:"1.1em",
   },
   responsiveContent: {
     overflow: "auto",
     marginTop: "10px",
-    padding: "5px"
+    padding: "5px",
+    fontSize:"1.1em",
   },
 
   actionArea: {
@@ -46,7 +50,7 @@ export default function ToolCard({ tool }) {
   const theme = createTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
   var width = 300
-  width = fullScreen ? 700 : 400
+  width = fullScreen ? 600 : 300
   const classes = useStyles()
   const { t, i18n } = useTranslation()
   let lang = i18n.language
