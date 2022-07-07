@@ -1,13 +1,13 @@
 import * as React from 'react';
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import Box from '@mui/material/Box';
-import { Tab, Grid, FormGroup, FormControlLabel, Checkbox } from '@mui/material';
+import { Tab,  FormControlLabel, Checkbox } from '@mui/material';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import { makeStyles } from '@mui/styles';
-import { Divider, Typography, MenuItem, Select, FormHelperText, TextField, FormControl, InputLabel, createStyles, Button } from '@mui/material';
-import { useForm, useFieldArray, Controller } from "react-hook-form";
+import { Divider, Typography, MenuItem, Select, TextField, FormControl, Button } from '@mui/material';
+import { useForm } from "react-hook-form";
 import toolsApi from '../services/toolsApi';
 import SubmitButton from '../components/SubmitButton';
 import Output from "../components/Output"
@@ -41,12 +41,20 @@ const useStyles = makeStyles({
     explanation: {
         padding: "0.6em 0.3em ",
 
+    },
+    buttons:{
+        marginRight:".6em",
+        marginTop:"0.6em",
+        display:"flex",
+        '& a':{
+            marginRight:".6em",
+        }
     }
 });
 export default function ToolUse({ tool }) {
     const [sample, setSample] = React.useState(true)
     const location = useLocation();
-    const { register, handleSubmit, watch, control, setValue, formState: { errors }, reset } = useForm({});
+    const { register, handleSubmit,  setValue, formState: { errors }, reset } = useForm({});
     const { t, i18n } = useTranslation()
     const lang = i18n.language
     React.useEffect(() => {
@@ -83,7 +91,7 @@ export default function ToolUse({ tool }) {
         setLoading(false)
 
     }
-    React.useEffect(async () => {
+    React.useEffect( () => {
         const head_script = document.createElement("script");
         head_script.type = "text/javascript";
         head_script.src = "../demo/brat/head.js";
@@ -115,25 +123,24 @@ export default function ToolUse({ tool }) {
 
             <Typography className={classes.explanation} >{tool.general_info[lang].description}</Typography>
             <Divider />
-            <Grid className={classes.explanation} container spacing={2} >
-            <Grid item xs={6}>
+            <div className={classes.buttons}>
+
                     <a href={tool.git_address}>
                 <Button variant="outlined">
                     Github Link
                     
                 </Button>
                     </a>
-                </Grid>
-                <Grid item xs={6}>
-                <a href={tool.tulap}>
+               
+               
+                <a href={tool.tulap_address}>
                 <Button variant="outlined">
                     {t('learnmore')}
                     
                 </Button>
                     </a>
-                </Grid>
-
-            </Grid>
+            </div>
+             
          
             <TabContext value={value}>
                 <Box sx={{ borderBottom: 0.5, borderColor: 'divider' }}>
