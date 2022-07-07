@@ -97,7 +97,9 @@
     "aboutcontent":"Tulap (Türkçe dil işleme platformu) boğaziçi üniversitesi öğrenci ve dil işleme geliştiricilerinin hazırladıkları araçları açık kaynak olarak diğer araştırmacı ve dil işleme meraklılarına sunmayı hedefler. Bu çalışmada demo sayfası aracılığı ile sunucuda docker kullanılarak çalıştırılan araçlar API desteği ile hizmete sunulmuştur. Kullanıcılar verilen yönergelere göre girdi girebilir ve sonuçlarını kısa sürede görebilir. Açık kaynak olan bu  araçları aynı zamanda github linklerine giderek kopyalayabilir ve docker sayesinde kolayca çalıştırabilirler.",
     "developerheader":" Takımımız",
     "tooldeveloperheader":"Araç Geliştiricilerimiz",
-    "tooldevelopercontent":" Projemizde sunduğumuz araçları geliştiren  geliştiricilere teşekkürlerimi sunuyoruz. "
+    "tooldevelopercontent":" Projemizde sunduğumuz araçları geliştiren  geliştiricilere teşekkürlerimi sunuyoruz. ",
+    "readmore":"Devamını Oku"
+    
    
    
 
