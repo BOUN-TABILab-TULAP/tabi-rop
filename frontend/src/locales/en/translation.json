@@ -90,7 +90,16 @@
     "adduser":"Add User",
     "cancel":"Cancel",
     "sample.sentence":"Sample Sentences",
-    "select":"Select the type of feedback"
-
-
+    "select":"Select the type of feedback",
+    "demo.gitaddress":"Git Address",
+    "demo.clarin":"Tulap Address",
+    "textarea":"Please write your input",
+    "about": "About us ",
+    "aboutcontent":"Tulap (Türkçe dil işleme platformu) boğaziçi üniversitesi öğrenci ve dil işleme geliştiricilerinin hazırladıkları araçları açık kaynak olarak diğer araştırmacı ve dil işleme meraklılarına sunmayı hedefler. Bu çalışmada demo sayfası aracılığı ile sunucuda docker kullanılarak çalıştırılan araçlar API desteği ile hizmete sunulmuştur. Kullanıcılar verilen yönergelere göre girdi girebilir ve sonuçlarını kısa sürede görebilir. Açık kaynak olan bu  araçları aynı zamanda github linklerine giderek kopyalayabilir ve docker sayesinde kolayca çalıştırabilirler.",
+    "developerheader": "Our team",
+    "developerdescription":"We have developed the platform and modify the older tools during 9 months as a team. ",
+    "tooldeveloperheader":"Tool developers",
+    "tooldevelopercontent":" We want to thank to the developers that provide us their nlp tools and help us to build their tools ın our services. ",
+    "readmore":"Read More"
+    
 }

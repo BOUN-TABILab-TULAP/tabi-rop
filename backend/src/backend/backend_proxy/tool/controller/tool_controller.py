@@ -34,6 +34,7 @@ class ToolController(AbstractToolController):
     def create_tool(self, tool_info: dict) -> Tool:
         tool_info['registered_at'] = datetime.datetime.now().strftime(
             '%Y-%m-%dT%H:%M:%S')
+        tool_info['order'] = len(self.get_all_tools()) + 1
 
         created_tool: Tool = self.schema.create_object(tool_info)
         inserted_object = self.collection.insert_one(
@@ -56,6 +57,6 @@ class ToolController(AbstractToolController):
         return self.collection.delete_one({"_id": tool_id}).deleted_count > 0
 
     def get_all_tools(self) -> list[Tool]:
-        return [self.schema.create_object(x) for x in self.collection.find({}).sort('name',1)]
+        return [self.schema.create_object(x) for x in self.collection.find({}).sort('order',1)]
 
     def dump_tool(self, tool: Tool) -> dict: return self.schema.dump(tool=tool)

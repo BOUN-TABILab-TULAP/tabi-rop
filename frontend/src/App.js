@@ -15,6 +15,7 @@ import AdminPage from './views/AdminPage.js';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import FeedbackButton from './components/FeedbackButton.js';
 import Feedback from './components/Feedback.js';
+import About from './views/About.js';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useLocation } from 'react-router-dom';
 import NotFound from "./components/NotFound"
@@ -100,11 +101,12 @@ function App(props) {
           >
             <Routes >
 
-              <Route exact path="/Login" element={<Login />} />
+              <Route exact path="/login" element={<Login />} />
               <Route exact path="/manageUsers" element={<UserManagement />} />
               <Route exact path="/manageTools" element={<ToolManagement />} />
               <Route exact path="/addTool" element={<AddTool />} />
               <Route exact path="/panel" element={<AdminPage />} />
+              <Route exact path="/about" element={<About />} />
               {tools === undefined | tools.length === 0 ? <Route exact path="/Login" element={<Login />} /> :
                 tools.map((tool, index) => {
                   return (

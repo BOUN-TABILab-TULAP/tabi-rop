@@ -20,7 +20,7 @@ import { useTranslation } from "react-i18next"
 import bounLogo from "../boun_logo.png"
 import tabiLogo from "../tabi2.jpg"
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { createTheme } from '@mui/material/styles';
 const useStyles = makeStyles({
   svg: {
     textDecoration: "none !important",
@@ -76,7 +76,7 @@ export default function Navigation({ handleDrawerToggle }) {
 
   }
   return <>
-    <AppBar color="primary" position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, display: "flex", maxHeight: "65px", flexDirection: "row", justifyContent: 'space-between', alignItems: "center" }}>
+    <AppBar color="primary" position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, display: "flex", maxHeight: "65px", flexDirection: "row", justifyContent: 'space-between', alignItems: "center" ,width:"100%"}}>
       <div>
         <Toolbar>
           <IconButton
@@ -91,16 +91,16 @@ export default function Navigation({ handleDrawerToggle }) {
           <a className={classes.link} href={`https://www.cmpe.boun.edu.tr/${i18n.language === "en" ? "" : "tr"}`} >
 
             <Button>
-              <img src={bounLogo} width={"45px"} className={classes.bounLogo}></img>
+              <img alt="boun logo" src={bounLogo} width={"45px"} className={classes.bounLogo}></img>
             </Button>
           </a>
-          <a className={classes.link} href={"https://tabilab.cmpe.boun.edu.tr/"}>
+          {/* <a className={classes.link} href={"https://tabilab.cmpe.boun.edu.tr/"}>
 
             <Button className={classes.bounLogo}>
               <img src={tabiLogo} width={"50px"} ></img> <p style={{ color: "black" }}>
               </p>
             </Button>
-          </a>
+          </a> */}
           <a href="/">
             <Button variant="text" sx={{ color: "white", fontSize: "16px", fontWeight: "bold" }}>
              {!breakpoint?"TULAP - Turkish Language Processing Platform":"TULAP"}
@@ -110,6 +110,11 @@ export default function Navigation({ handleDrawerToggle }) {
         </Toolbar>
       </div>
       <div className={classes.wrap}>
+      <Link to="/about">
+      <Button variant="text" sx={{ color: "white" }}>
+             About
+            </Button>
+            </Link>
         {!breakpoint?<>
         <Button className={classes.img} value="tr" onClick={(e) => changeLanguage(e, "tr")}>TR</Button>
         <span>|</span>
