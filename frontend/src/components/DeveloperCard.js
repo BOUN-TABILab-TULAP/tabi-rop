@@ -7,17 +7,14 @@ import LinkedInIcon from '@mui/icons-material/LinkedIn';
 
 const useStyles = makeStyles({
   card: {
-   position:"relative",
     width: "200px",
-    marginLeft: "0.4em",
+    marginLeft: "0.7em",
     marginBottom: "0.2em",
     padding:"0.2em",
-   alignItems:"center",
+    alignItems:"center",
+    justifyContent:"space-between",
     display:"flex",
     flexDirection:"column",
-    height:"19em",
-    minWidth:"200px",
-    justifyContent:"space-between"
   
 
   },
@@ -51,7 +48,7 @@ export default function DeveloperCard({developer}) {
         
       </CardContent>
       <CardActions>
-        <a href="developer.linkedin">
+        <a href={developer.linkedin}>
       <Button variant="outlined" startIcon={<LinkedInIcon />}>
     LinkedIn
 </Button>

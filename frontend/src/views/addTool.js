@@ -18,6 +18,8 @@ import OutputInfo from '../components/OutputInfo.js';
 import GuideInfo from '../components/GuideInfo.js'
 import { Palette } from '@mui/icons-material';
 import GeneralButton from "../components/GeneralButton"
+import Guideline from "../components/Guideline"
+import GuideButton from "../components/GuideButton"
 import {useTranslation} from "react-i18next"
 import CustomLoadingButton from '../components/LoadingButton.js';
 const useStyles = makeStyles({
@@ -28,11 +30,19 @@ const useStyles = makeStyles({
   },
   main: {
     padding: "16px"
+  },
+  header:{
+    display:"flex",
+    "justifyContent":"space-between" 
   }
 
 });
 export default function AddTool({chosen}) {
   const {t} = useTranslation()
+  const [openGuide, setOpenGuide] = React.useState(false);
+  const handleGuide = () => {
+    setOpenGuide(true)
+  }
   const steps = [
     t('general.info'),
     t('define.input'),
@@ -119,9 +129,15 @@ console.log(data)
   };
 
   return (
+    <>
+    
     <Container className={classes.main} component="main" maxWidth="l" >
+      <div className={classes.header}>
+
       <Typography  variant="h5">
        {t("addtool.header")}      </Typography>
+       <GuideButton onClick={handleGuide} />
+      </div>
       <FormProvider {...methods} >
         <form
           onSubmit={methods.handleSubmit(onSubmit)}>
@@ -161,7 +177,9 @@ console.log(data)
           </Box>
         </form>
       </FormProvider>
+      <Guideline open={openGuide} setOpen={setOpenGuide} />
     </Container>
-
+   
+   </>
   );
 }

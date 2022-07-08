@@ -18,11 +18,13 @@ const useStyles = makeStyles({
     },
     wrapper: {
         display: "flex",
-        alignItems: "flex-start",
+        alignItems: "stretch",
+        alignContent:"stretch",
         paddingTop: "0.3em",
         marginBottom: "0.5em",
         flexDirection:"row",
         flexWrap: "wrap",
+
 
     },
     content: {
@@ -33,7 +35,7 @@ const developers = [
     {
         "name": "Muhammet Şen",
         "status": "4th Grade Student",
-        'linkedin': "www.linkedin.com/in/muhammetssen",
+        'linkedin': "https://www.linkedin.com/in/muhammetssen",
         'image':"https://media-exp2.licdn.com/dms/image/C5603AQFPl4NldkjhJQ/profile-displayphoto-shrink_800_800/0/1657206017736?e=1662595200&v=beta&t=1H5U9u04Qg8iGvjS-qMUC4slK8yPWD3HSJYwt8iY6KY"
     }, {
         "name": "Merve Gürbüz",
