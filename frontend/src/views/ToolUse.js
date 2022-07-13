@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useLocation } from 'react-router-dom';
 import Box from '@mui/material/Box';
-import { Tab,  FormControlLabel, Checkbox } from '@mui/material';
+import { Tab, FormControlLabel, Checkbox } from '@mui/material';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
@@ -42,19 +42,19 @@ const useStyles = makeStyles({
         padding: "0.6em 0.3em ",
 
     },
-    buttons:{
-        marginRight:".6em",
-        marginTop:"0.6em",
-        display:"flex",
-        '& a':{
-            marginRight:".6em",
+    buttons: {
+        marginRight: ".6em",
+        marginTop: "0.6em",
+        display: "flex",
+        '& a': {
+            marginRight: ".6em",
         }
     }
 });
 export default function ToolUse({ tool }) {
     const [sample, setSample] = React.useState(true)
     const location = useLocation();
-    const { register, handleSubmit,  setValue, formState: { errors }, reset } = useForm({});
+    const { register, handleSubmit, setValue, formState: { errors }, reset } = useForm({});
     const { t, i18n } = useTranslation()
     const lang = i18n.language
     React.useEffect(() => {
@@ -91,7 +91,7 @@ export default function ToolUse({ tool }) {
         setLoading(false)
 
     }
-    React.useEffect( () => {
+    React.useEffect(() => {
         const head_script = document.createElement("script");
         head_script.type = "text/javascript";
         head_script.src = "../demo/brat/head.js";
@@ -125,23 +125,23 @@ export default function ToolUse({ tool }) {
             <Divider />
             <div className={classes.buttons}>
 
-                    <a href={tool.git_address}>
-                <Button variant="outlined">
-                    Github Link
-                    
-                </Button>
-                    </a>
-               
-               
+                <a href={tool.git_address}>
+                    <Button variant="outlined">
+                        Github Link
+
+                    </Button>
+                </a>
+
+
                 <a href={tool.tulap_address}>
-                <Button variant="outlined">
-                    {t('learnmore')}
-                    
-                </Button>
-                    </a>
+                    <Button variant="outlined">
+                        {t('learnmore')}
+
+                    </Button>
+                </a>
             </div>
-             
-         
+
+
             <TabContext value={value}>
                 <Box sx={{ borderBottom: 0.5, borderColor: 'divider' }}>
                     <TabList className={classes.tablist} onChange={handleChange}>
@@ -158,23 +158,27 @@ export default function ToolUse({ tool }) {
 
                                 <FormControlLabel control={<Checkbox checked={sample} onChange={(e) => { setSample(e.target.checked) }} />} label="Use Sample Sentence" />
                                 {sample && <FormControl fullWidth>
-                                    <Typography sx={{paddingBottom:"0.5em"}}>{t('sample.sentence')}</Typography>
-                                   
-                                    <Select
+                                    <Typography sx={{ paddingBottom: "0.5em" }}>{t('sample.sentence')}</Typography>
 
-                                        {...register(`${key}_${tool.enum}`, { required: true })}
+                                    <Select
+                                        defaultValue={0}
+
+                                        {...register(`${key}_${tool.enum}`, {
+                                            required: true, onChange: (e) => setValue(`${key}_${tool.enum}_text`, e.target.value === 0 ? "" : e.target.value),
+                                        })}
                                     >
-                                        
+                                        <MenuItem value={0}><em>{t("use.example")}</em></MenuItem>
                                         {value.examples.map((example, index) => {
                                             return <MenuItem style={{ whiteSpace: 'normal' }} value={example}>{example}</MenuItem>
                                         })}
 
                                     </Select>
-                                </FormControl>}
+                                </FormControl>
+                                }
 
                                 {!sample &&
                                     <FormControl fullWidth className={classes.formElement}>
-                                        <Typography sx={{paddingBottom:"0.5em"}} >{value.title[i18n.language]}</Typography>
+                                        <Typography sx={{ paddingBottom: "0.5em" }} >{value.title[i18n.language]}</Typography>
                                         <TextField multiline fullWidth
                                             InputLabelProps={{
                                                 shrink: true,
@@ -183,7 +187,7 @@ export default function ToolUse({ tool }) {
                                             rows={4}
                                             type={value.type}
                                             key={tool.enum}
-                                            {...register(`${key}_${tool.enum}`, { required: true })}
+                                            {...register(`${key}_${tool.enum}_text`, { required: true })}
                                         />
                                         <Typography color={"red"} >
                                             {/* {errors[key]?.type === 'required' && value.title + ` ${t("required")}`} */}
