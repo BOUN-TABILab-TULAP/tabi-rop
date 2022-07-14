@@ -126,7 +126,7 @@ export default function ToolUse({ tool }) {
             <div className={classes.buttons}>
 
                 <a href={tool.git_address}>
-                    <Button variant="outlined">
+                    <Button variant="outlined" sx={{textTransform:'none !important'}}>
                         Github Link
 
                     </Button>
@@ -134,7 +134,7 @@ export default function ToolUse({ tool }) {
 
 
                 <a href={tool.tulap_address}>
-                    <Button variant="outlined">
+                    <Button variant="outlined" sx={{textTransform:'none !important'}}>
                         {t('learnmore')}
 
                     </Button>

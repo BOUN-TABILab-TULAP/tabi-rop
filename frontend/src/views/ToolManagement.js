@@ -51,7 +51,7 @@ export default function ToolManagement() {
           return (
             <Button
               variant="contained"
-              
+              sx={{textTransform:'none !important'}}
               onClick={(event) => {
                 handleClickOpen(event, cellValues);
               }}
@@ -69,6 +69,7 @@ export default function ToolManagement() {
            <Button
               variant="contained"
               
+              sx={{textTransform:'none !important'}}
               onClick={(event) => {
                 handleRestart(event, cellValues);
               }}
@@ -124,12 +125,12 @@ export default function ToolManagement() {
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <GeneralButton onClick={handleClose} autoFocus>
+                    <Button  sx={{textTransform:'none !important'}} onClick={handleClose} autoFocus>
                         {t("save")}
-                    </GeneralButton>
-                    <GeneralButton onClick={handleClose} autoFocus>
+                    </Button>
+                    <Button sx={{textTransform:'none !important'}} onClick={handleClose} autoFocus>
                       {t("exit")}
-                    </GeneralButton>
+                    </Button>
                 </DialogActions>
             </Dialog>
         </div>

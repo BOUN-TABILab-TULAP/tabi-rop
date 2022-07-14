@@ -55,7 +55,7 @@ export default function Guideline({ setOpen, open }) {
 
             </DialogContent>
             <DialogActions>
-                <Button variant="contained" onClick={handleClose}>{t("ok")}</Button>
+                <Button variant="contained"sx={{textTransform:'none !important'}} onClick={handleClose}>{t("ok")}</Button>
             
             </DialogActions>
             </Box>

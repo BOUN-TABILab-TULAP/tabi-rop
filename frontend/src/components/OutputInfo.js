@@ -57,14 +57,14 @@ export default function InputInfo({ outputcontroller }) {
             </Grid>
          
             <Divider />
-            <Button type="button" disabled={outputcontroller.fields.length == 1} onClick={() => outputcontroller.remove(index)}>
+            <Button sx={{textTransform:'none !important'}} type="button" disabled={outputcontroller.fields.length == 1} onClick={() => outputcontroller.remove(index)}>
              { t("deletebutton")}
             </Button>
           </Box>
         </>
         );
       })}
-      <Button className={classes.delete} type="button" onClick={() => {
+      <Button sx={{textTransform:'none !important'}} className={classes.delete} type="button" onClick={() => {
         outputcontroller.append({ output_type: "sentence", example: "bugun seker yedim" });
       }}>
         {t("addbutton")}

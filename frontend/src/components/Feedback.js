@@ -109,8 +109,8 @@ export default function Feedback({ setOpen, open }) {
 
             </DialogContent>
             <DialogActions>
-                <Button variant="contained" onClick={handleClose}>{t("cancel")}</Button>
-                <Button variant="contained" type="submit" onClick={handleSubmit(onSubmit)} >{t("submitbutton")}</Button>
+                <Button sx={{textTransform:'none !important'}} variant="contained" onClick={handleClose}>{t("cancel")}</Button>
+                <Button sx={{textTransform:'none !important'}} variant="contained" type="submit" onClick={handleSubmit(onSubmit)} >{t("submitbutton")}</Button>
             </DialogActions>
             </Box>
         </Dialog>

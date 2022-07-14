@@ -21,12 +21,12 @@
     "git.helper": "git deposunun adresini giriniz",
     "git.name": "git_address",
     "git.required": true,
-    "name.label": "İsim",
+    "name.label": "Konu ismi",
     "name.placeholder": "Boun Pars",
     "name.helper": "Tool ismini giriniz",
     "name.name": "name",
     "name.required": true,
-    "enum.label": "enum",
+    "enum.label": "Araç ismi",
     "enum.placeholder": "Boun-Pars",
     "enum.helper": "Araç için özgün bir isim giriniz",
     "enum.name": "enum",
@@ -41,7 +41,7 @@
     "endpoint.helper": "API'ın endpointini yazınız. ",
     "endpoint.name": "endpoint",
     "endpoint.required": true,
-    "contact.label": "İletişim maili",
+    "contact.label": "İletişim e-postası",
     "contact.placeholder": "tabilab@boun.edu.tr",
     "contact.helper": "API endpointini giriniz",
     "contact.name": "contact_mail",
@@ -98,7 +98,10 @@
     "developerheader":" Takımımız",
     "tooldeveloperheader":"Araç Geliştiricilerimiz",
     "tooldevelopercontent":" Projemizde sunduğumuz araçları geliştiren  geliştiricilere teşekkürlerimi sunuyoruz. ",
-    "readmore":"Devamını Oku"
+    "readmore":"Devamını Oku",
+    "guide":"Yardım",
+    "field.description.eng":"Aşağıdaki alanları İngilizce olarak doldurunuz",
+    "field.description.tr":"Aşağıdaki alanları Türkçe olarak doldurunuz"
     
    
    

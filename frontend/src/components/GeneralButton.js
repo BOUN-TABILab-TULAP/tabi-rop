@@ -11,7 +11,7 @@ export default function GeneralButton(props) {
     const classes = useStyles()
     return <>
 
-        <Button variant={"contained"} {...props} >{props.children}</Button>
+        <Button  {...props}  sx={{textTransform:'none !important'}} variant={"contained"} >{props.children}</Button>
 
     </>
 }
