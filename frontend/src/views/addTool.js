@@ -136,7 +136,7 @@ console.log(data)
 
       <Typography  variant="h5">
        {t("addtool.header")}      </Typography>
-       <GuideButton onClick={handleGuide} />
+       <Button onClick={handleGuide} sx={{textTransform:'none !important',marginLeft:"0.4em"}} variant="outlined" size="small"  >{t("guide")}</Button>
       </div>
       <FormProvider {...methods} >
         <form

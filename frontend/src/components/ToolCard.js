@@ -57,7 +57,7 @@ export default function ToolCard({ tool }) {
          
           <Link to={`/${tool.enum}`} >
             <CardContent className={classes.actionArea} >
-              <Typography sx={{ marginBottom: "5px" }} variant="h5" >
+              <Typography sx={{ marginBottom: "5px",fontWeight:'bold' }} variant="h5" >
                 {tool.general_info[lang].name}
               </Typography>
               <Divider />

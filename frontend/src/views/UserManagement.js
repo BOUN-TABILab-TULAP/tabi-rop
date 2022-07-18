@@ -77,10 +77,11 @@ export default function UserManagement() {
         {
             field: "Edit",width: 150, renderCell: (cellValues) => {
                 return (<Button variant="contained" 
+                sx={{textTransform:'none !important'}}
                     onClick={(event) => {
                         handleEdit(event, cellValues);
                     }}>
-                    Edit</Button>);
+                   {t('edit')}</Button>);
             }
         },
         {
@@ -90,7 +91,7 @@ export default function UserManagement() {
                         handleDelete(event, cellValues);
                     }}
                 >
-                    Delete </Button>);
+                    {t('delete')} </Button>);
             }
         }
     ]
@@ -106,7 +107,7 @@ export default function UserManagement() {
                     rowsPerPageOptions={[20]}
                 />
             </div>}
-        <Button onClick={(event)=>{addUser()}}>{t("adduser")}</Button>
+        <Button sx={{textTransform:'none !important'}} onClick={(event)=>{addUser()}}>{t("adduser")}</Button>
         <div >
             <Dialog 
                 fullScreen={fullScreen}
@@ -124,7 +125,7 @@ export default function UserManagement() {
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose} autoFocus>
+                    <Button  sx={{textTransform:'none !important'}} onClick={handleClose} autoFocus>
                     {t("exit")}
                     </Button>
                 </DialogActions>

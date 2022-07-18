@@ -21,7 +21,7 @@ export default function GuideButton(props) {
     const classes = useStyles()
     return <>
 
-        <Button {...props} variant="outlined" size="small" sx={{marginLeft:"0.4em"}} >{t("guide")}</Button>
+        <Button {...props} sx={{textTransform:'none !important'}} variant="outlined" size="small"  >{t("guide")}</Button>
     </>
 }
 

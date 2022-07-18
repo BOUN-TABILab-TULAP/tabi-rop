@@ -39,7 +39,7 @@ export default function FeedbackButton(props) {
     const classes = useStyles()
     return <>
 
-        <Button {...props} variant="contained"  startIcon={<FeedbackIcon />} className={!fullScreen?classes.floating_button:classes.responsiveButton}  sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>{t("feedback.text.label")}</Button>
+        <Button sx={{textTransform:'none !important'}} {...props} variant="contained"  startIcon={<FeedbackIcon />} className={!fullScreen?classes.floating_button:classes.responsiveButton}  sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>{t("feedback.text.label")}</Button>
     </>
 }
 

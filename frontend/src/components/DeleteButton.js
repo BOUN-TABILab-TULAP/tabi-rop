@@ -22,7 +22,7 @@ export default function DeleteButton(props) {
             <div></div>
             <div></div> <Button 
                 variant="contained"
-                sx={{ mt: 3, mb: 2 }} className={classes.button}>{props.children}</Button>
+                sx={{ mt: 3, mb: 2,textTransform:'none !important' }} className={classes.button}>{props.children}</Button>
         </div>
     </>
 }

@@ -65,7 +65,7 @@ export default function InputInfo({ inputcontroller }) {
                         
                         <NestedExampleArray nestIndex={index} />
                         <Divider />
-                        <Button type="button" disabled={inputcontroller.fields.length == 1} onClick={() => inputcontroller.remove(index)}>
+                        <Button sx={{textTransform:'none !important'}} type="button" disabled={inputcontroller.fields.length == 1} onClick={() => inputcontroller.remove(index)}>
                             {t("deletebutton")}
                         </Button>
                     </Box>
@@ -73,7 +73,7 @@ export default function InputInfo({ inputcontroller }) {
                 );
 
             })}
-            <Button type="button"
+            <Button type="button" sx={{textTransform:'none !important'}}
                 onClick={() => { inputcontroller.append({ type: "", title: "", json_field: "", example: [] }); }}>
                 {t("addbutton")}
             </Button>

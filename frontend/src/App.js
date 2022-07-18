@@ -19,7 +19,7 @@ import About from './views/About.js';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useLocation } from 'react-router-dom';
 import NotFound from "./components/NotFound"
-
+import { UserContext } from './userContext';
 const useStyles = makeStyles({
   mainContainer: {
     marginLeft: "300px",
@@ -84,6 +84,7 @@ function App(props) {
   const handleFeedback = () => {
     setOpenFeedback(true)
   }
+  const { user, logout } = useContext(UserContext);
   return (
     <>
 
@@ -92,7 +93,7 @@ function App(props) {
 
           <Box >
             <Navigation handleDrawerToggle={handleDrawerToggle} />
-            {!(isMainPage  && !mobileScreen)&&<MyDrawer handleDrawerToggle={handleDrawerToggle} mobileOpen={mobileOpen} drawerWidth={drawerWidth} tools={tools} />}       
+            {!(isMainPage && !mobileScreen) && <MyDrawer handleDrawerToggle={handleDrawerToggle} mobileOpen={mobileOpen} drawerWidth={drawerWidth} tools={tools} />}
           </Box>
 
           <Box elevation="3"
@@ -102,10 +103,11 @@ function App(props) {
             <Routes >
 
               <Route exact path="/login" element={<Login />} />
-              <Route exact path="/manageUsers" element={<UserManagement />} />
-              <Route exact path="/manageTools" element={<ToolManagement />} />
-              <Route exact path="/addTool" element={<AddTool />} />
-              <Route exact path="/panel" element={<AdminPage />} />
+
+              {user && <Route exact path="/manageUsers" element={<UserManagement />} />}
+              {user && <Route exact path="/manageTools" element={<ToolManagement />} />}
+              {user && <Route exact path="/addTool" element={<AddTool />} />}
+              {user&& <Route exact path="/panel" element={<AdminPage />} />}
               <Route exact path="/about" element={<About />} />
               {tools === undefined | tools.length === 0 ? <Route exact path="/Login" element={<Login />} /> :
                 tools.map((tool, index) => {

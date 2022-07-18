@@ -3,11 +3,11 @@ import * as React from 'react';
 import { makeStyles } from '@mui/styles';
 import { Card, CardContent, Typography,CardMedia, CardActions,Button } from '@mui/material/';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
-
-
+import InfoIcon from '@mui/icons-material/Info';
+import { useTranslation } from 'react-i18next';
 const useStyles = makeStyles({
   card: {
-    width: "200px",
+    width: "22em",
     marginLeft: "0.7em",
     marginBottom: "0.2em",
     padding:"0.2em",
@@ -19,14 +19,16 @@ const useStyles = makeStyles({
 
   },
   media:{
-      width: '10em !important',
+      width: '150px !important',
+      height: '150px !important',
       borderRadius: '50%',
   }
 
 });
 
 export default function DeveloperCard({developer}) {
-  
+  const { t, i18n } = useTranslation()
+  const lang = i18n.language
   const classes = useStyles()
   
 
@@ -37,20 +39,21 @@ export default function DeveloperCard({developer}) {
       className={classes.media}
         component="img"
         image={developer.image}
+        sx={{width:"100px",height:"100px"}}
       />
       <CardContent className={classes.content}>
         <Typography  variant="h5" align="center" component="div">
           {developer.name}
         </Typography>
         <Typography variant="body2"  align="center" color="text.secondary">
-          {developer.status}
+          {developer.info}
         </Typography>
         
       </CardContent>
       <CardActions>
         <a href={developer.linkedin}>
-      <Button variant="outlined" startIcon={<LinkedInIcon />}>
-    LinkedIn
+      <Button sx={{textTransform:'none !important'}} variant="outlined" startIcon={<InfoIcon />}>
+    {t('learnmore')}
 </Button>
         </a>
       </CardActions>

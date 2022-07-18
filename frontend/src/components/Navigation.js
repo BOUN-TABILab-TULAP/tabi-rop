@@ -102,7 +102,7 @@ export default function Navigation({ handleDrawerToggle }) {
             </Button>
           </a> */}
           <a href="/">
-            <Button variant="text" sx={{ color: "white", fontSize: "16px", fontWeight: "bold" }}>
+            <Button variant="text" sx={{ color: "white", fontSize: "16px", fontWeight: "bold",textTransform:'none !important' }}>
              {!breakpoint?"TULAP - Turkish Language Processing Platform":"TULAP"}
             </Button>
           </a>
@@ -111,8 +111,8 @@ export default function Navigation({ handleDrawerToggle }) {
       </div>
       <div className={classes.wrap}>
       <Link to="/about">
-      <Button variant="text" sx={{ color: "white" }}>
-             About
+      <Button variant="text" sx={{ color: "white",textTransform:'none !important' }}>
+             {t('about')}
             </Button>
             </Link>
         {!breakpoint?<>
