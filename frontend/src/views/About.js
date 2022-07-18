@@ -58,8 +58,8 @@ const developers = [
     {
         "name": "Suzan Üsküdarlı",
         "info": "Associate Professor",
-        'linkedin': "https://www.linkedin.com/in/suzanuskudarli/",
-        'image':"https://media-exp1.licdn.com/dms/image/C4E03AQGOt48wKCVf0Q/profile-displayphoto-shrink_400_400/0/1516273377753?e=1663200000&v=beta&t=7tKubqB6OR4U1zCjevQrqQlp5-ZqAwQ_18bVeB_4TFw"
+        'linkedin': "http://www.cmpe.boun.edu.tr/~uskudarli",
+        'image':"https://tulap.cmpe.boun.edu.tr/staticFiles/people/suzan-uskudarli.png"
     },
     {
         "name": "Arzucan Özgür",
@@ -71,7 +71,7 @@ const developers = [
         "name": "Balkız Öztürk",
         "info": "Assistant Professor",
         'linkedin': "https://www.linkedin.com/in/balkiz-ozturk-03417b57/",
-        'image':""
+        'image':"https://linguistics.boun.edu.tr/sites/linguistics.boun.edu.tr/files/facultyphoto/Ozturk.png"
     },
     {
         "name": "Onur Güngör",
@@ -83,7 +83,7 @@ const developers = [
         "name": "Furkan Akkurt",
         "info": "Senior Computer Engineering Student",
         'linkedin': "https://www.linkedin.com/in/salih-furkan-akkurt/",
-        'image':"https://media-exp1.licdn.com/dms/image/C4D03AQF0UQJU4jS6Ng/profile-displayphoto-shrink_400_400/0/1654523554021?e=1663200000&v=beta&t=yZahUP15NvSixoJCN07qQ5p5XQ5ZztIhHvvU8tSMGmY"
+        'image':"https://tulap.cmpe.boun.edu.tr/staticFiles/people/furkan-akkurt.jpg"
     },
     {
         "name": "Büşra Marşan",
