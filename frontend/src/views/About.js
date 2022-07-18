@@ -52,7 +52,7 @@ const developers = [
         and Bioinformatics Lab at the department. He teaches undergraduate and graduate level courses\
         on the topics of artificial intelligence, natural language processing, machine translation, and\
         algorithm analysis.",
-        'linkedin': "https://www.linkedin.com/in/tunga-gungor-42ab3335",
+        'linkedin': "https://www.cmpe.boun.edu.tr/~gungort/",
         'image':"https://tulap.cmpe.boun.edu.tr/staticFiles/people/tunga-gungor.jpg"
     },
     {
@@ -64,7 +64,7 @@ const developers = [
     {
         "name": "Arzucan Özgür",
         "info": "Arzucan Özgür is a faculty member at the Computer Engineering Department of Boğaziçi University and a member of the Text Analytics and Bioinformatics (TABI) Lab. She received her PhD in computer science and engineering from the University of Michigan in 2010. She holds a MS and a BS degree in computer engineering from Boğaziçi University. Her research interests include natural language processing and bioinformatics. Her recent focus has been on developing methods for processing and understanding textual data in natural (human) languages or in the sequences of biomolecules.",
-        'linkedin': "https://www.linkedin.com/in/arzucan-ozgur-149b593b",
+        'linkedin': "https://www.cmpe.boun.edu.tr/~ozgur/",
         'image':"https://tulap.cmpe.boun.edu.tr/staticFiles/people/arzucan-ozgur.jpg"
     },
     {
