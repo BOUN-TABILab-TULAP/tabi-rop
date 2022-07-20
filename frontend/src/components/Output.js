@@ -5,7 +5,7 @@ import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import { makeStyles } from '@mui/styles';
-import { Divider, Typography, MenuItem, Select, FormHelperText, TextField, FormControl, InputLabel, createStyles, Button } from '@mui/material';
+import { Divider, Typography, MenuItem, Select, FormHelperText, TextField, FormControl, InputLabel, createStyles, Button, TableHead, TableBody, TableRow, TableCell, Table,TableContainer } from '@mui/material';
 import { useForm, useFieldArray, Controller } from "react-hook-form";
 import toolsApi from '../services/toolsApi';
 import SubmitButton from './SubmitButton';
@@ -21,7 +21,7 @@ const useStyles = makeStyles({
         position: "relative"
     },
     result: {
-        paddingLeft: "10px",
+        paddingLeft: "0px",
         marginTop: "0px"
     }
 })
@@ -50,8 +50,37 @@ export default function Output({ result }) {
                                 <ReactJson displayDataTypes={false} src={(result[key][type])} /></div></TabPanel> : <></>}
                             {type === "brat" ? <TabPanel value={`${index}`}>
                                 <Brat conll={result[key][type]} /></TabPanel> : <></>}
-                            {type == "raw" ? <TabPanel value={`${index}`}>
-                                <Typography sx={{ whiteSpace: 'pre-line' }} style={{whiteSpace:"pre-wrap"}} >{result[key][type]}</Typography></TabPanel> : <></>}
+                            {type === "raw" ? <TabPanel value={`${index}`}>
+                                <Typography sx={{ whiteSpace: 'pre-line' }} style={{ whiteSpace: "pre-wrap" }} >{result[key][type]}</Typography></TabPanel> : <></>}
+                            {type === "mwe" ? <TabPanel value={`${index}`}>
+                                <TableContainer>
+
+                                    <Table size="small" aria-label="simple table">
+                                        {result[key][type].split("\n").map((key, index) => {
+                                            if(key===""|| key==="\n")
+                                            return <></>
+                                            if (index === 0) {
+                                                return <TableHead>
+                                                    <TableRow>
+                                                        {key.split("\t").map((row, rowIndex) => {
+                                                            return  <TableCell >{row}</TableCell>
+                                                        })}
+                                                    </TableRow>
+                                                </TableHead>
+                                            }
+                                            else{
+                                                return <TableRow>
+                                                    {key.split("\t").map((row, rowIndex) => {
+                                                        return <TableCell >{row}</TableCell>
+                                                    })}
+                                                </TableRow>
+                                            }
+                                        })
+                                    }
+                                    </Table> 
+                                    </TableContainer>
+                                
+                            </TabPanel> : <></>}
                         </>
                     })}
 
