@@ -57,6 +57,10 @@ export default function ToolUse({ tool }) {
     const { register, handleSubmit, setValue, formState: { errors }, reset } = useForm({});
     const { t, i18n } = useTranslation()
     const lang = i18n.language
+    React.useEffect(()=>{
+        document.title = tool.general_info[lang].name ?? "TULAP Demo"
+    },[lang, tool])
+
     React.useEffect(() => {
         // setSample(false)
         setValue(0)

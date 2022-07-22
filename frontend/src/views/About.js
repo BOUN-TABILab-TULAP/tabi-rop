@@ -113,8 +113,8 @@ export default function About() {
     const { t, i18n } = useTranslation()
     const lang = i18n.language
     React.useEffect(() => {
-
-    }, []);
+        document.title = t('about')
+    }, [lang]);
     return <>
         
             <Typography variant='h3' align='center' className={classes.header} >
