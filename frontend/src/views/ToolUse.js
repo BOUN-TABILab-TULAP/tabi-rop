@@ -127,7 +127,7 @@ export default function ToolUse({ tool }) {
 
                 <a href={tool.git_address}>
                     <Button variant="outlined" sx={{textTransform:'none !important'}}>
-                        Github Link
+                        GitHub Link
 
                     </Button>
                 </a>

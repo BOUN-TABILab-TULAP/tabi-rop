@@ -95,7 +95,7 @@
     "demo.clarin":"Tulap Address",
     "textarea":"Please write your input",
     "about": "About us ",
-    "aboutcontent":"TULAP (Turkish Language Processing Platform) is a platform that includes language resources prepared by students and natural language processing developers at Boğaziçi University Computer Engineering and Linguistics departments. The language resources are formed of software tools and corpora. The software tools have been developed as open source. The tools that execute via docker in the Demo site were put into use with API support for researchers and language processing people. Users can give input in the format specified in the tools’ pages and get the output on the screen. At the same time they can  copy the tools from their github links and can execute through docker easily. ",
+    "aboutcontent":"TULAP (Turkish Language Processing Platform) is a platform that includes language resources prepared by students and natural language processing developers at Boğaziçi University Computer Engineering and Linguistics departments. The language resources are formed of software tools and corpora. The software tools have been developed as open source. The tools that execute via docker in the Demo site were put into use with API support for researchers and language processing people. Users can give input in the format specified in the tools’ pages and get the output on the screen. At the same time they can  copy the tools from their GitHub links and can execute through docker easily. ",
     "developerheader": "Our team",
     "developerdescription":"We have developed the platform and modify the older tools during 9 months as a team. ",
     "tooldeveloperheader":"Tool developers",
