@@ -123,6 +123,7 @@ export default function ToolUse({ tool }) {
 
             <Typography className={classes.explanation} >{tool.general_info[lang].description}</Typography>
             <Divider />
+            <Alert sx={{marginTop:"1em"}} severity="info">{t('docker.alert')}</Alert>
             <div className={classes.buttons}>
 
                 <a href={tool.git_address}>
@@ -198,7 +199,10 @@ export default function ToolUse({ tool }) {
                             </div>
                         })}
 
-                        {!loading ? <SubmitButton type="submit" onClick={handleSubmit}></SubmitButton> : <CustomLoadingButton />}
+                        <div>
+                       
+                            {!loading ? <SubmitButton type="submit" onClick={handleSubmit}></SubmitButton> : <CustomLoadingButton />}
+                            </div>
                     </form>
                     <Box>
                         {result !== undefined ? <Output result={result} ></Output> : <></>}
