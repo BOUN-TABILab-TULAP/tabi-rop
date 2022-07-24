@@ -101,7 +101,9 @@
     "readmore":"Devamını Oku",
     "guide":"Yardım",
     "field.description.eng":"Aşağıdaki alanları İngilizce olarak doldurunuz",
-    "field.description.tr":"Aşağıdaki alanları Türkçe olarak doldurunuz"
+    "field.description.tr":"Aşağıdaki alanları Türkçe olarak doldurunuz",
+    "docker.alert":" Aracı kendi ortamınızda çalıştırmak için Docker kullanabilirsiniz. Daha fazla bilgi için GitHub sayfasını inceleyebilirsiniz "
+
     
    
    
