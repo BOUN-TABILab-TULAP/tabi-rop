@@ -36,12 +36,12 @@ const developers = [
         "name": "Muhammet Şen",
         "info": "Senior Computer Engineering Student",
         'linkedin': "https://www.linkedin.com/in/muhammetssen",
-        'image':"https://media-exp2.licdn.com/dms/image/C5603AQFPl4NldkjhJQ/profile-displayphoto-shrink_800_800/0/1657206017736?e=1662595200&v=beta&t=1H5U9u04Qg8iGvjS-qMUC4slK8yPWD3HSJYwt8iY6KY"
+        'image':"https://tulap.cmpe.boun.edu.tr/staticFiles/people/muhammet-sen.jpg"
     }, {
         "name": "Merve Gürbüz",
         "info": "Senior Computer Engineering Student",
         'linkedin': "https://www.linkedin.com/in/mervegürbüz",
-        'image':"https://media-exp2.licdn.com/dms/image/C4E03AQHBABNvErfEqQ/profile-displayphoto-shrink_800_800/0/1644856722303?e=1662595200&v=beta&t=uD6d453SrgIBX62uH_83fhG_drJZxpH2kuTz4x42Dps"
+        'image':"https://tulap.cmpe.boun.edu.tr/staticFiles/people/merve-gurbuz.jpg"
     }, {
         "name": "Tunga Güngör",
         // eslint-disable-next-line no-multi-str
@@ -71,13 +71,13 @@ const developers = [
         "name": "Balkız Öztürk",
         "info": "Assistant Professor",
         'linkedin': "https://www.linkedin.com/in/balkiz-ozturk-03417b57/",
-        'image':"https://linguistics.boun.edu.tr/sites/linguistics.boun.edu.tr/files/facultyphoto/Ozturk.png"
+        'image':"https://tulap.cmpe.boun.edu.tr/staticFiles/people/balkiz-ozturk.jpg"
     },
     {
         "name": "Onur Güngör",
         "info": "",
         'linkedin': "https://www.linkedin.com/in/onurgungor/",
-        'image':"https://media-exp1.licdn.com/dms/image/C5603AQFJd1TwULVZrg/profile-displayphoto-shrink_400_400/0/1516344771778?e=1663200000&v=beta&t=_3ze-0wQqv4Do9oW65gWbIsmYa8PuElO0XaEaJTEF4w"
+        'image':"https://tulap.cmpe.boun.edu.tr/staticFiles/people/onur-gungor.jpg"
     },
     {
         "name": "Furkan Akkurt",
@@ -89,7 +89,7 @@ const developers = [
         "name": "Büşra Marşan",
         "info": "",
         'linkedin': "https://www.linkedin.com/in/busramarsan/",
-        'image':"https://media-exp1.licdn.com/dms/image/C5603AQGXxMyfbu8orw/profile-displayphoto-shrink_400_400/0/1517534721080?e=1663200000&v=beta&t=vrViB7djZ94o4pS1i6GhGO0BHXIXAVdFlK22tFRPf9I"
+        'image':"https://tulap.cmpe.boun.edu.tr/staticFiles/people/busra-marsan.jpg"
     },
 
 ]
