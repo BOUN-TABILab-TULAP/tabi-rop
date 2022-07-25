@@ -66,7 +66,8 @@ export default function ToolCard({ tool }) {
        
         
                 {((tool.general_info[lang].description).length > width) ?
-                  <span>{tool.general_info[lang].description.substr(0, width)}... {<a href={`/demo/${tool.enum}`} style={{ color: "#1876D1" }}>{t('readmore')}</a>}</span> :
+                  // <span>{tool.general_info[lang].description.substr(0, width)}... {<a href={`/demo/${tool.enum}`} style={{ color: "#1876D1" }}>{t('readmore')}</a>}</span> :
+                  <span>{tool.general_info[lang].description.substr(0, width)}...</span> :
                   <p>{(tool.general_info[lang].description)}</p>}
               </Box>
 
