@@ -6,6 +6,10 @@ import ToolCard from '../components/ToolCard';
 import { useTranslation } from "react-i18next";
 export default function MainPage({tools}) {
   const {t,i18n}=useTranslation()
+  let lang = i18n.language
+  React.useEffect(()=>{
+    document.title = t('homepage')
+  },[lang])
 
   return (
    <>
