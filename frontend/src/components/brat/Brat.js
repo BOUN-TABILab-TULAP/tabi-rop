@@ -92,25 +92,25 @@ var colldata = {
         },
         {
             'type': 'PER',
-            'labels': ['Per'],
+            'labels': ['PER'],
             'bgColor': '#F07800',
             'borderColor': 'lighten'
         },
         {
             'type': 'ORG',
-            'labels': ['Org'],
+            'labels': ['ORG'],
             'bgColor': '#729FCF',
             'borderColor': 'lighten'
         },
         {
             'type': 'LOC',
-            'labels': ['Loc'],
+            'labels': ['LOC'],
             'bgColor': '#EDD400',
             'borderColor': 'lighten'
         },
         {
             'type': 'MISC',
-            'labels': ['Misc'],
+            'labels': ['MISC'],
             'bgColor': '#B78FB3',
             'borderColor': 'lighten'
         },
