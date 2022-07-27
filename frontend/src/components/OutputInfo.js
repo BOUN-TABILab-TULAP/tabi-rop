@@ -40,14 +40,14 @@ export default function InputInfo({ outputcontroller }) {
             <Grid container spacing={2}>
               <Grid item xs={4}>
 
-                <CustomInput label={t("name.outputLabel")} name={`output_fields_temp.${index}.name`} ></CustomInput>
+                <CustomInput label={t("name.outputLabel")} name={`output_fields_temp[${index}].name`} ></CustomInput>
               </Grid>
               <Grid item xs={4}>
 
                 <CustomInput label={t("json.label")} name={`output_fields_temp[${index}].json_field`} ></CustomInput>
               </Grid>
               <Grid item xs={4}>
-                <CustomSelect label={t("output.type")} name={`output_fields_temp.${index}.output_type`} options={{ "TokenizedSentence": "Tokenized Sentence",
+                <CustomSelect label={t("output.type")} name={`output_fields_temp[${index}].output_type`} options={{ "TokenizedSentence": "Tokenized Sentence",
                                     "ListOfListOfMorphFeatList": "List of MorphFeatList",
                                     "RawSentence": "Raw Sentence",
                                     "CoNLL": "CoNLL",
