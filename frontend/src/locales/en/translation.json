@@ -42,7 +42,7 @@
     "endpoint.name": "endpoint",
     "endpoint.required": true,
     "contact.label": "Contact e-mail",
-    "contact.placeholder": "tabilab@boun.edu.tr",
+    "contact.placeholder": "tulap@boun.edu.tr",
     "contact.helper": "please write a contact mail of your API",
     "contact.name": "contact_mail",
     "contact.required": true,
