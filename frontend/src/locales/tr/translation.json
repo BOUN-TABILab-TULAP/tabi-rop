@@ -22,6 +22,7 @@
     "git.name": "git_address",
     "git.required": true,
     "name.label": "Konu ismi",
+    "name.inputLabel": "Girdi ismi",
     "name.placeholder": "Boun Pars",
     "name.helper": "Tool ismini giriniz",
     "name.name": "name",
