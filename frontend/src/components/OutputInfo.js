@@ -51,7 +51,8 @@ export default function InputInfo({ outputcontroller }) {
                                     "ListOfListOfMorphFeatList": "List of MorphFeatList",
                                     "RawSentence": "Raw Sentence",
                                     "CoNLL": "CoNLL",
-                                    "JSON": "JSON"}} > </CustomSelect>
+                                    "JSON": "JSON",
+                                    "BIO": "BIO"}} > </CustomSelect>
               </Grid>
               
             </Grid>
