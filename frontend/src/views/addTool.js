@@ -54,7 +54,7 @@ export default function AddTool({chosen}) {
   const methods = useForm({
     defaultValues: {
       input_fields_temp: [{ title: {"tr":"","en":""}, type: "", examples: [], json_field: "" }],
-      output_fields_temp: [{ title: "output", type: "sentence" ,json_field:""}],
+      output_fields_temp: [{ title: "Output", type: "RawSentence" ,json_field:""}],
     }
   });
   const inputcontroller = useFieldArray({
@@ -110,6 +110,7 @@ data["output_fields"]={}
     setToolSubmit(true);
 delete data["output_fields_temp"]
 delete data["input_fields_temp"]
+data['tulap_address'] = 'https://tulap.cmpe.boun.edu.tr/'
 console.log(data)
     let response = await toolsApi.addtool(data)
     if(response.success){
