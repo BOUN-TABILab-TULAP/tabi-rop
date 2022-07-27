@@ -40,7 +40,7 @@ export default function InputInfo({ outputcontroller }) {
             <Grid container spacing={2}>
               <Grid item xs={4}>
 
-                <CustomInput label={t("name.label")} name={`output_fields_temp.${index}.name`} ></CustomInput>
+                <CustomInput label={t("name.outputLabel")} name={`output_fields_temp.${index}.name`} ></CustomInput>
               </Grid>
               <Grid item xs={4}>
 
