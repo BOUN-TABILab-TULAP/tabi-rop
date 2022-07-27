@@ -42,10 +42,10 @@ export default function InputInfo({ inputcontroller }) {
                     <Box className={classes.step}>
                         <Grid container spacing={3}>
                                 <Grid item xs={4}>
-                                    <CustomInput label={`${t("name.label")} - Tr`} name={`input_fields_temp[${index}].title.tr`}  > </CustomInput>
+                                    <CustomInput label={`${t("name.inputLabel")} - Tr`} name={`input_fields_temp[${index}].title.tr`}  > </CustomInput>
                                 </Grid>
                                 <Grid item xs={4}>
-                                    <CustomInput label={`${t("name.label")} - En`} name={`input_fields_temp[${index}].title.en`}  > </CustomInput>
+                                    <CustomInput label={`${t("name.inputLabel")} - En`} name={`input_fields_temp[${index}].title.en`}  > </CustomInput>
                                 </Grid>
                         </Grid>
                         <Grid container spacing={2}>

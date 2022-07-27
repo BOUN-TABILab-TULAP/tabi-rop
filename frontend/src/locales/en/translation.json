@@ -22,6 +22,7 @@
     "git.name": "git_address",
     "git.required": true,
     "name.label": "Task name",
+    "name.inputLabel": "Input name",
     "name.placeholder": "Boun Pars",
     "name.helper": "please write your tool name",
     "name.name": "name",
