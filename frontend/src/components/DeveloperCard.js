@@ -2,7 +2,6 @@ import * as React from 'react';
 
 import { makeStyles } from '@mui/styles';
 import { Card, CardContent, Typography,CardMedia, CardActions,Button } from '@mui/material/';
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import InfoIcon from '@mui/icons-material/Info';
 import { useTranslation } from 'react-i18next';
 const useStyles = makeStyles({
@@ -27,8 +26,7 @@ const useStyles = makeStyles({
 });
 
 export default function DeveloperCard({developer}) {
-  const { t, i18n } = useTranslation()
-  const lang = i18n.language
+  const { t } = useTranslation()
   const classes = useStyles()
   
 

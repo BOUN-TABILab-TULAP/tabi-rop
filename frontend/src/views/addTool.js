@@ -1,25 +1,21 @@
+/* eslint-disable array-callback-return */
 import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-import { Divider, Typography, MenuItem, Select, TextField, FormControl, InputLabel, createStyles } from '@mui/material';
+import { Typography } from '@mui/material';
 import Container from '@mui/material/Container';
-import { ThemeProvider, useTheme, createTheme } from '@mui/material/styles';
 import { makeStyles } from '@mui/styles';
 import toolsApi from '../services/toolsApi.js';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
-import CustomInput from '../components/CustomInput.js';
 import { useForm, FormProvider, useFieldArray } from "react-hook-form";
-import CustomSelect from '../components/CustomSelect.js';
 import GeneralInfo from '../components/GeneralInfo.js';
 import InputInfo from '../components/InputInfo.js';
 import OutputInfo from '../components/OutputInfo.js';
 import GuideInfo from '../components/GuideInfo.js'
-import { Palette } from '@mui/icons-material';
 import GeneralButton from "../components/GeneralButton"
 import Guideline from "../components/Guideline"
-import GuideButton from "../components/GuideButton"
 import {useTranslation} from "react-i18next"
 import CustomLoadingButton from '../components/LoadingButton.js';
 const useStyles = makeStyles({
@@ -37,7 +33,7 @@ const useStyles = makeStyles({
   }
 
 });
-export default function AddTool({chosen}) {
+export default function AddTool() {
   const {t} = useTranslation()
   const [openGuide, setOpenGuide] = React.useState(false);
   const handleGuide = () => {
@@ -50,7 +46,6 @@ export default function AddTool({chosen}) {
     t('usage.info')
   ];
   const classes = useStyles();
-  const theme=useTheme()
   const methods = useForm({
     defaultValues: {
       input_fields_temp: [{ title: {"tr":"","en":""}, type: "", examples: [], json_field: "" }],
@@ -71,7 +66,7 @@ export default function AddTool({chosen}) {
    
     let input_values = data["input_fields_temp"]
     data["input_fields"]={}
-    input_values.map((key, index) => {
+    input_values.map((key) => {
       var json_field = key.json_field
      
       data["input_fields"][json_field] =
@@ -84,7 +79,7 @@ export default function AddTool({chosen}) {
     let output_values = data["output_fields_temp"]
 
 data["output_fields"]={}
-    output_values.map((key, index) => {
+    output_values.map((key) => {
       var json_field = key.json_field
      
       data["output_fields"][json_field] =
@@ -108,10 +103,9 @@ data["output_fields"]={}
   }
   
     setToolSubmit(true);
-delete data["output_fields_temp"]
-delete data["input_fields_temp"]
-data['tulap_address'] = 'https://tulap.cmpe.boun.edu.tr/'
-console.log(data)
+    delete data["output_fields_temp"]
+    delete data["input_fields_temp"]
+    data['tulap_address'] = 'https://tulap.cmpe.boun.edu.tr/'
     let response = await toolsApi.addtool(data)
     if(response.success){
       window.alert("tool added to the system")
@@ -123,10 +117,10 @@ console.log(data)
     setToolSubmit(false);
   }
   const [activeStep, setActiveStep] = React.useState(0);
-  const [completed, setCompleted] = React.useState({});
+  const [completed] = React.useState({});
   const handleNext = async () => {
     const isStepValid = await methods.trigger();
-    if (isStepValid && activeStep != steps.length - 1) setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    if (isStepValid && activeStep !== steps.length - 1) setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
   return (

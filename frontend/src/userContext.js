@@ -9,7 +9,6 @@ export const  UserProvider = ({ children }) => {
   
     // Login updates the user data with a username parameter
     const login = (user) => {
-      console.log(user)
       let tempUser={
         username: user.data.username,
         user_type:user.data.user_type,

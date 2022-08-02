@@ -1,8 +1,9 @@
+/* eslint-disable import/no-anonymous-default-export */
 import React from "react";
 import { useFieldArray } from "react-hook-form";
 import { useFormContext } from "react-hook-form";
 import CustomInput from "./CustomInput";
-import { Button, Grid, Box } from "@mui/material";
+import { Button, Grid } from "@mui/material";
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { makeStyles } from '@mui/styles';
@@ -18,16 +19,15 @@ const useStyles = makeStyles({
 export default ({ nestIndex }) => {
     const classes = useStyles()
     const {t}=useTranslation()
-    const { register, control, watch } = useFormContext();
+    const { control } = useFormContext();
     const { fields, remove, append } = useFieldArray({
         control,
         name: `input_fields_temp[${nestIndex}].examples`,
     });
-    if (fields.length == 0)  append()
+    if (fields.length === 0)  append()
     return (
         <div >
             {fields.map((item, k) => {
-                { console.log(item) }
                 return (
                     <Grid container spacing={2} className={classes.example} >
                         <Grid item xs={10}>
@@ -38,7 +38,7 @@ export default ({ nestIndex }) => {
                             />
                         </Grid>
                         <Grid xs={2}>
-                            <Button sx={{ marginLeft: "20px" }} disabled={fields.length == 1} type="button" onClick={() => remove(k)}>
+                            <Button sx={{ marginLeft: "20px" }} disabled={fields.length === 1} type="button" onClick={() => remove(k)}>
                                 <RemoveCircleOutlineIcon fontSize="large" />
                             </Button>
                         </Grid>

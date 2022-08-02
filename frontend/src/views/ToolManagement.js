@@ -1,8 +1,6 @@
 import * as React from 'react';
-import { makeStyles } from '@mui/styles';
-import { ThemeContext } from '@emotion/react';
 import Button from '@mui/material/Button'
-import { DataGrid, GridColDef, GridApi, GridCellValue } from '@mui/x-data-grid';
+import { DataGrid } from '@mui/x-data-grid';
 import AddTool from './addTool';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -12,11 +10,9 @@ import DialogTitle from '@mui/material/DialogTitle';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import toolsApi from '../services/toolsApi';
-import GeneralButton from '../components/GeneralButton';
 import {useTranslation} from "react-i18next"
-import { LoadingButton } from '@mui/lab';
 export default function ToolManagement() {
-  const {t,i18n}=useTranslation()
+  const {t}=useTranslation()
     const [open, setOpen] = React.useState(false);
     const [chosen, setChosen] = React.useState({});
     const [rows, setRows] = React.useState([])
@@ -28,7 +24,6 @@ export default function ToolManagement() {
         setOpen(true);
     };
     const handleClose = () => {
-        console.log("close")
         setOpen(false);
     };
     const handleRestart=async (event,cellValues)=>{

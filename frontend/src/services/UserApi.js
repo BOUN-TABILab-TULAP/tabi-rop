@@ -1,8 +1,6 @@
-import React from "react"
 export default class UserApi {
-  
 
-static async login(username, password) {
+  static async login(username, password) {
     var query = {
       username: username,
       password: password
@@ -15,7 +13,7 @@ static async login(username, password) {
     };
     const response = await fetch(process.env.REACT_APP_BACKEND + "/api/user/login", requestOptions);
     const data = await response.json();
-    if (response.status == 200) {
+    if (response.status === 200) {
       return {data,success:true}
     }
     return {message:data.message,success:false};
@@ -29,9 +27,8 @@ static async login(username, password) {
     };
 
     const response = await fetch(process.env.REACT_APP_BACKEND + "/api/users", requestOptions);
-    console.log(response)
     const data = await response.json();
-    if (response.status == 200) {
+    if (response.status === 200) {
       return {data,success:true}
     }
     return {message:data.message,success:false};
@@ -50,7 +47,7 @@ static async login(username, password) {
     try{
       const response = await fetch(process.env.REACT_APP_BACKEND + `/api/user/update/${user.id}`, requestOptions);
       const data = await response.json();
-      if (response.status == 200) {
+      if (response.status === 200) {
         return {data,success:true}
       }
       return {message:data.message,success:false};
@@ -73,7 +70,7 @@ static async login(username, password) {
       const response = await fetch(process.env.REACT_APP_BACKEND + `/api/user/register`, requestOptions);
       
       const data = await response.json();
-      if (response.status == 200) {
+      if (response.status === 200) {
         return {data,success:true}
       }
       return {message:data.message,success:false};
@@ -94,7 +91,7 @@ static async login(username, password) {
 
       const response = await fetch(process.env.REACT_APP_BACKEND + `/api/user/delete/${id}`, requestOptions);
       const data = await response.json();
-      if (response.status == 200) {
+      if (response.status === 200) {
         return {data,success:true}
       }
       return {message:data.message,success:false};
@@ -115,7 +112,7 @@ static async login(username, password) {
 
       const response = await fetch(process.env.REACT_APP_BACKEND + `/api/feedback`, requestOptions);
       const data = await response.json();
-      if (response.status == 200) {
+      if (response.status === 200) {
         return {data,success:true}
       }
       return {message:data.message,success:false};

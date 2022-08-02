@@ -108,14 +108,11 @@ export default function ToolUse({ tool }) {
 
         head_script.onload = () => {
             document.body.appendChild(loader_script);
-            console.log("Brat header script is loaded");
         };
 
         loader_script.onload = () => {
-            console.log("Brat loader script is loaded.");
         }
         if (document.getElementById("headjs") === null) {
-            console.log("headjs loading");
             document.head.appendChild(head_script);
         }
 

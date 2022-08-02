@@ -1,16 +1,8 @@
 import * as React from 'react';
-import { useLocation, Link } from 'react-router-dom';
-import div from '@mui/material/Box';
-import { Box, Tab, Grid, FormGroup, FormControlLabel, Checkbox } from '@mui/material';
-import TabContext from '@mui/lab/TabContext';
-import TabList from '@mui/lab/TabList';
-import TabPanel from '@mui/lab/TabPanel';
 import { makeStyles } from '@mui/styles';
 import { Divider, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import Alert from '@mui/material/Alert';
 import DeveloperCard from '../components/DeveloperCard';
-import InfoIcon from '@mui/icons-material/Info';
 const useStyles = makeStyles({
     header: {
         paddingBottom: '0.2em'
@@ -129,11 +121,10 @@ const dataset_provider_list = [
 export default function About() {
 
     const classes = useStyles();
-    const { t, i18n } = useTranslation()
-    const lang = i18n.language
+    const { t } = useTranslation()
     React.useEffect(() => {
         document.title = t('about')
-    }, [lang]);
+    }, [t]);
     return <>
 
             <Typography variant='h3' align='center' className={classes.header} >
@@ -148,7 +139,7 @@ export default function About() {
 
             <div className={classes.wrapper}>
 
-                {developers.map((developer, index) => {
+                {developers.map((developer) => {
                     return (
                         <DeveloperCard  developer={developer} />
                     )

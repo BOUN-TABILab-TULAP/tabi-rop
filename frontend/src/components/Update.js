@@ -1,6 +1,6 @@
 import React from "react";
-import { useForm, FormProvider, useFormContext } from "react-hook-form";
-import { Divider, Typography, MenuItem, Select,Button, TextField, FormControl, InputLabel, createStyles, LinearProgress } from '@mui/material';
+import { useForm, FormProvider } from "react-hook-form";
+import { LinearProgress } from '@mui/material';
 import CustomInput from "./CustomInput"
 import UserApi from "../services/UserApi";
 import CustomSelect from "./CustomSelect";
@@ -13,7 +13,6 @@ export default function Update({user}) {
   const methods = useForm();
   const onSubmit = async data => {
     setWait(true)
-    console.log("user ",user)
       data["id"]=user.id
       const response=await UserApi.update({user:data})
       if(response.success){
@@ -45,6 +44,7 @@ export default function Update({user}) {
    });
    const classes = useStyles();
   
+  // eslint-disable-next-line no-unused-vars
   const {  formState: { errors } } = useForm();
   return (
     

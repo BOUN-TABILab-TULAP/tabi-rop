@@ -17,9 +17,7 @@ async function postQuery(uri, query) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(query),
     };
-    console.log(uri);
     const response = await fetch(uri, requestOptions);
-    console.log(response);
     const data = await response.json();
     return {data: data, status: response.status};
   }
@@ -41,9 +39,7 @@ async function postQuery(uri, query) {
       credentials: 'include',
       headers: { "Content-Type": "application/json" },
     };
-    console.log(uri);
     const response = await fetch(uri, requestOptions);
-    console.log(response);
     const data = await response.json();
     return {data: data, status: response.status};
   }
