@@ -38,7 +38,7 @@ const developers = [
         lastName: "Gürbüz",
         affiliation:"Undergraduate Student",
         department:"Department of Computer Engineering",
-        info: "Core Devper of TULAP",
+        info: "Core Developer of TULAP",
         linkedin: "https://www.linkedin.com/in/mervegürbüz",
         image:"https://tulap.cmpe.boun.edu.tr/staticFiles/people/merve-gurbuz.jpg"
     }, {
