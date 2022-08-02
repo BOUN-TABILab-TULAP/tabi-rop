@@ -50,6 +50,7 @@ services:
   frontend:
     build:
       context: ./frontend
+      dockerfile: Dockerfile.dev
     container_name: frontend
     hostname: frontend
     ports:
