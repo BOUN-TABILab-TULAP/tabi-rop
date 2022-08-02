@@ -33,61 +33,69 @@ const useStyles = makeStyles({
 });
 const developers = [
     {
-        "name": "Muhammet Şen",
-        "info": "Undergraduate Student of Department of Computer Engineering, Core Developer of TULAP",
+        "firstName": "Muhammet",
+        "lastName": "Şen",
+        "info": "Core Developer of TULAP, Undergraduate Student of Department of Computer Engineering",
         'linkedin': "https://www.linkedin.com/in/muhammetssen",
         'image':"https://tulap.cmpe.boun.edu.tr/staticFiles/people/muhammet-sen.jpg"
     }, {
-        "name": "Merve Gürbüz",
-        "info": "Undergraduate Student of Department of Computer Engineering, Core Developer of TULAP",
+        "firstName": "Merve",
+        "lastName": "Gürbüz",
+        "info": "Core Developer of TULAP, Undergraduate Student of Department of Computer Engineering",
         'linkedin': "https://www.linkedin.com/in/mervegürbüz",
         'image':"https://tulap.cmpe.boun.edu.tr/staticFiles/people/merve-gurbuz.jpg"
     }, {
-        "name": "Tunga Güngör",
-        // eslint-disable-next-line no-multi-str
+        "firstName": "Tunga",
+        "lastName": "Güngör",
         "info": "Faculty of Department of Computer Engineering",
         'linkedin': "https://www.cmpe.boun.edu.tr/~gungort/",
         'image':"https://tulap.cmpe.boun.edu.tr/staticFiles/people/tunga-gungor.jpg"
     },
     {
-        "name": "Suzan Üsküdarlı",
+        "firstName": "Suzan",
+        "lastName": "Üsküdarlı",
         "info": "Faculty of Department of Computer Engineering",
         'linkedin': "http://www.cmpe.boun.edu.tr/~uskudarli",
         'image':"https://tulap.cmpe.boun.edu.tr/staticFiles/people/suzan-uskudarli.png"
     },
     {
-        "name": "Arzucan Özgür",
+        "firstName": "Arzucan",
+        "lastName": "Özgür",
         "info": "Faculty of Department of Computer Engineering",
         'linkedin': "https://www.cmpe.boun.edu.tr/~ozgur/",
         'image':"https://tulap.cmpe.boun.edu.tr/staticFiles/people/arzucan-ozgur.jpg"
     },
     {
-        "name": "Balkız Öztürk",
+        "firstName": "Balkız",
+        "lastName": "Öztürk",
         "info": "Faculty of Department of Linguistics",
         'linkedin': "https://www.linkedin.com/in/balkiz-ozturk-03417b57/",
         'image':"https://tulap.cmpe.boun.edu.tr/staticFiles/people/balkiz-ozturk.jpg"
     },
     {
-        "name": "Onur Güngör",
+        "firstName": "Onur",
+        "lastName": "Güngör",
         "info": "Faculty of Department of Computer Engineering",
         'linkedin': "https://www.linkedin.com/in/onurgungor/",
         'image':"https://tulap.cmpe.boun.edu.tr/staticFiles/people/onur-gungor.jpg"
     },
     {
-        "name": "Furkan Akkurt",
+        "firstName": "Furkan",
+        "lastName": "Akkurt",
         "info": "Undergraduate Student of Department of Computer Engineering",
         'linkedin': "https://www.linkedin.com/in/salih-furkan-akkurt/",
         'image':"https://tulap.cmpe.boun.edu.tr/staticFiles/people/furkan-akkurt.jpg"
     },
     {
-        "name": "Büşra Marşan",
+        "firstName": "Büşra",
+        "lastName": "Marşan",
         "info": "Graduate Student of Department of Linguistics",
         'linkedin': "https://www.linkedin.com/in/busramarsan/",
         'image':"https://tulap.cmpe.boun.edu.tr/staticFiles/people/busra-marsan.jpg"
     },
 
 ]
-developers.sort((a,b) => a.name.localeCompare(b.name))
+developers.sort((a,b) => a.firstName.localeCompare(b.firstName)).sort((a,b) => a.lastName.localeCompare(b.lastName))
 
 const tool_provider_list = [
     {"name":"Abdullatif Köksal"},
@@ -146,6 +154,7 @@ export default function About() {
                     )
                 })}
             </div>
+            <br />
             <Typography> {t('resource_provider_content')}</Typography>
             <Typography variant='h4' align='center' className={classes.header}>{t('tool_provider_header')}</Typography>
            <ul>

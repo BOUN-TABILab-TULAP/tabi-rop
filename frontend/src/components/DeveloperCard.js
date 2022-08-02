@@ -43,7 +43,7 @@ export default function DeveloperCard({developer}) {
       />
       <CardContent className={classes.content}>
         <Typography  variant="h5" align="center" component="div">
-          {developer.name}
+          {`${developer.firstName} ${developer.lastName}`}
         </Typography>
         <Typography variant="body2"  align="center" color="text.secondary">
           {developer.info}
