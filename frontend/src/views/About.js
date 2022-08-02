@@ -23,67 +23,86 @@ const useStyles = makeStyles({
         padding: "0.9em"
     }
 });
+
 const developers = [
     {
-        "firstName": "Muhammet",
-        "lastName": "Şen",
-        "info": "Undergraduate Student of Department of Computer Engineering, Core Developer of TULAP",
-        'linkedin': "https://www.linkedin.com/in/muhammetssen",
-        'image':"https://tulap.cmpe.boun.edu.tr/staticFiles/people/muhammet-sen.jpg"
+        firstName: "Muhammet",
+        lastName: "Şen",
+        affiliation:"Undergraduate Student",
+        department:"Department of Computer Engineering",
+        info: "Core Developer of TULAP",
+        linkedin: "https://www.linkedin.com/in/muhammetssen",
+        image:"https://tulap.cmpe.boun.edu.tr/staticFiles/people/muhammet-sen.jpg"
     }, {
-        "firstName": "Merve",
-        "lastName": "Gürbüz",
-        "info": "Undergraduate Student of Department of Computer Engineering, Core Developer of TULAP",
-        'linkedin': "https://www.linkedin.com/in/mervegürbüz",
-        'image':"https://tulap.cmpe.boun.edu.tr/staticFiles/people/merve-gurbuz.jpg"
+        firstName: "Merve",
+        lastName: "Gürbüz",
+        affiliation:"Undergraduate Student",
+        department:"Department of Computer Engineering",
+        info: "Core Devper of TULAP",
+        linkedin: "https://www.linkedin.com/in/mervegürbüz",
+        image:"https://tulap.cmpe.boun.edu.tr/staticFiles/people/merve-gurbuz.jpg"
     }, {
-        "firstName": "Tunga",
-        "lastName": "Güngör",
-        "info": "Faculty of Department of Computer Engineering",
-        'linkedin': "https://www.cmpe.boun.edu.tr/~gungort/",
-        'image':"https://tulap.cmpe.boun.edu.tr/staticFiles/people/tunga-gungor.jpg"
+        firstName: "Tunga",
+        lastName: "Güngör",
+        affiliation:"Faculty",
+        department:"Department of Computer Engineering",
+        info: "",
+        linkedin: "https://www.cmpe.boun.edu.tr/~gungort/",
+        image:"https://tulap.cmpe.boun.edu.tr/staticFiles/people/tunga-gungor.jpg"
     },
     {
-        "firstName": "Suzan",
-        "lastName": "Üsküdarlı",
-        "info": "Faculty of Department of Computer Engineering",
-        'linkedin': "http://www.cmpe.boun.edu.tr/~uskudarli",
-        'image':"https://tulap.cmpe.boun.edu.tr/staticFiles/people/suzan-uskudarli.png"
+        firstName: "Suzan",
+        lastName: "Üsküdarlı",
+        affiliation:"Faculty",
+        department:"Department of Computer Engineering",
+        info: "",
+        linkedin: "http://www.cmpe.boun.edu.tr/~uskudarli",
+        image:"https://tulap.cmpe.boun.edu.tr/staticFiles/people/suzan-uskudarli.png"
     },
     {
-        "firstName": "Arzucan",
-        "lastName": "Özgür",
-        "info": "Faculty of Department of Computer Engineering",
-        'linkedin': "https://www.cmpe.boun.edu.tr/~ozgur/",
-        'image':"https://tulap.cmpe.boun.edu.tr/staticFiles/people/arzucan-ozgur.jpg"
+        firstName: "Arzucan",
+        lastName: "Özgür",
+        affiliation:"Faculty",
+        department:"Department of Computer Engineering",
+        info: "",
+        linkedin: "https://www.cmpe.boun.edu.tr/~ozgur/",
+        image:"https://tulap.cmpe.boun.edu.tr/staticFiles/people/arzucan-ozgur.jpg"
     },
     {
-        "firstName": "Balkız",
-        "lastName": "Öztürk",
-        "info": "Faculty of Department of Linguistics",
-        'linkedin': "https://www.linkedin.com/in/balkiz-ozturk-03417b57/",
-        'image':"https://tulap.cmpe.boun.edu.tr/staticFiles/people/balkiz-ozturk.jpg"
+        firstName: "Balkız",
+        lastName: "Öztürk",
+        affiliation:"Faculty",
+        department:"Department of Linguistics",
+        info: "",
+        linkedin: "https://www.linkedin.com/in/balkiz-ozturk-03417b57/",
+        image:"https://tulap.cmpe.boun.edu.tr/staticFiles/people/balkiz-ozturk.jpg"
     },
     {
-        "firstName": "Onur",
-        "lastName": "Güngör",
-        "info": "Alumni of Department of Computer Engineering",
-        'linkedin': "https://www.linkedin.com/in/onurgungor/",
-        'image':"https://tulap.cmpe.boun.edu.tr/staticFiles/people/onur-gungor.jpg"
+        firstName: "Onur",
+        lastName: "Güngör",
+        affiliation:"Alumni",
+        department:"Department of Computer Engineering",
+        info: "",
+        linkedin: "https://www.linkedin.com/in/onurgungor/",
+        image:"https://tulap.cmpe.boun.edu.tr/staticFiles/people/onur-gungor.jpg"
     },
     {
-        "firstName": "Furkan",
-        "lastName": "Akkurt",
-        "info": "Undergraduate Student of Department of Computer Engineering",
-        'linkedin': "https://www.linkedin.com/in/salih-furkan-akkurt/",
-        'image':"https://tulap.cmpe.boun.edu.tr/staticFiles/people/furkan-akkurt.jpg"
+        firstName: "Furkan",
+        lastName: "Akkurt",
+        affiliation:"Undergraduate Student",
+        department:"Department of Computer Engineering",
+        info: "",
+        linkedin: "https://www.linkedin.com/in/salih-furkan-akkurt/",
+        image:"https://tulap.cmpe.boun.edu.tr/staticFiles/people/furkan-akkurt.jpg"
     },
     {
-        "firstName": "Büşra",
-        "lastName": "Marşan",
-        "info": "Graduate Student of Department of Linguistics",
-        'linkedin': "https://www.linkedin.com/in/busramarsan/",
-        'image':"https://tulap.cmpe.boun.edu.tr/staticFiles/people/busra-marsan.jpg"
+        firstName: "Büşra",
+        lastName: "Marşan",
+        affiliation:"Graduate Student",
+        department:"Department of Linguistics",
+        info: "",
+        linkedin: "https://www.linkedin.com/in/busramarsan/",
+        image:"https://tulap.cmpe.boun.edu.tr/staticFiles/people/busra-marsan.jpg"
     },
 
 ]
