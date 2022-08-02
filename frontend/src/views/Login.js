@@ -59,6 +59,7 @@ export default function Login() {
 </Alert>:<></>}
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
           <TextField
+            InputLabelProps={{ required: false }}
             margin="normal"
             required
             fullWidth
@@ -69,6 +70,7 @@ export default function Login() {
             autoFocus
           />
           <TextField
+            InputLabelProps={{ required: false }}
             margin="normal"
             required
             fullWidth

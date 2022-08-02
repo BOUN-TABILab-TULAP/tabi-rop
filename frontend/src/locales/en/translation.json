@@ -4,7 +4,7 @@
     "useradd.email.label": "Email",
     "useradd.email.placeholder": "dip@boun.edu.tr",
     "useradd.password.label": "Password",
-    "useradd.username.label": "Usename",
+    "useradd.username.label": "Username",
     "submitbutton": "Submit",
     "feedback.header": "Give us Feedback",
     "feedback.description": "You can send us your comments, any bug reports or improvment ideas.",
