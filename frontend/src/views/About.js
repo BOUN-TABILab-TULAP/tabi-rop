@@ -34,77 +34,88 @@ const useStyles = makeStyles({
 const developers = [
     {
         "name": "Muhammet Şen",
-        "info": "Senior Computer Engineering Student",
+        "info": "Undergraduate Student of Department of Computer Engineering, Core Developer of TULAP",
         'linkedin': "https://www.linkedin.com/in/muhammetssen",
         'image':"https://tulap.cmpe.boun.edu.tr/staticFiles/people/muhammet-sen.jpg"
     }, {
         "name": "Merve Gürbüz",
-        "info": "Senior Computer Engineering Student",
+        "info": "Undergraduate Student of Department of Computer Engineering, Core Developer of TULAP",
         'linkedin': "https://www.linkedin.com/in/mervegürbüz",
         'image':"https://tulap.cmpe.boun.edu.tr/staticFiles/people/merve-gurbuz.jpg"
     }, {
         "name": "Tunga Güngör",
         // eslint-disable-next-line no-multi-str
-        "info": "Tunga Güngör is a senior lecturer and researcher at the Department of Computer Engineering at\
-        Boğaziçi University. He obtained his MS and PhD degrees from the same department. His\
-        research interests include natural language processing, machine translation, machine learning,\
-        and pattern recognition. He is a member of the Artificial Intelligent Lab and the Text Analytics\
-        and Bioinformatics Lab at the department. He teaches undergraduate and graduate level courses\
-        on the topics of artificial intelligence, natural language processing, machine translation, and\
-        algorithm analysis.",
+        "info": "Faculty of Department of Computer Engineering",
         'linkedin': "https://www.cmpe.boun.edu.tr/~gungort/",
         'image':"https://tulap.cmpe.boun.edu.tr/staticFiles/people/tunga-gungor.jpg"
     },
     {
         "name": "Suzan Üsküdarlı",
-        "info": "Associate Professor",
+        "info": "Faculty of Department of Computer Engineering",
         'linkedin': "http://www.cmpe.boun.edu.tr/~uskudarli",
         'image':"https://tulap.cmpe.boun.edu.tr/staticFiles/people/suzan-uskudarli.png"
     },
     {
         "name": "Arzucan Özgür",
-        "info": "Arzucan Özgür is a faculty member at the Computer Engineering Department of Boğaziçi University and a member of the Text Analytics and Bioinformatics (TABI) Lab. She received her PhD in computer science and engineering from the University of Michigan in 2010. She holds a MS and a BS degree in computer engineering from Boğaziçi University. Her research interests include natural language processing and bioinformatics. Her recent focus has been on developing methods for processing and understanding textual data in natural (human) languages or in the sequences of biomolecules.",
+        "info": "Faculty of Department of Computer Engineering",
         'linkedin': "https://www.cmpe.boun.edu.tr/~ozgur/",
         'image':"https://tulap.cmpe.boun.edu.tr/staticFiles/people/arzucan-ozgur.jpg"
     },
     {
         "name": "Balkız Öztürk",
-        "info": "Assistant Professor",
+        "info": "Faculty of Department of Linguistics",
         'linkedin': "https://www.linkedin.com/in/balkiz-ozturk-03417b57/",
         'image':"https://tulap.cmpe.boun.edu.tr/staticFiles/people/balkiz-ozturk.jpg"
     },
     {
         "name": "Onur Güngör",
-        "info": "",
+        "info": "Faculty of Department of Computer Engineering",
         'linkedin': "https://www.linkedin.com/in/onurgungor/",
         'image':"https://tulap.cmpe.boun.edu.tr/staticFiles/people/onur-gungor.jpg"
     },
     {
         "name": "Furkan Akkurt",
-        "info": "Senior Computer Engineering Student",
+        "info": "Undergraduate Student of Department of Computer Engineering",
         'linkedin': "https://www.linkedin.com/in/salih-furkan-akkurt/",
         'image':"https://tulap.cmpe.boun.edu.tr/staticFiles/people/furkan-akkurt.jpg"
     },
     {
         "name": "Büşra Marşan",
-        "info": "",
+        "info": "Graduate Student of Department of Linguistics",
         'linkedin': "https://www.linkedin.com/in/busramarsan/",
         'image':"https://tulap.cmpe.boun.edu.tr/staticFiles/people/busra-marsan.jpg"
     },
 
 ]
 developers.sort((a,b) => a.name.localeCompare(b.name))
-const developerlist = [
+
+const tool_provider_list = [
     {"name":"Abdullatif Köksal"},
+    {"name":"Arzucan Özgür"},
+    {"name":"Balkız Öztürk"},
     {"name":"Batuhan Baykara"},
     {"name":"Buse Ak"},
     {"name":"Caner Derici"},
     {"name":"Cem Rıfkı Aydın"},
+    {"name":"Gözde Berk"},
     {"name":"Haşim Sak"},
     {"name":"Onur Güngör"},
+    {"name":"Salih Furkan Akkurt"},
+    {"name":"Suzan Üsküdarlı"},
     {"name":"Şaziye Betül Özateş"},
-    {"name":"Zeynep Yirmibeşoğlu"},
-
+    {"name":"Tunga Güngör"},
+    {"name":"Zeynep Yirmibeşoğlu"}
+]
+const dataset_provider_list = [
+    {"name":"Abdullatif Köksal"},
+    {"name":"Arzucan Özgür"},
+    {"name":"Balkız Öztürk Başaran"},
+    {"name":"Buse Buz"},
+    {"name":"Büşra Marşan"},
+    {"name":"Haşim Sak"},
+    {"name":"Onur Güngör"},
+    {"name":"Utku Türk"},
+    {"name":"Tunga Güngör"}
 ]
 
 export default function About() {
@@ -116,7 +127,7 @@ export default function About() {
         document.title = t('about')
     }, [lang]);
     return <>
-        
+
             <Typography variant='h3' align='center' className={classes.header} >
                 {t('about')}
             </Typography>
@@ -135,12 +146,20 @@ export default function About() {
                     )
                 })}
             </div>
-            <Typography variant='h4' align='center' className={classes.header}>{t('tooldeveloperheader')}</Typography>
-            <Typography> {t('tooldevelopercontent')}</Typography>
+            <Typography> {t('resource_provider_content')}</Typography>
+            <Typography variant='h4' align='center' className={classes.header}>{t('tool_provider_header')}</Typography>
            <ul>
-                {developerlist.map((developer) => {
+                {tool_provider_list.map((provider) => {
                     return (
-                        <li>{developer.name}</li>
+                        <li>{provider.name}</li>
+                        )
+                    })}
+                    </ul>
+            <Typography variant='h4' align='center' className={classes.header}>{t('dataset_provider_header')}</Typography>
+           <ul>
+                {dataset_provider_list.map((provider) => {
+                    return (
+                        <li>{provider.name}</li>
                         )
                     })}
                     </ul>
