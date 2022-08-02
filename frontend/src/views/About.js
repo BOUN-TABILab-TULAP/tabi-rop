@@ -27,13 +27,13 @@ const developers = [
     {
         "firstName": "Muhammet",
         "lastName": "Şen",
-        "info": "Core Developer of TULAP, Undergraduate Student of Department of Computer Engineering",
+        "info": "Undergraduate Student of Department of Computer Engineering, Core Developer of TULAP",
         'linkedin': "https://www.linkedin.com/in/muhammetssen",
         'image':"https://tulap.cmpe.boun.edu.tr/staticFiles/people/muhammet-sen.jpg"
     }, {
         "firstName": "Merve",
         "lastName": "Gürbüz",
-        "info": "Core Developer of TULAP, Undergraduate Student of Department of Computer Engineering",
+        "info": "Undergraduate Student of Department of Computer Engineering, Core Developer of TULAP",
         'linkedin': "https://www.linkedin.com/in/mervegürbüz",
         'image':"https://tulap.cmpe.boun.edu.tr/staticFiles/people/merve-gurbuz.jpg"
     }, {
@@ -67,7 +67,7 @@ const developers = [
     {
         "firstName": "Onur",
         "lastName": "Güngör",
-        "info": "Faculty of Department of Computer Engineering",
+        "info": "Alumni of Department of Computer Engineering",
         'linkedin': "https://www.linkedin.com/in/onurgungor/",
         'image':"https://tulap.cmpe.boun.edu.tr/staticFiles/people/onur-gungor.jpg"
     },
