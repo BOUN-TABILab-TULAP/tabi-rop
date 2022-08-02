@@ -16,7 +16,7 @@ export default function MainPage({tools}) {
        {tools === undefined | tools.length == 0 ? <>loading</> :
                 tools.map((tool, index) => {
                   return (
-                   <ToolCard tool={tool}></ToolCard>
+                   <ToolCard key={index} tool={tool}></ToolCard>
                   );
                 })}
 

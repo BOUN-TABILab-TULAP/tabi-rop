@@ -35,17 +35,17 @@ export default function Output({ result }) {
     return <>
 
         {Object.keys(result).map((key, i) => {
-            return <Box className={classes.result}>
+            return <Box key={key} className={classes.result}>
                 <TabContext value={value}>
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                         <TabList onChange={handleChange}>
                             {Object.keys(result[key]).map((type, index) => {
-                                return <Tab label={type} value={`${index}`} />
+                                return <Tab key={index} label={type} value={`${index}`} />
                             })}
                         </TabList>
                     </Box>
                     {Object.keys(result[key]).map((type, index) => {
-                        return <>
+                        return <div key={index}>
                             {type === "json" ? <TabPanel value={`${index}`}><div>
                                 <ReactJson displayDataTypes={false} src={(result[key][type])} /></div></TabPanel> : <></>}
                             {type === "brat" ? <TabPanel value={`${index}`}>
@@ -81,7 +81,7 @@ export default function Output({ result }) {
                                     </TableContainer>
                                 
                             </TabPanel> : <></>}
-                        </>
+                        </div>
                     })}
 
 

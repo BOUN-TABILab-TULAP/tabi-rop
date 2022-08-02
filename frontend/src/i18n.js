@@ -28,7 +28,6 @@ i18n
   .init({
       resources,
     fallbackLng: 'en',
-    debug: true,
    lng:localStorage.getItem("lang")??"en",
 
 

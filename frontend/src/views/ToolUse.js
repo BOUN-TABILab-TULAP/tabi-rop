@@ -156,7 +156,7 @@ export default function ToolUse({ tool }) {
                     <form key={tool.enum} onSubmit={handleSubmit(onSubmit)}>
                         {Object.keys(tool.input_fields).map((key, index) => {
                             let value = tool.input_fields[key]
-                            return <div className={classes.Fields}>
+                            return <div key={key} className={classes.Fields}>
 
                                 <FormControlLabel control={<Checkbox checked={sample} onChange={(e) => { setSample(e.target.checked) }} />} label="Use Sample Sentence" />
                                 {sample && <FormControl fullWidth>
@@ -171,7 +171,7 @@ export default function ToolUse({ tool }) {
                                     >
                                         <MenuItem value={0}><em>{t("use.example")}</em></MenuItem>
                                         {value.examples.map((example, index) => {
-                                            return <MenuItem style={{ whiteSpace: 'normal' }} value={example}>{example}</MenuItem>
+                                            return <MenuItem key={index} style={{ whiteSpace: 'normal' }} value={example}>{example}</MenuItem>
                                         })}
 
                                     </Select>
