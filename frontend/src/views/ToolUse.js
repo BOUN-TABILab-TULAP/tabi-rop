@@ -180,12 +180,15 @@ export default function ToolUse({ tool }) {
                                 {!sample &&
                                     <FormControl fullWidth className={classes.formElement}>
                                         <Typography sx={{ paddingBottom: "0.5em" }} >{value.title[i18n.language]}</Typography>
-                                        <TextField multiline fullWidth
+                                        <TextField
+                                            multiline
+                                            fullWidth
+                                            maxRows={15}
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
                                             placeholder={t("textarea")}
-                                            rows={4}
+                                            minRows={4}
                                             type={value.type}
                                             key={tool.enum}
                                             {...register(`${key}_${tool.enum}_text`, { required: true })}
