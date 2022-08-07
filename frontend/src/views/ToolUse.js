@@ -14,6 +14,8 @@ import Output from "../components/Output"
 import CustomLoadingButton from '../components/LoadingButton';
 import { useTranslation } from 'react-i18next';
 import Alert from '@mui/material/Alert';
+import ReactGA from "react-ga4";
+
 const useStyles = makeStyles({
     tabs: {
         flexDirection: "column",
@@ -81,8 +83,12 @@ export default function ToolUse({ tool }) {
 
         for (let key in data) {
             data[key.substring(0, key.indexOf('_'))] = data[key]
-
         }
+        ReactGA.event({
+            category: "Demo",
+            action: "submit",
+            label: tool.enum,
+          });
 
         let response = await toolsApi.runTool(data, tool.enum)
         if (response.success) {
