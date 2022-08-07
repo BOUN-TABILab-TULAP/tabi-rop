@@ -20,6 +20,13 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useLocation } from 'react-router-dom';
 import NotFound from "./components/NotFound"
 import { UserContext } from './userContext';
+
+// Analytics
+import ReactGA from "react-ga4";
+ReactGA.initialize("G-3RZMD179KE");
+
+
+
 const useStyles = makeStyles({
   mainContainer: {
     marginLeft: "300px",
@@ -74,11 +81,9 @@ function App(props) {
   };
   const getTools = async () => {
     let tool = await toolsApi.getTools()
-
     setTools(tool)
   };
   useEffect(() => {
-
     getTools()
   }, []);
   const handleFeedback = () => {
