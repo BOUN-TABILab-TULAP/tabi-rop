@@ -136,16 +136,21 @@ def run_tool(enum):
     res = None
     try:
         # input for the tool
+        event.input = request.data
         input_dict = json.loads(request.data)
         data = ToolService().run_tool(enum, input_dict)
+        event.output = data
+        event.isSuccessful = True
         status = 200
         res = create_response(data=data, status=status)
     except exceptions as e:
         # traceback.print_exc()
+        event.isSuccessful = False
         status = e.status
         message = e.message
         res = create_response(message=message, status=status)
     event.finish_event(status)
+    event.save()
     debugPrint(event)
     return res
 
