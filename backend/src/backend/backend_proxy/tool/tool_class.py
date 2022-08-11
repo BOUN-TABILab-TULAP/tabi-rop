@@ -41,7 +41,7 @@ class Tool(AbstractToolClass):
                 format_of_field)
 
             formatted_input = format_object.fromString(text=given_input)
-            inputs[field] = formatted_input
+            inputs[field] = formatted_input.strip()
 
         response = requests.post(
             url=f"http://{self.ip}:{self.port}/{self.endpoint}", json=inputs)
