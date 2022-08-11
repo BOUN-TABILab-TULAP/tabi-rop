@@ -13,7 +13,7 @@ class ListOfListOfMorphFeatList(Format):
         return text
         
     def json(self, text) -> dict:
-        output = []
+        output = {}
         sentences = text.split(
             "--------------------------------------------------")
 
@@ -25,12 +25,12 @@ class ListOfListOfMorphFeatList(Format):
             for token in tokens:
                 if not token.startswith("\t"):
                     if(lastkey != ""):
-                        output.append({lastkey: findings})
+                        output[lastkey] = findings
                     lastkey = token.strip()
                     findings = []
                 else:
                     findings.append(token.strip())
-        return loads(str(output).replace("'",'"'))
+        return output
     
     def raw(self, text) -> str:
         return text
