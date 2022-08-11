@@ -1,6 +1,12 @@
+import json
+import sys
 import time
 from datetime import datetime
 from backend.backend_proxy.logging.event_controller import EventController
+
+def debugPrint(*args, **kwargs):
+    print(*args, file=sys.stderr, **kwargs)
+
 class Event:
     def __init__(self,tool_enum:str) -> None:
         self.tool_enum = tool_enum
@@ -20,7 +26,11 @@ class Event:
             "createdAt": str(datetime.fromtimestamp(self.start_timestap))
          } 
         if hasattr(self, 'input'):
-            dto['input'] = self.input
+            dto['input_raw'] = str(self.input)
+            try:
+                dto['input'] = json.loads(self.input)
+            except Exception as e:
+                debugPrint(e)
         
         if hasattr(self, 'output'):
             dto['output'] = self.output
