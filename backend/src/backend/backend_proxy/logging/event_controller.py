@@ -1,5 +1,4 @@
 from backend.backend_proxy.db.mongoDB import MongoDB
-from backend.backend_proxy.logging.event import Event
 
 class EventController():
     __instance__ = None
