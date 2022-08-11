@@ -172,7 +172,7 @@ export default function ToolUse({ tool }) {
                                         defaultValue={0}
 
                                         {...register(`${key}_${tool.enum}`, {
-                                            required: true, onChange: (e) => setValue(`${key}_${tool.enum}_text`, e.target.value === 0 ? "" : e.target.value),
+                                            required: true, onChange: (e) => setValue(`${key}_${tool.enum}`, e.target.value === 0 ? "" : e.target.value),
                                         })}
                                     >
                                         <MenuItem value={0}><em>{t("use.example")}</em></MenuItem>
@@ -198,7 +198,7 @@ export default function ToolUse({ tool }) {
                                             minRows={4}
                                             type={value.type}
                                             key={tool.enum}
-                                            {...register(`${key}_${tool.enum}_text`, { required: true })}
+                                            {...register(`${key}_${tool.enum}`, { required: true })}
                                         />
                                         <Typography color={"red"} >
                                             {/* {errors[key]?.type === 'required' && value.title + ` ${t("required")}`} */}
