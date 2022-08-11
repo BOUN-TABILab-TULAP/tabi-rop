@@ -1,3 +1,5 @@
+import i18n from '../i18n';
+
 export default class toolsApi {
     static tools = []
     static tool_query={}
@@ -31,18 +33,23 @@ export default class toolsApi {
 
     }
     static async runTool(data, tool_enum) {
-        const requestOptions = {
-            method: "POST",
-            credentials: 'include',
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data),
-        };
-        const response = await fetch(process.env.REACT_APP_BACKEND + `/api/tool/run/${tool_enum}`, requestOptions);
-        let res = await response.json();
-        if (response.status === 200) {
-            return {result:res,success:true}
+        try {
+            const requestOptions = {
+                method: "POST",
+                credentials: 'include',
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data),
+            };
+            const response = await fetch(process.env.REACT_APP_BACKEND + `/api/tool/run/${tool_enum}`, requestOptions);
+            let res = await response.json();
+            if (response.status === 200) {
+                return {result:res,success:true}
+            }
+            return { message: i18n.t('errorOnRun'),success:false }
+
+        } catch (error) {
+            return { message: i18n.t('errorOnRun'),success:false }
         }
-        return { message: "error on request",success:false }
     }
 
     static async restartTool({ tool_enum }) {
@@ -57,7 +64,7 @@ export default class toolsApi {
         if (res.status === 200) {
             return {result:response,success:true}
         }
-        return { message: "error on request",success:false }
+        return { message: i18n.t('errorOnRun'),success:false }
     }
 
     static async listEditableTools() {
@@ -72,7 +79,7 @@ export default class toolsApi {
         if (res.status === 200) {
             return {result:response,success:true}
         }
-        return { message: "error on request",success:false }
+        return { message: i18n.t('errorOnRun'),success:false }
 
     }
 

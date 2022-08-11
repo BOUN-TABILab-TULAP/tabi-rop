@@ -109,6 +109,8 @@
     "field.description.eng":"Please write these fields in English",
     "field.description.tr":"Please write these fields in Turkish",
     "homepage":"TULAP Demo Homepage",
-    "docker.alert":"You can use Docker to run the tool in your local environment. Do not forget to check the Git repository for more information."
+    "docker.alert":"You can use Docker to run the tool in your local environment. Do not forget to check the Git repository for more information.",
+    "useSampleSentence": "Use sample input",
+    "errorOnRun": "An error occured while running the tool. We will investigate the error you are having as soon as possible."
 
 }
