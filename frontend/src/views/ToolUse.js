@@ -80,9 +80,10 @@ export default function ToolUse({ tool }) {
     const onSubmit = async (data) => {
         setLoading(true)
         setResult(undefined)
+        let body = {}
 
         for (let key in data) {
-            data[key.substring(0, key.indexOf('_'))] = data[key]
+            body[key.substring(0, key.indexOf('_'))] = data[key]
         }
         ReactGA.event({
             category: "Demo",
@@ -90,12 +91,12 @@ export default function ToolUse({ tool }) {
             label: tool.enum,
           });
 
-        let response = await toolsApi.runTool(data, tool.enum)
+        let response = await toolsApi.runTool(body, tool.enum)
         if (response.success) {
             setResult(response.result)
         }
         else {
-            window.alert(response.message)
+            window.alert(response.message ?? t('errorOnRun'))
 
         }
         setLoading(false)
@@ -163,7 +164,7 @@ export default function ToolUse({ tool }) {
                             let value = tool.input_fields[key]
                             return <div key={key} className={classes.Fields}>
 
-                                <FormControlLabel control={<Checkbox checked={sample} onChange={(e) => { setSample(e.target.checked) }} />} label="Use Sample Sentence" />
+                                <FormControlLabel control={<Checkbox checked={sample} onChange={(e) => { setSample(e.target.checked) }} />} label={t('useSampleSentence')} />
                                 {sample && <FormControl fullWidth>
                                     <Typography sx={{ paddingBottom: "0.5em" }}>{t('sample.sentence')}</Typography>
 

@@ -94,7 +94,7 @@
     "sample.sentence":"Örnek Cümleler",
     "select":"Geri bildirim türünü seçiniz",
     "demo.gitaddress":"Git Adresi",
-    "textarea":"Lütfen Girdinizi yazınız",
+    "textarea":"Lütfen girdinizi yazınız",
     "about": "Hakkımızda",
     "aboutcontent":"TULAP (Türkçe Dil İşleme Platformu) Boğaziçi Üniversitesi Bilgisayar Mühendisliği ve Dilbilim bölümleri öğrencileri ve doğal dil işleme geliştiricileri tarafından hazırlanan dil kaynaklarını içeren bir platformdur. Dil kaynakları, yazılım araçlarından ve derlemlerden oluşmaktadır. Yazılım araçları açık kaynak olarak hazırlanmıştır. Demo sayfası aracılığı ile sunucuda Docker vasıtasıyla çalıştırılan araçlar API desteği ile araştırmacıların ve dil işleme meraklılarının kullanımına sunulmuştur. Kullanıcılar araç sayfalarında belirtilen formatlara göre girdi girebilir ve çıktıları ekranda görebilirler. Açık kaynak olarak hazırlanmış olan araçları aynı zamanda GitHub linklerine giderek kopyalayabilir ve Docker sayesinde kolayca çalıştırabilirler.",
     "developerheader":" Takımımız",
@@ -106,13 +106,8 @@
     "field.description.eng":"Aşağıdaki alanları İngilizce olarak doldurunuz",
     "field.description.tr":"Aşağıdaki alanları Türkçe olarak doldurunuz",
     "homepage":"TULAP Demo Anasayfa",
-    "docker.alert":" Aracı kendi ortamınızda çalıştırmak için Docker kullanabilirsiniz. Daha fazla bilgi için GitHub sayfasını inceleyebilirsiniz "
-
-    
-   
-   
-
-
-   
+    "docker.alert":" Aracı kendi ortamınızda çalıştırmak için Docker kullanabilirsiniz. Daha fazla bilgi için GitHub sayfasını inceleyebilirsiniz ",
+    "useSampleSentence": "Örnek girdi kullan",
+    "errorOnRun": "Aracı çalıştırırken bir hata oluştu. Yaşadığınız hatayı inceleyip en yakın zamanda düzeltmeye çalışacağız."
 
 }
