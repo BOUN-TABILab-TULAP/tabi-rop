@@ -4,13 +4,12 @@ import atexit
 from apscheduler.schedulers.background import BackgroundScheduler
 from read_config import get_config
 import slackTool
-from testcases import givenInputs, expectedOutputs
 from exceptions.CommunicationExceptions import NetworkException, NoResponse
 from exceptions.IncorrectOutputExceptions import MissingField
-from exceptions.MissingAttributeExceptions import MissingTestcaseException
+from exceptions.MissingAttributeExceptions import MissingExampleException
 
 catchable_exceptions = (NetworkException, NoResponse,
-                        MissingField, MissingTestcaseException)
+                        MissingField, MissingExampleException)
 
 
 backendURL = get_config("backendURL")
@@ -31,8 +30,9 @@ def get_all_tools(endpoint="/tools/name"):
     return [
         {
             "enum": tool['enum'],
-            "name": tool['name'],
-
+            "name": tool['general_info']['en']['name'],
+            "inputs": tool['input_fields'],
+            "outputs": tool['output_fields'],
         } for tool in tools]
 
 
@@ -50,27 +50,28 @@ def restart_tool(tool_enum):
 def make_request(tool, endpoint="/tool/run/"):
     enum = tool['enum']
     name = tool['name']
+    inputs = tool['inputs']
+    outputs = tool['outputs']
+
     reqURL = backendURL + endpoint + enum
+    payload = {}
 
-    if enum not in givenInputs or enum not in expectedOutputs:
-        raise MissingTestcaseException(tool_enum=enum)
-    givenInput = givenInputs[enum]
-    expectedOutput = expectedOutputs[enum]
+    for field in inputs:
+        if 'examples' not in inputs[field] or len(inputs[field]['examples']) < 1:
+            raise MissingExampleException(tool_enum=enum)
+        payload[field] = inputs[field]['examples'][0]
 
-    response = requests.post(reqURL, json=givenInput)
+    response = requests.post(reqURL, json=payload)
     if not response.ok:
         raise NoResponse(
             tool_enum=enum, tool_name=name, text=restart_tool(enum))
 
     response_body = response.json()
-    returned_fields = {}
-
-    for field in response_body:
-        returned_fields[field] = list(response_body[field].keys())
-    if returned_fields != expectedOutput:
-        raise MissingField(
-            tool_enum=enum, expected_fields=expectedOutput, returned_fields=returned_fields)
-
+    
+    for output_field in outputs:
+        if output_field not in response_body:
+            raise MissingField(
+            tool_enum=enum, expected_fields=outputs.keys(), returned_fields=response_body.keys())
 
 def send_requests(tools, endpoint="/tool/run/"):
     output = []

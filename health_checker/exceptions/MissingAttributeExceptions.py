@@ -1,5 +1,5 @@
-class MissingTestcaseException(Exception):
-    """Exception raises when health tool cannot find a testcase for the current tool"""
+class MissingExampleException(Exception):
+    """Exception raises when health tool cannot find an example for the input"""
 
     """Attributes:
         tool_enun: Enum of the tool
