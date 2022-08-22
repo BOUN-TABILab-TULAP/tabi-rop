@@ -65,7 +65,7 @@ export default function ToolUse({ tool }) {
 
     React.useEffect(() => {
         // setSample(false)
-        setValue(0)
+        setValue("")
         setResult(undefined)
         setLoading(false)
         reset()
@@ -169,13 +169,14 @@ export default function ToolUse({ tool }) {
                                     <Typography sx={{ paddingBottom: "0.5em" }}>{t('sample.sentence')}</Typography>
 
                                     <Select
-                                        defaultValue={0}
+                                        defaultValue={""}
+                                        displayEmpty
 
                                         {...register(`${key}_${tool.enum}`, {
-                                            required: true, onChange: (e) => setValue(`${key}_${tool.enum}`, e.target.value === 0 ? "" : e.target.value),
+                                            required: true, onChange: (e) => setValue(`${key}_${tool.enum}`, e.target.value),
                                         })}
                                     >
-                                        <MenuItem value={0}><em>{t("use.example")}</em></MenuItem>
+                                        <MenuItem value={""}><em>{t("use.example")}</em></MenuItem>
                                         {value.examples.map((example, index) => {
                                             return <MenuItem key={index} style={{ whiteSpace: 'normal' }} value={example}>{example}</MenuItem>
                                         })}
