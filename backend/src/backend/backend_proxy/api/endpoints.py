@@ -132,6 +132,7 @@ def delete_tool(enum):
 
 @app.route("/api/tool/run/<enum>", methods=["POST"])
 def run_tool(enum):
+    is_test = request.args.get("test", default=None, type=str)
     event = Event(enum)
     res = None
     try:
@@ -150,8 +151,9 @@ def run_tool(enum):
         message = e.message
         res = create_response(message=message, status=status)
     event.finish_event(status)
-    event.save()
-    debugPrint(event)
+    if not is_test:
+        event.save() # save event to db
+        debugPrint(event) # log event for grafana visualization
     return res
 
 

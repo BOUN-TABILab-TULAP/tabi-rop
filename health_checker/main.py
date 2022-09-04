@@ -53,7 +53,7 @@ def make_request(tool, endpoint="/tool/run/"):
     inputs = tool['inputs']
     outputs = tool['outputs']
 
-    reqURL = backendURL + endpoint + enum
+    reqURL = backendURL + endpoint + enum + '?test=true'
     payload = {}
 
     for field in inputs:
