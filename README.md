@@ -1,3 +1,4 @@
-# nlp-tools-platform
+# rop
 
-A platform for providing access to various NLP tools developed at Bogazici University.
+ROP (Research Output Platform) serves as a repository for datasets and tools. It supports tool demos which can be explored with predefined as well as user-generated input. This tool works with [DSpace](https://dspace.lyrasis.org/). For further information, please contact mailto:tulap@boun.edu.tr.
+
